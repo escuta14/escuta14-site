@@ -17,7 +17,7 @@ ESCUTA 14. ("Nossa Voz, Nossa Escola" foi o nome anterior à votação; não usa
 funcionando depois que a turma se formar, nas mãos de quem nunca viu o código.**
 
 Documentos: [glossário](GLOSSARY.md) · [spec](docs/spec.md) · [plano](docs/plano.md) ·
-[tarefas](docs/tarefas.md) · [decisões (ADRs)](docs/adr/) · [referências](docs/referencias.md) ·
+[tarefas](docs/tarefas.md) · [design](docs/design.md) · [decisões (ADRs)](docs/adr/) · [referências](docs/referencias.md) ·
 [projeto de lei](docs/projeto-de-lei.md) · [termo de sigilo](docs/termo-de-sigilo.md) ·
 [manual técnico](docs/manual-tecnico.md)
 
@@ -49,6 +49,8 @@ Preenchido na fatia 1.1, quando o projeto Next existir.
 - Formatação: Prettier + ESLint no padrão do Next.
 - Mensagem de commit: `tipo(escopo): o que mudou`, em português.
 - Texto da interface: frases curtas, palavras do dia a dia, sem sigla sem explicação.
+- **Visual: seguir [docs/design.md](docs/design.md)** (Aurora: cores, fontes, espaço,
+  componentes). Tela nova que precise de algo fora dele: primeiro mudar o design.md.
 - **Vocabulário do [GLOSSARY.md](GLOSSARY.md)** no código, na interface e nos documentos:
   manifestação (nunca "fala"), atendimento (nunca "secretaria" como papel), recusa, retirada,
   exclusão, desistência, fundamento, justificativa. Termo novo ou mudado vai para o glossário.

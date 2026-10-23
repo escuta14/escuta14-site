@@ -1,20 +1,15 @@
-# Monta a página do design escolhido (Aurora) a partir de prototipos.fonte.html, embutindo
-# fontes e logo.
+# Monta a página do design escolhido (Aurora) a partir de prototipos.fonte.html, embutindo o logo.
 #
-# Uso: python -P -E montar.py <pasta_das_fontes> <pasta_para_publicar> <pasta_para_testar>
+# Uso: python -P -E montar.py <pasta_para_publicar> <pasta_para_testar>
 #
 # Gera escuta14-aurora.html nas duas pastas. A pasta "para publicar" leva só o conteúdo (o
 # claude.ai acrescenta o esqueleto da página); a pasta "para testar" leva a página completa,
 # para abrir num servidor local.
 #
 # As imagens do logo saem antes, do logo_escola.py (limpa o logo horizontal e separa as figuras).
-#
-# As fontes vêm do Fontshare (gratuitas para uso comercial) e NÃO ficam no repositório:
-# baixe os .woff2 de https://api.fontshare.com/v2/css?f[]=<nome>@<peso> para a pasta indicada,
-# com os nomes cabinet-grotesk-500 e cabinet-grotesk-800 (.woff2). A página publicada não pode
-# buscar fontes fora do Google Fonts, por isso elas vão embutidas.
-#
-# As rodadas antigas (com os outros designs) ficam em arquivo/ e não são montadas por aqui.
+# As fontes (Schibsted Grotesk e Manrope, licença aberta) vêm do Google Fonts pelo <link> da
+# própria página; no site de verdade, o next/font/google as serve de dentro do site (ver
+# docs/design.md). As rodadas antigas ficam em arquivo/ e não são montadas por aqui.
 import base64
 import json
 import pathlib
@@ -22,25 +17,12 @@ import sys
 
 AQUI = pathlib.Path(__file__).resolve().parent
 RAIZ = AQUI.parent.parent
-fontes_dir, pasta_pub, pasta_local = (pathlib.Path(p) for p in sys.argv[1:4])
-
-FONTES = [
-    ('Cabinet Grotesk', 500, 'cabinet-grotesk-500'),
-    ('Cabinet Grotesk', 800, 'cabinet-grotesk-800'),
-]
+pasta_pub, pasta_local = (pathlib.Path(p) for p in sys.argv[1:3])
 
 
 def b64(caminho):
     return base64.b64encode(pathlib.Path(caminho).read_bytes()).decode('ascii')
 
-
-regras = []
-for familia, peso, arquivo in FONTES:
-    dados = b64(fontes_dir / f'{arquivo}.woff2')
-    regras.append(
-        f'@font-face {{ font-family: "{familia}"; font-weight: {peso}; font-style: normal; '
-        f'font-display: swap; src: url(data:font/woff2;base64,{dados}) format("woff2"); }}'
-    )
 
 # Imagens do logo, saídas do logo horizontal que a Mariane mandou (logo_escola.py): só as
 # figuras (ícone e disco) e o logo completo (topo e rodapé).
@@ -50,11 +32,10 @@ IMAGENS = {
     'escola': 'data:image/webp;base64,' + b64(REF / 'logo-colegio-web.webp'),
 }
 
-fonte = (AQUI / 'prototipos.fonte.html').read_text(encoding='utf-8')
-assert fonte.count('__FONTES__') == 1 and '__LOGO_FIGURAS__' in fonte and '__LOGO_ESCOLA__' in fonte
+pagina = (AQUI / 'prototipos.fonte.html').read_text(encoding='utf-8')
+assert '__LOGO_FIGURAS__' in pagina and '__LOGO_ESCOLA__' in pagina
 # Cada imagem aparece mais de uma vez na página. Para não embutir a mesma imagem duas vezes,
 # as <img> ficam sem src, com data-img, e um script no fim preenche todas a partir de uma cópia só.
-pagina = fonte.replace('__FONTES__', '\n'.join(regras))
 for nome, marcador in (('figuras', '__LOGO_FIGURAS__'), ('escola', '__LOGO_ESCOLA__')):
     pagina = pagina.replace(f'src="{marcador}"', f'data-img="{nome}"')
 assert '__LOGO_' not in pagina

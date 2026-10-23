@@ -1,10 +1,10 @@
 <title>ESCUTA 14 · Aurora</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Schibsted+Grotesk:wght@800&amp;display=swap">
 <style>
-__FONTES__
-/* Design escolhido pela turma (23/10/2026): Aurora. Tipo do "Megafone" (Cabinet Grotesk em
-   maiúsculas, peso 800 nos títulos, + Manrope no texto) e aparência do "Pátio" (cantos redondos,
+/* Design escolhido pela turma (23/10/2026): Aurora. O sistema completo está em docs/design.md.
+   Títulos em maiúsculas na Schibsted Grotesk 800 (escolhida em 23/10 no lugar da Cabinet
+   Grotesk, que tem licença fechada), Manrope no texto, e aparência do "Pátio" (cantos redondos,
    botões grandes, envio em 4 passos, figuras do logo), com o acabamento Aurora (referência:
    Stocketa, no Refero): névoa clara, luz verde e azul vindo de cima, vidro fosco brilhante.
    Sem fundo escuro, a pedido da Mariane. Visual claro por escolha; não há tema escuro.
@@ -18,7 +18,7 @@ __FONTES__
   /* Aurora: cinza-névoa claro e os tons escuros usados em texto e botão */
   --au-nevoa: #EEF1F4; --au-tinta: #14202B; --au-tinta2: #4A5566; --au-marinho: #2A3A6B;
   --au-verde-escuro: #007F40; --au-verde-fundo: #006233;
-  --fonte-titulo: "Cabinet Grotesk", "Arial Narrow", Arial, sans-serif;
+  --fonte-titulo: "Schibsted Grotesk", "Arial Narrow", Arial, sans-serif;
   --fonte-texto: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 html.letra-maior { font-size: 118.75%; }
@@ -108,8 +108,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* vidro (cartões) */
 .vidro { background: var(--sup); border-radius: var(--raio); box-shadow: var(--sombra); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); }
 
-/* títulos: Cabinet Grotesk 800 (a mais grossa), em maiúsculas e com as letras juntas, como o
-   Stocketa faz nos títulos (pedido da Mariane, 22/10: "uma fonte mais grossa") */
+/* títulos: Schibsted Grotesk 800, em maiúsculas e com as letras juntas, como o Stocketa faz nos
+   títulos (pedido da Mariane, 22/10: "uma fonte mais grossa") */
 .dx-h1, .dx-h2, .dx-num strong { font-family: var(--fonte-titulo); font-weight: 800; text-transform: uppercase; }
 .dx-h1 { margin: 0; font-size: clamp(2.5rem, 6.2vw, 4.875rem); line-height: .96; letter-spacing: .005em; text-wrap: balance;
   background: var(--titulo); -webkit-background-clip: text; background-clip: text; color: transparent; }

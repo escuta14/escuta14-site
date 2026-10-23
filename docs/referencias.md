@@ -40,6 +40,20 @@
 - Nome do programa e da lei: **ESCUTA 14** ("Nossa Voz, Nossa Escola" foi o nome anterior à
   votação da turma; não usar).
 
+## Fonte dos títulos: Schibsted Grotesk (23/10/2026)
+
+Ao escrever o [design.md](design.md), a licença da Cabinet Grotesk barrou o uso no site. Ela usa a
+ITF Free Font License 2.0, lida na página de licenças da Fontshare em 23/10. A licença permite usar
+a fonte no próprio site, mas proíbe distribuir os arquivos, citando "repositório" e "servidores de
+acesso público". Como o repositório é público, os arquivos não podem ficar nele. Carregar a fonte
+pelo servidor da Fontshare a cada visita mandaria o endereço de quem visita para fora, o que vai
+contra a ADR 0002; além disso, o servidor estava fora do ar nesse dia.
+
+A Mariane comparou cinco fontes de licença aberta (OFL, do Google Fonts) no peso 800, com o título
+real do Aurora: Bricolage Grotesque, Archivo, **Schibsted Grotesk**, Hanken Grotesk e Manrope.
+Escolheu a **Schibsted Grotesk**. O texto continua na Manrope. No site, as duas entram pelo
+`next/font/google`, que serve os arquivos de dentro do próprio site.
+
 ## Design escolhido: Aurora (23/10/2026)
 
 A turma escolheu o **Aurora**. Estúdio e Escultura foram descartados, e ficou só o Aurora no

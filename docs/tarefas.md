@@ -53,8 +53,10 @@ Pronto quando: `docs/design.md` tem cores, fontes, espaçamento e componentes.
 - [x] Paleta da interface: fica a atual; as cores do logo horizontal só nas imagens do logo (22/10)
 - [x] Passo a passo logo no começo da página Início, num cartão abaixo dos botões (sugestão
       da turma; feito em 23/10)
-- [ ] Registrar tokens e componentes da direção vencedora
-- [ ] Commit
+- [x] Fonte dos títulos: Schibsted Grotesk 800, licença aberta (a Cabinet Grotesk tem licença
+      fechada e não pode ir para o repositório público); escolhida pela Mariane em 23/10
+- [x] Registrar tokens e componentes do Aurora em [design.md](design.md) (23/10)
+- [x] Commit (PR de 23/10)
 
 ## Fatia 1.1 — Envio anônimo de ponta a ponta
 
