@@ -1,0 +1,841 @@
+<!-- ARQUIVO (congelado em 23/10/2026). Rodada 3 dos designs, com os três acabamentos
+     (Aurora, Estúdio e Escultura) e a troca entre eles. A turma escolheu o Aurora, que
+     continua em ../prototipos.fonte.html. Este arquivo não é montado pelo montar.py de hoje;
+     a peça 3D do Escultura saía de esculpir.py (nesta pasta) e de
+     docs/referencias/logo-figuras-3d.webp. -->
+<title>Designs do ESCUTA 14</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap">
+<style>
+__FONTES__
+/* Rodada 3. Um design só: tipo do "Megafone" (Cabinet Grotesk em maiúsculas espaçadas + Manrope)
+   e aparência do "Pátio" (cantos redondos, botões grandes, envio em 4 passos, figuras do logo),
+   em três acabamentos claros: Aurora (Stocketa), Estúdio (CleanShot X sobre o cinza-névoa da
+   Apple) e Escultura (Lusion: as figuras do logo viram uma peça 3D num palco). Sem fundo escuro,
+   a pedido da Mariane: no máximo um cinza claro para cortar o clarão.
+   Cada acabamento declara a paleta no :root e só mapeia os nomes genéricos no [data-acabamento].
+   Os três são visuais claros por escolha; não há versão para o tema escuro do sistema. */
+:root {
+  color-scheme: light;
+  --pg-bg: #FFFFFF; --pg-fg: #111111;
+  --ch-bg: #17191E; --ch-fg: #F4F5F7; --ch-mut: #AEB4BF; --ch-trilho: #2A2E36; --ch-ativo: #FFFFFF; --ch-ativo-fg: #17191E;
+  /* cores do colégio */
+  --co-verde: #00A858; --co-azul: #2858C0; --co-laranja: #F04008; --co-amarelo: #E8E828; --co-cinza: #707070;
+  /* Aurora (Stocketa): cinza-névoa claro, aurora nas cores do colégio, vidro fosco brilhante */
+  --au-nevoa: #EEF1F4; --au-tinta: #14202B; --au-tinta2: #4A5566; --au-marinho: #2A3A6B;
+  --au-verde-escuro: #007F40; --au-verde-fundo: #006233;
+  /* Estúdio (CleanShot X + cinza-névoa da Apple): cartões brancos, tinta preta, um azul elétrico */
+  --es-nevoa: #F4F5F7; --es-papel: #FFFFFF; --es-tinta: #000000; --es-grafite: #161618; --es-carvao: #5E5E60; --es-linha: #E4E4E8;
+  --es-azul: #2858C0; --es-azul-claro: #3B6BDA; --es-estudio: #0F0F12;
+  /* Escultura (Lusion): chão lavanda-claro, tinta preta, superfícies lisas; a cor fica só nas peças 3D */
+  --lu-nevoa: #F0F1FA; --lu-nevoa2: #E4E6EF; --lu-papel: #FFFFFF; --lu-tinta: #000000; --lu-tinta2: #464A57; --lu-grafite: #2B2E3A;
+  --fonte-titulo: "Cabinet Grotesk", "Arial Narrow", Arial, sans-serif;
+  --fonte-texto: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+html.letra-maior { font-size: 118.75%; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--pg-bg); color: var(--pg-fg); font: 1rem/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+svg.ic { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.tela[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ───────── barra dos protótipos ───────── */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--ch-bg); }
+.ch { background: var(--ch-bg); color: var(--ch-fg); z-index: 20; position: relative; }
+@media (min-width: 900px) { .ch { position: sticky; top: env(safe-area-inset-top, 0px); } }
+.ch-in { max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
+  padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.ch-tit { margin: 0; flex: 1 1 260px; font-size: .875rem; color: var(--ch-mut); }
+.ch-tit strong { color: var(--ch-fg); letter-spacing: .06em; }
+.ch-grupo { display: flex; flex-wrap: wrap; gap: 3px; padding: 3px; border-radius: 26px; background: var(--ch-trilho); }
+.ch-btn { min-height: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: transparent; color: var(--ch-fg); font-size: .875rem; }
+.ch-btn[aria-pressed="true"] { background: var(--ch-ativo); color: var(--ch-ativo-fg); font-weight: 600; }
+.ch-btn:focus-visible { outline: 3px solid #8FB4FF; outline-offset: 2px; }
+.ch-letra { border: 1px solid #3A3F49; }
+@media (max-width: 560px) { .ch-tit { flex-basis: 100%; } }
+
+/* ═════════ mapeamento por acabamento ═════════ */
+.dx, .dx[data-acabamento="aurora"] {
+  --fundo: var(--au-nevoa); --tinta: var(--au-tinta); --tinta2: var(--au-tinta2);
+  --sup: rgba(255, 255, 255, .72); --sup-forte: rgba(255, 255, 255, .92);
+  --sombra: 0 12px 32px rgba(40, 88, 192, .12), inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 0 0 1px rgba(42, 58, 107, .08);
+  --raio: 22px; --raio-btn: 100px; --raio-opcao: 18px;
+  --pri-bg: linear-gradient(180deg, var(--au-verde-escuro), var(--au-verde-fundo)); --pri-fg: #FFFFFF;
+  --pri-brilho: inset 0 1px 0 rgba(255, 255, 255, .45), inset 0 -2px 0 rgba(0, 0, 0, .18), 0 10px 24px rgba(0, 127, 64, .3);
+  --sec-bg: rgba(255, 255, 255, .8); --sec-fg: var(--co-azul); --sec-borda: rgba(42, 58, 107, .14);
+  --foco: var(--co-azul); --sel-bg: rgba(40, 88, 192, .10); --sel-borda: var(--co-azul); --sel-fg: #1D3F8F;
+  --titulo: linear-gradient(95deg, var(--au-verde-escuro) 0%, #1D3F8F 90%);
+  --linha: rgba(42, 58, 107, .12); --trilho: rgba(42, 58, 107, .1);
+  --progresso: linear-gradient(90deg, var(--co-verde), var(--co-azul));
+  --resp-bg: rgba(40, 88, 192, .08); --resp-tit: #1D3F8F; --erro: #B00020;
+  --tag-bg: rgba(42, 58, 107, .07); --tag-cat-bg: rgba(0, 127, 64, .12); --tag-cat-fg: #005A2C;
+  --icone-bg: linear-gradient(160deg, rgba(0, 168, 88, .16), rgba(40, 88, 192, .16)); --icone-fg: #1D3F8F;
+}
+.dx[data-acabamento="estudio"] {
+  --fundo: var(--es-nevoa); --tinta: var(--es-tinta); --tinta2: var(--es-carvao);
+  --sup: var(--es-papel); --sup-forte: var(--es-papel);
+  --sombra: 0 1px 2px rgba(22, 22, 24, .05), 0 12px 32px rgba(22, 22, 24, .07), inset 0 0 0 1px rgba(22, 22, 24, .05);
+  --raio: 20px; --raio-btn: 14px; --raio-opcao: 14px;
+  --pri-bg: linear-gradient(180deg, var(--es-azul-claro), var(--es-azul)); --pri-fg: #FFFFFF;
+  --pri-brilho: inset 0 1px 0 rgba(255, 255, 255, .32), 0 10px 26px rgba(40, 88, 192, .34);
+  --sec-bg: var(--es-papel); --sec-fg: var(--es-grafite); --sec-borda: var(--es-linha);
+  --foco: var(--es-azul); --sel-bg: #EEF3FD; --sel-borda: var(--es-azul); --sel-fg: #1D3F8F;
+  --titulo: linear-gradient(var(--es-tinta), var(--es-tinta));
+  --linha: var(--es-linha); --trilho: #E6E7EB;
+  --progresso: linear-gradient(90deg, var(--es-azul-claro), var(--es-azul));
+  --resp-bg: #F3F6FD; --resp-tit: #1D3F8F; --erro: #B00020;
+  --tag-bg: #F1F1F4; --tag-cat-bg: var(--es-estudio); --tag-cat-fg: #FFFFFF;
+  --icone-bg: #EEF3FD; --icone-fg: var(--es-azul);
+}
+/* Escultura: sem vidro, sem degradê na interface, uma sombra só (bem fraca, 4%), botões em pílula
+   grafite. O azul do colégio aparece só como traço de ícone, foco e destaque pequeno (o papel do
+   "Electric Indigo" no Lusion), nunca como área grande. */
+.dx[data-acabamento="escultura"] {
+  --fundo: var(--lu-nevoa); --tinta: var(--lu-tinta); --tinta2: var(--lu-tinta2);
+  --sup: var(--lu-papel); --sup-forte: var(--lu-nevoa);
+  --sombra: 0 6px 10px rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .04);
+  --raio: 18px; --raio-btn: 100px; --raio-opcao: 15px;
+  --pri-bg: var(--lu-grafite); --pri-fg: #FFFFFF; --pri-brilho: none;
+  --sec-bg: transparent; --sec-fg: var(--lu-tinta); --sec-borda: var(--lu-grafite);
+  --foco: var(--co-azul); --sel-bg: var(--lu-papel); --sel-borda: var(--lu-tinta); --sel-fg: var(--lu-tinta);
+  --titulo: linear-gradient(var(--lu-tinta), var(--lu-tinta));
+  --linha: #DCDEE8; --trilho: var(--lu-nevoa2);
+  --progresso: linear-gradient(var(--lu-grafite), var(--lu-grafite));
+  --resp-bg: var(--lu-nevoa); --resp-tit: var(--co-azul); --erro: #B00020;
+  --tag-bg: var(--lu-nevoa2); --tag-cat-bg: var(--lu-grafite); --tag-cat-fg: #FFFFFF;
+  --icone-bg: var(--lu-nevoa2); --icone-fg: var(--co-azul);
+}
+
+/* ═════════ base do design ═════════ */
+.dx { position: relative; overflow: hidden; background: var(--fundo); color: var(--tinta); font-family: var(--fonte-texto); }
+.dx :focus-visible { outline: 3px solid var(--foco); outline-offset: 3px; }
+.wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* luz de fundo (aurora que se mexe devagar; ideia do bg-animated-gradient do cult-ui) */
+.dx-luz { position: absolute; inset: 0 0 auto; height: 900px; z-index: 0; pointer-events: none; overflow: hidden; }
+.dx-luz span { position: absolute; border-radius: 50%; animation: deriva 18s ease-in-out infinite alternate; }
+.dx-luz .l1 { width: 92vw; height: 92vw; max-width: 780px; max-height: 780px; left: -22vw; top: -30vw; background: radial-gradient(closest-side, rgba(0, 168, 88, .26), transparent); animation-duration: 30s; }
+.dx-luz .l2 { width: 86vw; height: 86vw; max-width: 720px; max-height: 720px; right: -24vw; top: -22vw; background: radial-gradient(closest-side, rgba(40, 88, 192, .22), transparent); animation-duration: 36s; }
+.dx-luz .l3 { width: 64vw; height: 64vw; max-width: 540px; max-height: 540px; left: 30vw; top: 8vw; background: radial-gradient(closest-side, rgba(232, 232, 40, .45), transparent); animation-duration: 26s; }
+@keyframes deriva { from { transform: translate(0, 0) scale(1); } to { transform: translate(4vw, 3vw) scale(1.12); } }
+.dx[data-acabamento="estudio"] .dx-luz .l1, .dx[data-acabamento="estudio"] .dx-luz .l3 { display: none; }
+.dx[data-acabamento="estudio"] .dx-luz .l2 { right: auto; left: 58%; top: -4vw; width: 80vw; max-width: 980px; height: 42vw; max-height: 560px; transform: translateX(-50%); animation: none;
+  background: radial-gradient(closest-side, rgba(40, 88, 192, .2), transparent); }
+
+/* cabeçalho */
+.dx-top { position: relative; z-index: 2; }
+.dx-top-in { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-block: 16px; }
+.dx-marca { display: flex; align-items: center; gap: 12px; padding: 0; border: 0; background: none; font-family: var(--fonte-titulo); font-weight: 800; font-size: 1.125rem; letter-spacing: .1em; }
+.dx-icone { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 13px; flex: none;
+  background: linear-gradient(160deg, #FFFFFF, #EEF2F7); box-shadow: inset 0 1px 0 #FFFFFF, inset 0 0 0 1px rgba(20, 32, 43, .08), 0 6px 14px rgba(20, 32, 43, .14); }
+.dx-icone img { width: 32px; }
+.dx-nav { display: flex; gap: 4px; margin-left: auto; padding: 4px; border-radius: 999px; background: var(--sup); box-shadow: var(--sombra); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); }
+.dx-nav button { min-height: 40px; padding: 0 14px; border: 0; border-radius: 999px; background: none; color: var(--tinta2); font-weight: 600; font-size: .875rem; }
+.dx-nav button[aria-current="page"] { background: var(--tinta); color: #FFFFFF; }
+@media (max-width: 480px) { .dx-nav button[data-ir-tela="inicio"] { display: none; } }
+@media (max-width: 420px) { .dx-marca span:last-child { font-size: 1rem; } .dx-nav button { padding: 0 11px; } }
+
+/* botões (reflexo no alto + sombra colorida; halo embaixo do principal, como o halo-button do cult-ui) */
+.dx-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 0 26px; border: 0;
+  border-radius: var(--raio-btn); font-family: var(--fonte-texto); font-weight: 700; font-size: 1rem; letter-spacing: .01em; transition: transform .12s ease, box-shadow .2s ease, filter .2s ease; }
+.dx-btn:active { transform: translateY(1px) scale(.99); }
+.dx-btn-pri { background: var(--pri-bg); color: var(--pri-fg); box-shadow: var(--pri-brilho); isolation: isolate; }
+.dx-btn-pri::before { content: ""; position: absolute; z-index: -1; left: 12%; right: 12%; bottom: -14px; height: 26px; border-radius: 50%;
+  background: linear-gradient(90deg, var(--co-verde), var(--co-azul), var(--co-amarelo), var(--co-verde)); background-size: 300% 100%; filter: blur(16px); opacity: .5; animation: halo 6s linear infinite; }
+@keyframes halo { to { background-position: 300% 0; } }
+.dx-btn-pri:hover { filter: brightness(1.06); }
+.dx[data-acabamento="estudio"] .dx-btn-pri::before { opacity: .3; }
+.dx-btn-sec { background: var(--sec-bg); color: var(--sec-fg); box-shadow: inset 0 0 0 1px var(--sec-borda), inset 0 1px 0 rgba(255, 255, 255, .6), 0 6px 18px rgba(20, 32, 43, .06);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.dx-btn-sec:hover { filter: brightness(.97); }
+.dx-btn:disabled { background: var(--trilho); color: var(--tinta2); box-shadow: none; cursor: not-allowed; }
+.dx-btn:disabled::before { display: none; }
+
+/* vidro (cartões) */
+.vidro { background: var(--sup); border-radius: var(--raio); box-shadow: var(--sombra); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); }
+
+/* títulos (tipo do Megafone) */
+.dx-h1, .dx-h2, .dx-num strong { font-family: var(--fonte-titulo); font-weight: 500; text-transform: uppercase; }
+.dx-h1 { margin: 0; font-size: clamp(2.5rem, 6.2vw, 4.875rem); line-height: .95; letter-spacing: .035em; text-wrap: balance;
+  background: var(--titulo); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.dx-h2 { margin: 0; font-size: clamp(1.625rem, 3.4vw, 2.5rem); line-height: 1.02; letter-spacing: .05em; text-wrap: balance; }
+/* logo do colégio (o arquivo horizontal que a Mariane mandou, limpo por design/logo_escola.py) */
+.dx-escola { display: block; width: auto; max-width: 100%; height: clamp(58px, 6vw, 74px); }
+.dx-sobre { margin: 0; font-family: var(--fonte-titulo); font-weight: 500; font-size: .875rem; letter-spacing: .16em; text-transform: uppercase; color: var(--tinta2); }
+.dx-selo { display: none; align-self: flex-start; padding: 7px 14px; border-radius: 14px; background: var(--es-estudio); color: #FFFFFF; font-weight: 600; font-size: .8125rem; }
+.dx[data-acabamento="estudio"] .dx-selo { display: inline-block; }
+.dx[data-acabamento="estudio"] .dx-sobre { display: none; }
+.dx-lead { margin: 0; font-size: 1.1875rem; line-height: 1.55; color: var(--tinta2); max-width: 34ch; }
+.dx-garantia { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .9375rem; color: var(--tinta2); }
+.dx-garantia span { display: inline-flex; align-items: center; gap: 6px; }
+.dx-garantia svg.ic { width: 18px; height: 18px; color: var(--co-verde); }
+.dx[data-acabamento="estudio"] .dx-garantia svg.ic { color: var(--es-azul); }
+.dx-cab-sec { display: grid; gap: 8px; }
+
+/* ═════════ INÍCIO ═════════ */
+.dx-hero { display: grid; gap: 40px; align-items: center; padding-block: 28px 64px; }
+.dx-hero-texto { display: grid; gap: 22px; justify-items: start; min-width: 0; }
+.dx-acoes { display: flex; flex-wrap: wrap; gap: 14px; }
+@media (max-width: 560px) { .dx-acoes { display: grid; width: 100%; } }
+.dx-hero-arte { position: relative; min-height: 420px; display: grid; place-items: center; }
+@media (min-width: 900px) { .dx-hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); padding-block: 48px 96px; } .dx-hero-arte { min-height: 480px; } }
+
+/* Aurora: as figuras dentro de um disco de vidro com anel iridescente nas cores do colégio */
+.dx-disco { position: relative; z-index: 1; display: grid; place-items: center; width: min(78vw, 370px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 32% 24%, rgba(255, 255, 255, .98), rgba(255, 255, 255, .62) 46%, rgba(255, 255, 255, .38) 100%);
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, .95), inset 0 -24px 48px rgba(40, 88, 192, .12), 0 34px 70px rgba(40, 88, 192, .2);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.dx-disco::before { content: ""; position: absolute; inset: -4px; border-radius: 50%; padding: 4px;
+  background: conic-gradient(from 0deg, var(--co-verde), var(--co-azul), #9BD3FF, var(--co-amarelo), var(--co-laranja), var(--co-verde));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: gira 14s linear infinite; }
+.dx-disco::after { content: ""; position: absolute; left: 16%; top: 9%; width: 42%; height: 22%; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 255, 255, .9), transparent); transform: rotate(-24deg); }
+@keyframes gira { to { transform: rotate(360deg); } }
+.dx-figuras { position: relative; z-index: 1; width: 62%; filter: drop-shadow(0 14px 22px rgba(20, 32, 43, .2)); animation: flutua 6s ease-in-out infinite; }
+@keyframes flutua { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+
+/* janelas: pedaços do próprio ESCUTA 14 flutuando */
+.dx-janela { position: absolute; z-index: 2; padding: 14px 16px; display: grid; gap: 8px; font-size: .875rem; color: var(--tinta); }
+.dx-janela p { margin: 0; }
+.jt { font-weight: 700; font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; color: var(--tinta2); }
+.jcod { font-family: var(--fonte-titulo); font-weight: 500; font-size: 1.25rem; letter-spacing: .1em; white-space: nowrap; }
+.javiso { display: flex; gap: 12px; align-items: flex-start; }
+.javiso .jok { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; flex: none; background: var(--pri-bg); color: #FFFFFF; box-shadow: var(--pri-brilho); }
+.javiso .jok svg.ic { width: 18px; height: 18px; stroke-width: 3; }
+.dx[data-acabamento="aurora"] .j1, .dx[data-acabamento="aurora"] .dx-app { display: none; }
+.dx[data-acabamento="aurora"] .j2 { left: -1%; top: 7%; width: min(50%, 220px); }
+.dx[data-acabamento="aurora"] .j3 { right: -1%; bottom: 5%; width: min(60%, 268px); }
+
+/* Aurora mais suave e organizado (pedido da Mariane, 22/10): cada cor com um papel. Verde e azul
+   fazem a luz, o anel e o brilho do botão; amarelo e laranja ficam só no logo. A luz vem de cima,
+   como no Stocketa, e anda devagar. O título usa a Cabinet Grotesk mais grossa (800), com as
+   letras mais juntas, como o Stocketa faz nos títulos (peso 700 e espaçamento negativo). */
+.dx[data-acabamento="aurora"] .dx-luz .l3 { display: none; }
+.dx[data-acabamento="aurora"] .dx-disco::before { background: conic-gradient(from 0deg, var(--co-verde), var(--co-azul), #9BD3FF, var(--co-verde)); opacity: .75; animation-duration: 28s; }
+.dx[data-acabamento="aurora"] .dx-disco { box-shadow: inset 0 3px 0 rgba(255, 255, 255, .95), inset 0 -24px 48px rgba(40, 88, 192, .1), 0 30px 60px rgba(40, 88, 192, .14); }
+.dx[data-acabamento="aurora"] .dx-btn-pri::before { background: linear-gradient(90deg, var(--co-verde), var(--co-azul), var(--co-verde)); background-size: 200% 100%; opacity: .32; animation-duration: 12s; }
+.dx[data-acabamento="aurora"] .dx-h1, .dx[data-acabamento="aurora"] .dx-h2, .dx[data-acabamento="aurora"] .dx-num strong,
+.dx[data-acabamento="aurora"] legend, .dx[data-acabamento="aurora"] .rotulo, .dx[data-acabamento="aurora"] .cod, .dx[data-acabamento="aurora"] .jcod { font-weight: 800; }
+.dx[data-acabamento="aurora"] .dx-h1 { letter-spacing: .005em; line-height: .96; }
+.dx[data-acabamento="aurora"] .dx-h2, .dx[data-acabamento="aurora"] legend, .dx[data-acabamento="aurora"] .rotulo { letter-spacing: .015em; }
+.dx[data-acabamento="aurora"] .dx-num strong { letter-spacing: 0; }
+
+/* Estúdio: janela de aplicativo com o mural, ícone do app e um aviso de resposta */
+.dx[data-acabamento="estudio"] .dx-disco { display: none; }
+.dx[data-acabamento="estudio"] .j1 { position: relative; width: min(100%, 440px); padding: 0; gap: 0; overflow: hidden; font-size: .9375rem; }
+.jbarra { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--es-linha); font-weight: 700; font-size: .8125rem; color: var(--tinta2); }
+.jbarra i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.jlinha { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 14px 16px; border-bottom: 1px solid #F0F0F3; }
+.jlinha:last-child { border-bottom: 0; }
+.jlinha .jt { grid-column: 1; }
+.jlinha .jx { grid-column: 1; font-weight: 600; }
+.jlinha .jv { grid-column: 2; grid-row: 1 / span 2; display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px; border-radius: 10px; background: #EEF3FD; color: var(--es-azul); font-weight: 700; font-size: .8125rem; }
+.jlinha .jv svg.ic { width: 16px; height: 16px; stroke-width: 2.5; }
+.dx-app { position: absolute; z-index: 3; left: 2%; top: 16%; display: grid; place-items: center; width: 74px; height: 74px; border-radius: 22px;
+  background: linear-gradient(160deg, #FFFFFF, #ECF0F6); box-shadow: inset 0 1px 0 #FFFFFF, inset 0 0 0 1px rgba(22, 22, 24, .06), 0 16px 30px rgba(22, 22, 24, .16); transform: rotate(-8deg); }
+.dx-app img { width: 52px; }
+/* as janelas menores encostam nas bordas da janela do mural (camadas), sem cobrir o texto dela */
+.dx[data-acabamento="estudio"] .j2 { right: 0; top: 14%; width: min(50%, 220px); }
+.dx[data-acabamento="estudio"] .j3 { left: -2%; bottom: 5%; width: min(64%, 280px); }
+@media (min-width: 900px) { .dx[data-acabamento="estudio"] .j1 { margin-top: 20px; } }
+@media (max-width: 560px) {
+  .dx-hero-arte { min-height: 400px; }
+  .dx[data-acabamento="aurora"] .j2 { top: -4px; left: -6px; width: 44%; }
+  .dx[data-acabamento="aurora"] .j3 { bottom: -40px; right: -6px; width: 50%; }
+  .dx[data-acabamento="aurora"] .jcod { font-size: 1rem; letter-spacing: .06em; }
+}
+/* Estúdio em telas menores que o computador (celular e tablet): a arte fica numa coluna só, então
+   o aviso de resposta desce para baixo da janela e o protocolo some, para nada cobrir o mural */
+@media (max-width: 899px) {
+  .dx[data-acabamento="estudio"] .dx-hero-arte { min-height: 0; padding-top: 34px; display: block; max-width: 460px; margin-inline: auto; width: 100%; }
+  .dx[data-acabamento="estudio"] .j1 { margin-inline: auto; }
+  .dx[data-acabamento="estudio"] .j2 { display: none; }
+  .dx[data-acabamento="estudio"] .j3 { position: relative; left: auto; bottom: auto; width: 100%; margin-top: 14px; }
+  .dx[data-acabamento="estudio"] .dx-app { width: 62px; height: 62px; border-radius: 18px; top: 0; left: -6px; }
+  .dx[data-acabamento="estudio"] .dx-app img { width: 44px; }
+}
+
+/* Escultura (Lusion): título curto no centro e, embaixo, um palco grande de cantos bem redondos com
+   a peça 3D (as figuras do logo infladas, feitas por design/esculpir.py). A peça flutua, a sombra no
+   chão acompanha, e com mouse ela inclina e a luz do palco segue o ponteiro. As fichas (protocolo e
+   resposta) ficam nos cantos do palco no computador e embaixo dele no celular e no tablet. */
+.dx-palco { display: none; }
+.dx[data-acabamento="escultura"] .dx-luz, .dx[data-acabamento="escultura"] .dx-disco, .dx[data-acabamento="escultura"] .dx-app, .dx[data-acabamento="escultura"] .j1 { display: none; }
+.dx[data-acabamento="escultura"] .dx-hero { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+.dx[data-acabamento="escultura"] .dx-hero-texto { justify-items: center; text-align: center; }
+.dx[data-acabamento="escultura"] .dx-h1 { max-width: 15ch; }
+.dx[data-acabamento="escultura"] .dx-lead { max-width: 40ch; }
+.dx[data-acabamento="escultura"] .dx-acoes, .dx[data-acabamento="escultura"] .dx-garantia { justify-content: center; }
+.dx[data-acabamento="escultura"] .dx-garantia svg.ic { color: var(--co-azul); }
+.dx[data-acabamento="escultura"] .dx-hero-arte { display: grid; place-items: stretch; gap: 14px; min-height: 0; width: 100%; }
+.dx[data-acabamento="escultura"] .dx-palco { position: relative; display: grid; place-items: center; width: 100%; height: clamp(340px, 48vw, 580px); border-radius: clamp(40px, 7vw, 100px); overflow: hidden;
+  background: radial-gradient(circle at var(--lx, 50%) var(--ly, 34%), rgba(255, 255, 255, .95), rgba(255, 255, 255, 0) 55%),
+    radial-gradient(ellipse 38% 34% at 50% 48%, rgba(232, 232, 40, .2), transparent 70%),
+    linear-gradient(180deg, #E6E8F3 0%, #F7F8FC 64%, #E1E3EE 100%);
+  box-shadow: var(--sombra); }
+.dx-peca { position: relative; z-index: 1; width: clamp(210px, 30vw, 380px); transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+.dx-escultura { display: block; width: 100%; filter: drop-shadow(0 18px 18px rgba(30, 34, 60, .14)); animation: paira 6s ease-in-out infinite; }
+@keyframes paira { 0%, 100% { transform: translateY(-6px); } 50% { transform: translateY(8px); } }
+.dx-chao { position: absolute; left: 50%; bottom: 8%; width: clamp(170px, 24vw, 300px); height: 32px; border-radius: 50%; background: radial-gradient(closest-side, rgba(30, 34, 60, .24), transparent);
+  transform: translateX(-50%); animation: sombra-chao 6s ease-in-out infinite; }
+@keyframes sombra-chao { 0%, 100% { transform: translateX(-50%) scale(.85); opacity: .7; } 50% { transform: translateX(-50%) scale(1); opacity: 1; } }
+.dx[data-acabamento="escultura"] .dx-janela { position: relative; inset: auto; width: auto; transform: none; }
+@media (min-width: 600px) {
+  .dx[data-acabamento="escultura"] .dx-hero-arte { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dx[data-acabamento="escultura"] .dx-palco { grid-column: 1 / -1; }
+}
+@media (min-width: 1000px) {
+  .dx[data-acabamento="escultura"] .dx-hero-arte { display: block; }
+  .dx[data-acabamento="escultura"] .dx-janela { position: absolute; }
+  .dx[data-acabamento="escultura"] .j2 { left: 32px; bottom: 32px; width: 230px; }
+  .dx[data-acabamento="escultura"] .j3 { right: 32px; top: 32px; width: 290px; }
+}
+/* sem vidro nem halo: superfícies lisas, como peças sobre o chão da galeria */
+.dx[data-acabamento="escultura"] .vidro, .dx[data-acabamento="escultura"] .dx-nav, .dx[data-acabamento="escultura"] .dx-btn-sec { backdrop-filter: none; -webkit-backdrop-filter: none; }
+.dx[data-acabamento="escultura"] .dx-btn { text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }
+.dx[data-acabamento="escultura"] .dx-btn-pri::before { display: none; }
+.dx[data-acabamento="escultura"] .dx-btn-pri:not(:disabled)::after { content: ""; order: -1; width: 11px; height: 11px; flex: none;
+  background: linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat, linear-gradient(currentColor, currentColor) center / 1.5px 100% no-repeat; }
+.dx[data-acabamento="escultura"] .dx-btn-sec { box-shadow: inset 0 0 0 1.5px var(--sec-borda); }
+.dx[data-acabamento="escultura"] .dx-btn:hover { filter: none; opacity: .86; }
+.dx[data-acabamento="escultura"] .dx-trilho span { box-shadow: none; }
+.dx[data-acabamento="escultura"] .chip-in:checked + .chip { box-shadow: inset 0 0 0 2px var(--sel-borda), var(--sombra); }
+.dx[data-acabamento="escultura"] .dx-filtro select { background: var(--lu-papel); }
+.dx[data-acabamento="escultura"] .m-voto.contesta[aria-pressed="true"] { background: var(--lu-nevoa2); color: var(--lu-tinta); box-shadow: inset 0 0 0 2px var(--lu-grafite); }
+.dx[data-acabamento="escultura"] .dx-sec { padding-block: 36px; }
+
+.dx-sec { padding-block: 44px; }
+.dx-passos { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 16px; }
+@media (min-width: 760px) { .dx-passos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.dx-passos li { display: grid; gap: 10px; padding: 24px; }
+.dx-passos h3 { margin: 0; font-size: 1.1875rem; }
+.dx-passos p { margin: 0; color: var(--tinta2); }
+.dx-passo-topo { display: flex; align-items: center; justify-content: space-between; }
+.dx-icone-sec { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 15px; background: var(--icone-bg); color: var(--icone-fg); }
+.dx-passo-num { font-family: var(--fonte-titulo); font-weight: 500; font-size: 1rem; letter-spacing: .12em; color: var(--tinta2); }
+.dx-segmentos { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 760px) { .dx-segmentos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.dx-segmentos li { display: flex; align-items: center; gap: 12px; min-height: 68px; padding: 14px 18px; font-weight: 700; }
+.dx-bola { width: 22px; height: 22px; border-radius: 50%; flex: none; box-shadow: inset 0 -3px 6px rgba(0, 0, 0, .18), inset 0 2px 4px rgba(255, 255, 255, .5); }
+.dx-numeros { display: grid; gap: 16px; margin-top: 24px; }
+@media (min-width: 760px) { .dx-numeros { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.dx-num { padding: 24px; }
+.dx-num strong { display: block; font-size: clamp(2.75rem, 5.6vw, 4rem); line-height: 1; letter-spacing: .03em; background: var(--titulo); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.dx[data-acabamento="estudio"] .dx-num:nth-child(2) strong { background: linear-gradient(var(--es-azul), var(--es-azul)); -webkit-background-clip: text; background-clip: text; }
+.dx-num span { display: block; margin-top: 10px; font-weight: 600; color: var(--tinta2); }
+.dx-exemplo { margin: 12px 0 0; font-size: .875rem; color: var(--tinta2); }
+.dx-emerg { display: flex; gap: 16px; align-items: flex-start; margin: 0; padding: 20px 22px; font-size: 1.0625rem; line-height: 1.55; }
+.dx-emerg p { margin: 0; }
+.dx-emerg .dx-icone-sec { background: rgba(240, 64, 8, .12); color: #B83206; }
+.dx-rodape { position: relative; z-index: 1; }
+.dx-rodape-in { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; padding-block: 28px; border-top: 1px solid var(--linha); }
+.dx-rodape p { margin: 0; flex: 1 1 260px; font-size: .875rem; color: var(--tinta2); }
+.dx-rodape .dx-escola { height: 64px; }
+
+/* ═════════ ENVIAR (4 passos) ═════════ */
+.dx-enviar { max-width: 720px; margin: 0 auto; padding-block: 28px 80px; display: grid; gap: 24px; }
+.dx-form { padding: clamp(20px, 4vw, 36px); display: grid; gap: 26px; }
+.dx-progresso { display: grid; gap: 10px; }
+.dx-progresso-linha { display: flex; align-items: center; gap: 14px; }
+.dx-trilho { flex: 1; height: 12px; border-radius: 999px; background: var(--trilho); overflow: hidden; }
+.dx-trilho span { display: block; height: 100%; border-radius: 999px; background: var(--progresso); box-shadow: 0 0 14px rgba(40, 88, 192, .4); transition: width .35s ease; }
+.dx-passo-n { font-weight: 700; color: var(--tinta2); white-space: nowrap; }
+.dx-etapas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; font-size: .8125rem; font-weight: 600; color: var(--tinta2); }
+.dx-etapas li[aria-current="step"] { color: var(--tinta); font-weight: 800; }
+.dx-etapas li.feita { color: var(--tinta); }
+.dx fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.dx legend, .dx .rotulo { display: block; margin-bottom: 18px; font-family: var(--fonte-titulo); font-weight: 500; font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.05; letter-spacing: .04em; text-transform: uppercase; }
+.chips { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 128px), 1fr)); }
+.chip-in { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.chip { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 76px; padding: 10px 12px; border-radius: var(--raio-opcao); background: var(--sup-forte);
+  box-shadow: inset 0 0 0 1px var(--linha), inset 0 1px 0 rgba(255, 255, 255, .6), 0 4px 12px rgba(20, 32, 43, .05); font-weight: 700; font-size: 1rem; text-align: center; cursor: pointer; user-select: none; transition: transform .12s, box-shadow .2s, background .2s; }
+.chip svg.ic { color: var(--icone-fg); }
+.chips.sem-icone .chip { min-height: 62px; }
+.chip:hover { transform: translateY(-1px); }
+.chip-in:checked + .chip { background: var(--sel-bg); color: var(--sel-fg); box-shadow: inset 0 0 0 2px var(--sel-borda), 0 0 0 4px rgba(40, 88, 192, .1), 0 8px 18px rgba(40, 88, 192, .15); }
+.chip-in:focus-visible + .chip { outline: 3px solid var(--foco); outline-offset: 3px; }
+.dx-barra { display: flex; justify-content: space-between; gap: 12px; }
+.dx-barra .dx-btn { min-width: 140px; }
+.dx textarea { display: block; width: 100%; min-height: 200px; padding: 16px 18px; border: 0; border-radius: var(--raio-opcao); background: var(--sup-forte); color: var(--tinta);
+  box-shadow: inset 0 0 0 1px var(--linha), inset 0 2px 6px rgba(20, 32, 43, .05); font-size: 1.125rem; line-height: 1.55; resize: vertical; }
+.dx textarea:focus-visible { box-shadow: inset 0 0 0 2px var(--foco); outline-offset: 2px; }
+.contador { margin: 8px 0 0; font-size: .875rem; color: var(--tinta2); }
+.check { display: flex; gap: 12px; align-items: flex-start; margin-top: 18px; padding: 16px 18px; border-radius: var(--raio-opcao); background: var(--sup-forte); box-shadow: inset 0 0 0 1px var(--linha); }
+.check input { width: 24px; height: 24px; margin: 1px 0 0; accent-color: var(--co-azul); flex: none; }
+.antispam { display: flex; align-items: center; gap: 10px; min-height: 60px; margin-top: 14px; padding: 12px 16px; border-radius: var(--raio-opcao); border: 1.5px dashed var(--linha); color: var(--tinta2); font-size: .875rem; }
+.erro { margin: 14px 0 0; font-weight: 700; color: var(--erro); }
+.dx-sucesso { display: grid; justify-items: center; gap: 18px; text-align: center; padding: clamp(28px, 5vw, 48px) clamp(20px, 4vw, 40px); }
+.dx-sucesso .cod { margin: 0; padding: 16px 22px; border-radius: var(--raio-opcao); background: var(--sup-forte); box-shadow: inset 0 0 0 1px var(--linha);
+  font-family: var(--fonte-titulo); font-weight: 500; font-size: clamp(1.375rem, 5.6vw, 2.25rem); letter-spacing: .1em; overflow-wrap: anywhere; }
+.dx-ok { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; background: var(--pri-bg); color: var(--pri-fg); box-shadow: var(--pri-brilho); }
+.dx-ok svg.ic { width: 44px; height: 44px; stroke-width: 3; }
+.dx-sucesso-acoes { display: grid; gap: 12px; width: min(100%, 360px); }
+
+/* ═════════ MURAL ═════════ */
+.dx-mural { max-width: 800px; margin: 0 auto; padding-block: 28px 80px; display: grid; gap: 22px; }
+.dx-controles { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.dx-ordem { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--sup); box-shadow: var(--sombra); }
+.dx-ordem button { min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: none; color: var(--tinta2); font-weight: 700; font-size: .875rem; }
+.dx-ordem button[aria-pressed="true"] { background: var(--tinta); color: #FFFFFF; }
+.dx-filtro { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: .875rem; }
+.dx-filtro select { min-height: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--sup-forte); color: var(--tinta); box-shadow: inset 0 0 0 1px var(--linha); }
+.dx-nota { margin: 0; color: var(--tinta2); font-size: .9375rem; }
+.dx-lista { display: grid; gap: 16px; }
+.m-item { display: grid; gap: 14px; padding: 22px; }
+.m-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; font-weight: 700; font-size: .8125rem; }
+.m-tag { padding: 5px 11px; border-radius: 999px; background: var(--tag-bg); color: var(--tinta); }
+.m-tag.cat { background: var(--tag-cat-bg); color: var(--tag-cat-fg); }
+.m-texto { margin: 0; font-size: 1.125rem; line-height: 1.55; }
+.m-resp { padding: 14px 16px; border-radius: 14px; background: var(--resp-bg); }
+.m-resp p { margin: 0; }
+.m-resp-tit { display: flex; align-items: center; gap: 6px; margin-bottom: 4px !important; font-weight: 700; color: var(--resp-tit); }
+.m-resp-tit svg.ic { width: 18px; height: 18px; }
+.m-votos { display: flex; flex-wrap: wrap; gap: 10px; }
+.m-voto { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 18px 0 14px; border: 0; border-radius: var(--raio-btn); background: var(--sec-bg); color: var(--tinta);
+  box-shadow: inset 0 0 0 1px var(--sec-borda), inset 0 1px 0 rgba(255, 255, 255, .5); font-weight: 700; font-size: .9375rem; transition: transform .12s, box-shadow .2s; }
+.m-voto svg.ic { width: 18px; height: 18px; stroke-width: 2.5; }
+.m-voto:active { transform: translateY(1px); }
+.m-voto.apoio[aria-pressed="true"] { background: var(--pri-bg); color: var(--pri-fg); box-shadow: var(--pri-brilho); }
+.m-voto.contesta[aria-pressed="true"] { background: linear-gradient(180deg, #3B6BDA, var(--co-azul)); color: #FFFFFF; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 8px 20px rgba(40, 88, 192, .32); }
+.m-exemplo { margin: 0; font-size: .8125rem; color: var(--tinta2); }
+.m-retirada { color: var(--tinta2); }
+.m-retirada .m-texto { font-size: 1rem; }
+.n { display: inline-block; min-width: 2ch; text-align: right; font-variant-numeric: tabular-nums; }
+.n.rola { animation: rola .35s cubic-bezier(.2, .8, .2, 1); }
+@keyframes rola { from { transform: translateY(55%); opacity: 0; } to { transform: none; opacity: 1; } }
+</style>
+
+<header class="ch">
+  <div class="ch-in">
+    <p class="ch-tit"><strong>ESCUTA 14</strong> · fonte do Megafone + aparência do Pátio, em três acabamentos claros. Tudo é clicável; os dados são exemplos.</p>
+    <!--só-na-página-junta-->
+    <div class="ch-grupo" role="group" aria-label="Acabamento">
+      <button class="ch-btn" type="button" data-ir-acabamento="aurora" aria-pressed="true">Aurora</button>
+      <button class="ch-btn" type="button" data-ir-acabamento="estudio" aria-pressed="false">Estúdio</button>
+      <button class="ch-btn" type="button" data-ir-acabamento="escultura" aria-pressed="false">Escultura</button>
+    </div>
+    <div class="ch-grupo" role="group" aria-label="Tela">
+      <button class="ch-btn" type="button" data-ir-tela="inicio" aria-pressed="true">Início</button>
+      <button class="ch-btn" type="button" data-ir-tela="enviar" aria-pressed="false">Enviar</button>
+      <button class="ch-btn" type="button" data-ir-tela="mural" aria-pressed="false">Mural</button>
+    </div>
+    <!--/só-na-página-junta-->
+    <button class="ch-btn ch-letra" type="button" id="letra" aria-pressed="false">Letra maior</button>
+  </div>
+</header>
+
+<main>
+<section class="dx" data-acabamento="aurora" aria-label="Protótipo do ESCUTA 14">
+  <div class="dx-luz" aria-hidden="true"><span class="l1"></span><span class="l2"></span><span class="l3"></span></div>
+
+  <header class="dx-top">
+    <div class="wrap dx-top-in">
+      <button class="dx-marca" type="button" data-ir-tela="inicio"><span class="dx-icone"><img src="__LOGO_FIGURAS__" alt="" width="32" height="34"></span><span>ESCUTA 14</span></button>
+      <nav class="dx-nav" aria-label="Menu">
+        <button type="button" data-ir-tela="inicio">Início</button>
+        <button type="button" data-ir-tela="enviar">Enviar</button>
+        <button type="button" data-ir-tela="mural">Mural</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ───── INÍCIO ───── -->
+  <div class="tela" data-tela="inicio">
+    <section class="wrap dx-hero">
+      <div class="dx-hero-texto">
+        <img class="dx-escola" src="__LOGO_ESCOLA__" alt="Colégio Estadual 14 de Dezembro" width="560" height="217">
+        <span class="dx-selo">Novo · Canal da lei ESCUTA 14</span>
+        <h1 class="dx-h1">Sua voz chega na direção</h1>
+        <p class="dx-lead">Reclamação, ideia, elogio ou relato, sem dizer seu nome. A escola responde em até 30 dias.</p>
+        <div class="dx-acoes">
+          <button class="dx-btn dx-btn-pri" type="button" data-ir-tela="enviar">Enviar manifestação</button>
+          <button class="dx-btn dx-btn-sec" type="button" data-ir-tela="mural">Ver o mural</button>
+        </div>
+        <p class="dx-garantia">
+          <span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sem nome</span>
+          <span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sem login</span>
+          <span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Resposta em até 30 dias</span>
+        </p>
+      </div>
+      <div class="dx-hero-arte" aria-hidden="true">
+        <div class="dx-palco"><div class="dx-peca"><img class="dx-escultura" src="__LOGO_3D__" alt="" width="472" height="502"></div><span class="dx-chao"></span></div>
+        <div class="dx-disco"><img class="dx-figuras" src="__LOGO_FIGURAS__" alt="" width="212" height="227"></div>
+        <div class="dx-app"><img src="__LOGO_FIGURAS__" alt="" width="52" height="56"></div>
+        <div class="dx-janela vidro j1">
+          <div class="jbarra"><i style="background: #F04008;"></i><i style="background: #E8E828;"></i><i style="background: #00A858;"></i><span>Mural · ESCUTA 14</span></div>
+          <div class="jlinha"><p class="jt">Reclamação · Infraestrutura</p><p class="jx">Bebedouro do bloco B quebrado</p><span class="jv"><svg class="ic" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></svg>47</span></div>
+          <div class="jlinha"><p class="jt">Proposta · Organização</p><p class="jx">Biblioteca aberta no contraturno</p><span class="jv"><svg class="ic" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></svg>38</span></div>
+          <div class="jlinha"><p class="jt">Elogio · Ensino</p><p class="jx">A feira de ciências foi muito boa</p><span class="jv"><svg class="ic" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></svg>22</span></div>
+        </div>
+        <div class="dx-janela vidro j2"><p class="jt">Seu protocolo</p><p class="jcod">E14-7K3QM</p><p style="color: var(--tinta2);">Resposta até 21/11</p></div>
+        <div class="dx-janela vidro j3"><div class="javiso"><span class="jok"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><div><p class="jt">Nova resposta da escola</p><p>A peça foi pedida. A troca sai na primeira semana de novembro.</p></div></div></div>
+      </div>
+    </section>
+
+    <section class="wrap dx-sec">
+      <div class="dx-cab-sec"><p class="dx-sobre" style="display: block;">Em três passos</p><h2 class="dx-h2">Como funciona</h2></div>
+      <ol class="dx-passos">
+        <li class="vidro"><div class="dx-passo-topo"><span class="dx-icone-sec"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><span class="dx-passo-num">1</span></div><h3>Você escreve</h3><p>Escolha o assunto e conte o que acontece. Ninguém pede seu nome.</p></li>
+        <li class="vidro"><div class="dx-passo-topo"><span class="dx-icone-sec"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span class="dx-passo-num">2</span></div><h3>A escola responde</h3><p>A direção e a equipe de atendimento leem tudo e respondem em até 30 dias.</p></li>
+        <li class="vidro"><div class="dx-passo-topo"><span class="dx-icone-sec"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span><span class="dx-passo-num">3</span></div><h3>Você acompanha</h3><p>Com o código de protocolo, você lê a resposta sem se identificar.</p></li>
+      </ol>
+    </section>
+
+    <section class="wrap dx-sec">
+      <h2 class="dx-h2">Todo mundo da escola pode falar</h2>
+      <ul class="dx-segmentos">
+        <li class="vidro"><span class="dx-bola" style="background: #2858C0;"></span>Estudantes</li>
+        <li class="vidro"><span class="dx-bola" style="background: #707070;"></span>Professores</li>
+        <li class="vidro"><span class="dx-bola" style="background: #F04008;"></span>Funcionários</li>
+        <li class="vidro"><span class="dx-bola" style="background: #E8E828;"></span>Responsáveis</li>
+      </ul>
+    </section>
+
+    <section class="wrap dx-sec">
+      <h2 class="dx-h2">A escola ouviu</h2>
+      <div class="dx-numeros">
+        <div class="dx-num vidro"><strong>128</strong><span>manifestações neste ano</span></div>
+        <div class="dx-num vidro"><strong>92%</strong><span>respondidas em até 30 dias</span></div>
+        <div class="dx-num vidro"><strong>14</strong><span>providências publicadas</span></div>
+      </div>
+      <p class="dx-exemplo">Números de exemplo.</p>
+    </section>
+
+    <section class="wrap dx-sec">
+      <div class="dx-emerg vidro">
+        <span class="dx-icone-sec" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
+        <p><strong>É uma emergência?</strong> O ESCUTA 14 é anônimo e não consegue socorrer ninguém. Ligue 190 (Polícia Militar), 100 (Disque Direitos Humanos) ou 188 (CVV), ou procure o Conselho Tutelar.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ───── ENVIAR ───── -->
+  <div class="tela" data-tela="enviar" hidden>
+    <div class="wrap">
+      <div class="dx-enviar">
+        <h1 class="dx-h1">Nova manifestação</h1>
+        <form class="dx-form vidro" id="x-form" novalidate>
+          <div class="dx-progresso">
+            <div class="dx-progresso-linha">
+              <div class="dx-trilho" role="progressbar" aria-label="Progresso" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"><span style="width: 25%;"></span></div>
+              <span class="dx-passo-n" aria-live="polite">1 de 4</span>
+            </div>
+            <ol class="dx-etapas"><li>Tipo</li><li>Assunto</li><li>Você</li><li>Texto</li></ol>
+          </div>
+          <div class="passo" data-passo="1"><fieldset><legend>O que você quer mandar?</legend><div class="chips" data-opcoes="categorias" data-nome="categoria"></div></fieldset></div>
+          <div class="passo" data-passo="2" hidden><fieldset><legend>É sobre o quê?</legend><div class="chips sem-icone" data-opcoes="temas" data-nome="tema"></div></fieldset></div>
+          <div class="passo" data-passo="3" hidden><fieldset><legend>Você é…</legend><div class="chips sem-icone" data-opcoes="segmentos" data-nome="segmento"></div></fieldset></div>
+          <div class="passo" data-passo="4" hidden>
+            <label class="rotulo" for="x-texto">Agora conta pra gente</label>
+            <textarea id="x-texto" name="texto" maxlength="3000" aria-describedby="x-contador"></textarea>
+            <p class="contador" id="x-contador" aria-live="polite">Escreva pelo menos 10 letras.</p>
+            <div class="check"><input type="checkbox" id="x-publica" name="publica"><label for="x-publica">Quero que apareça no mural. A direção aprova antes, e eu posso desistir depois.</label></div>
+            <div class="antispam" aria-label="Lugar da verificação antispam"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><span>Aqui entra a verificação antispam (sem quebra-cabeça).</span></div>
+            <p class="erro" id="x-erro" role="alert" hidden></p>
+          </div>
+          <div class="dx-barra">
+            <button class="dx-btn dx-btn-sec" type="button" data-voltar>Voltar</button>
+            <button class="dx-btn dx-btn-pri" type="button" data-continuar>Continuar</button>
+            <button class="dx-btn dx-btn-pri" type="submit" data-enviar hidden>Enviar</button>
+          </div>
+        </form>
+        <div class="dx-sucesso vidro" id="x-sucesso" tabindex="-1" hidden>
+          <div class="dx-ok" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <h2 class="dx-h2">A escola recebeu</h2>
+          <p class="cod" data-protocolo>E14-00000-00000</p>
+          <p style="margin: 0; max-width: 46ch; color: var(--tinta2);">Esse é o seu protocolo. A escola tem até <strong data-prazo>—</strong> para responder. Guarde o código: ninguém consegue recuperá-lo para você.</p>
+          <div class="dx-sucesso-acoes"><button class="dx-btn dx-btn-pri" type="button" data-copiar>Copiar código</button><button class="dx-btn dx-btn-sec" type="button" data-outra>Enviar outra</button></div>
+          <p class="aviso-copia" aria-live="polite" style="margin: 0; font-weight: 700;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───── MURAL ───── -->
+  <div class="tela" data-tela="mural" hidden>
+    <div class="wrap">
+      <div class="dx-mural">
+        <h1 class="dx-h1">Mural</h1>
+        <div class="dx-controles">
+          <div class="dx-ordem" role="group" aria-label="Ordenar">
+            <button type="button" data-ordem="apoiadas" aria-pressed="true">Mais apoiadas</button>
+            <button type="button" data-ordem="recentes" aria-pressed="false">Mais recentes</button>
+          </div>
+          <label class="dx-filtro" for="x-filtro">Categoria <select id="x-filtro" data-filtro></select></label>
+        </div>
+        <p class="dx-nota">Só aparece aqui o que a direção aprovou. Os números são um termômetro, não uma votação oficial.</p>
+        <div class="dx-lista" data-lista></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="dx-rodape"><div class="wrap dx-rodape-in"><img class="dx-escola" src="__LOGO_ESCOLA__" alt="Colégio Estadual 14 de Dezembro" width="560" height="217"><p>Colégio Estadual 14 de Dezembro · Peabiru (PR) · Canal criado pela lei ESCUTA 14, da turma do 3º ano B de 2026.</p></div></footer>
+</section>
+</main>
+
+<script>
+/* Protótipo: nada é enviado a lugar nenhum. Tudo acontece só nesta página. */
+(function () {
+  const OPCOES = {
+    categorias: [['sugestao', 'Sugestão'], ['reclamacao', 'Reclamação'], ['critica', 'Crítica'], ['elogio', 'Elogio'], ['relato', 'Relato'], ['proposta', 'Proposta'], ['outra', 'Outra']],
+    temas: [['infraestrutura', 'Infraestrutura'], ['convivencia', 'Convivência'], ['ensino', 'Ensino'], ['atendimento', 'Atendimento'], ['organizacao', 'Organização'], ['seguranca', 'Segurança'], ['outro', 'Outro']],
+    segmentos: [['estudante', 'Estudante'], ['professor', 'Professor'], ['funcionario', 'Funcionário'], ['responsavel', 'Responsável']],
+  };
+  const NOME = Object.fromEntries([].concat(OPCOES.categorias, OPCOES.temas, OPCOES.segmentos));
+  // Ícones de traço (24×24) para as categorias e os votos.
+  const ICONES = {
+    sugestao: ['M9 18h6', 'M10 22h4', 'M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z'],
+    reclamacao: ['M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z', 'M15.5 8.5a5 5 0 0 1 0 7', 'M18.5 5.5a9 9 0 0 1 0 13'],
+    critica: ['M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z', 'M12 7v4', 'M12 14h.01'],
+    elogio: ['M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z'],
+    relato: ['M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z', 'M14 3v6h6', 'M8 13h8', 'M8 17h6'],
+    proposta: ['M4 22V4', 'M4 4h12l-2 4 2 4H4'],
+    outra: ['M5 12h.01', 'M12 12h.01', 'M19 12h.01'],
+    apoio: ['m6 15 6-6 6 6'],
+    contesta: ['m6 9 6 6 6-6'],
+    resposta: ['M22 11.1V12a10 10 0 1 1-5.9-9.1', 'm9 11 3 3L22 4'],
+  };
+  function icone(nome) {
+    const ns = 'http://www.w3.org/2000/svg';
+    const s = document.createElementNS(ns, 'svg');
+    s.setAttribute('class', 'ic'); s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('aria-hidden', 'true');
+    (ICONES[nome] || []).forEach((d) => { const p = document.createElementNS(ns, 'path'); p.setAttribute('d', d); s.append(p); });
+    return s;
+  }
+
+  // Manifestações de exemplo (inventadas para o protótipo; nenhuma é real).
+  const MURAL = [
+    { id: 'm1', cat: 'reclamacao', tema: 'infraestrutura', seg: 'estudante', dia: '2026-10-03', apoios: 47, contestacoes: 2,
+      texto: 'O bebedouro do bloco B está quebrado desde setembro. No intervalo forma fila no único que funciona.',
+      resposta: 'A peça foi pedida ao Núcleo Regional de Educação. A troca está prevista para a primeira semana de novembro.' },
+    { id: 'm2', cat: 'proposta', tema: 'organizacao', seg: 'professor', dia: '2026-10-07', apoios: 38, contestacoes: 1,
+      texto: 'Abrir a biblioteca no contraturno para quem precisa estudar e não tem internet em casa.' },
+    { id: 'm3', cat: 'sugestao', tema: 'convivencia', seg: 'estudante', dia: '2026-10-10', apoios: 31, contestacoes: 4,
+      texto: 'Campeonato de vôlei misto entre as turmas no intervalo das sextas-feiras.' },
+    { id: 'm4', cat: 'elogio', tema: 'ensino', seg: 'responsavel', dia: '2026-10-14', apoios: 22, contestacoes: 0,
+      texto: 'A feira de ciências deste ano foi muito bem organizada. Meu filho voltou animado para casa.' },
+    { id: 'm5', cat: 'critica', tema: 'atendimento', seg: 'funcionario', dia: '2026-10-16', apoios: 12, contestacoes: 6,
+      texto: 'Os avisos para os funcionários chegam muito em cima da hora pelo grupo.',
+      resposta: 'A partir de novembro, os avisos da semana saem toda sexta-feira até as 17h.' },
+    { id: 'm6', retirada: true, dia: '2026-10-18',
+      texto: 'Manifestação retirada pela direção com base no art. 12, § 1º, inciso II, da lei ESCUTA 14 (expõe ou constrange alguém).' },
+  ];
+
+  const dx = document.querySelector('.dx');
+  const estado = { acabamento: 'aurora', tela: 'inicio', ordem: 'apoiadas', filtro: 'todas', votos: {} };
+  const reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ACABAMENTOS = ['aurora', 'estudio', 'escultura'];
+
+  function guardar() { try { localStorage.setItem('escuta14-prototipo-3', JSON.stringify({ acabamento: estado.acabamento })); } catch (e) { /* sem armazenamento: tudo bem */ } }
+  function lerGuardado() { try { return JSON.parse(localStorage.getItem('escuta14-prototipo-3') || 'null'); } catch (e) { return null; } }
+
+  function mostrar(acabamento, tela) {
+    estado.acabamento = acabamento; estado.tela = tela;
+    dx.dataset.acabamento = acabamento;
+    dx.querySelectorAll('.tela').forEach((t) => { t.hidden = t.dataset.tela !== tela; });
+    dx.querySelectorAll('.dx-nav [data-ir-tela]').forEach((b) => { if (b.dataset.irTela === tela) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+    document.querySelectorAll('.ch [data-ir-acabamento]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.irAcabamento === acabamento)));
+    document.querySelectorAll('.ch [data-ir-tela]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.irTela === tela)));
+    if (tela === 'mural') desenharMural(false);
+    guardar();
+  }
+
+  document.addEventListener('click', (ev) => {
+    const a = ev.target.closest('[data-ir-acabamento]');
+    if (a) { mostrar(a.dataset.irAcabamento, estado.tela); return; }
+    const t = ev.target.closest('[data-ir-tela]');
+    if (t) {
+      mostrar(estado.acabamento, t.dataset.irTela);
+      if (!t.closest('.ch')) window.scrollTo({ top: 0, behavior: reduzMovimento ? 'auto' : 'smooth' });
+    }
+  });
+
+  document.getElementById('letra').addEventListener('click', (ev) => {
+    const liga = document.documentElement.classList.toggle('letra-maior');
+    ev.currentTarget.setAttribute('aria-pressed', String(liga));
+  });
+
+  /* ── Envio em 4 passos ── */
+  const ALFABETO = '23456789ABCDEFGHJKMNPQRSTUVWXYZ'; // sem 0/O, 1/I/L
+  function protocolo() {
+    const n = new Uint32Array(10); crypto.getRandomValues(n);
+    const c = Array.from(n, (x) => ALFABETO[x % ALFABETO.length]).join('');
+    return 'E14-' + c.slice(0, 5) + '-' + c.slice(5);
+  }
+  function prazo() {
+    const d = new Date(); d.setDate(d.getDate() + 30);
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  const form = document.getElementById('x-form');
+  form.querySelectorAll('[data-opcoes]').forEach((caixa) => {
+    OPCOES[caixa.dataset.opcoes].forEach(([valor, rotulo]) => {
+      const id = 'x-' + caixa.dataset.nome + '-' + valor;
+      const inp = document.createElement('input');
+      inp.type = 'radio'; inp.className = 'chip-in'; inp.name = caixa.dataset.nome; inp.value = valor; inp.id = id;
+      const lab = document.createElement('label');
+      lab.className = 'chip'; lab.htmlFor = id;
+      if (ICONES[valor] && caixa.dataset.opcoes === 'categorias') lab.append(icone(valor));
+      lab.append(document.createTextNode(rotulo));
+      caixa.append(inp, lab);
+    });
+  });
+  const texto = document.getElementById('x-texto');
+  const contador = document.getElementById('x-contador');
+  const erro = document.getElementById('x-erro');
+  const sucesso = document.getElementById('x-sucesso');
+  const passos = Array.from(form.querySelectorAll('.passo'));
+  const etapas = Array.from(form.querySelectorAll('.dx-etapas li'));
+  let passoAtual = 1;
+
+  function atualizarPassos() {
+    passos.forEach((p) => { p.hidden = Number(p.dataset.passo) !== passoAtual; });
+    etapas.forEach((li, i) => {
+      if (i + 1 === passoAtual) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
+      li.classList.toggle('feita', i + 1 < passoAtual);
+    });
+    const trilho = form.querySelector('.dx-trilho');
+    trilho.setAttribute('aria-valuenow', String(passoAtual));
+    trilho.firstElementChild.style.width = (passoAtual * 25) + '%';
+    form.querySelector('.dx-passo-n').textContent = passoAtual + ' de 4';
+    const escolheu = passoAtual === 4 || !!passos[passoAtual - 1].querySelector('input:checked');
+    const continuar = form.querySelector('[data-continuar]');
+    continuar.hidden = passoAtual === 4; continuar.disabled = !escolheu;
+    form.querySelector('[data-enviar]').hidden = passoAtual !== 4;
+    form.querySelector('[data-voltar]').style.visibility = passoAtual === 1 ? 'hidden' : 'visible';
+  }
+  texto.addEventListener('input', () => {
+    const n = texto.value.trim().length;
+    contador.textContent = n < 10 ? 'Faltam ' + (10 - n) + ' letras.' : n + ' de 3.000 caracteres.';
+  });
+  form.addEventListener('change', atualizarPassos);
+  form.querySelector('[data-continuar]').addEventListener('click', () => {
+    if (passoAtual < 4) { passoAtual += 1; atualizarPassos(); const alvo = passos[passoAtual - 1].querySelector('input, textarea'); if (alvo) alvo.focus(); }
+  });
+  form.querySelector('[data-voltar]').addEventListener('click', () => { if (passoAtual > 1) { passoAtual -= 1; atualizarPassos(); } });
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const f = new FormData(form);
+    const falta = [];
+    if (!f.get('categoria')) falta.push('o tipo');
+    if (!f.get('tema')) falta.push('o assunto');
+    if (!f.get('segmento')) falta.push('quem você é');
+    if (texto.value.trim().length < 10) falta.push('o texto (pelo menos 10 letras)');
+    if (falta.length) { erro.textContent = 'Falta escolher ou escrever: ' + falta.join(', ') + '.'; erro.hidden = false; return; }
+    erro.hidden = true;
+    sucesso.querySelector('[data-protocolo]').textContent = protocolo();
+    sucesso.querySelector('[data-prazo]').textContent = prazo();
+    sucesso.querySelector('.aviso-copia').textContent = '';
+    form.hidden = true; sucesso.hidden = false; sucesso.focus();
+  });
+  sucesso.querySelector('[data-copiar]').addEventListener('click', () => {
+    const cod = sucesso.querySelector('[data-protocolo]');
+    const aviso = sucesso.querySelector('.aviso-copia');
+    const selecionar = () => { const r = document.createRange(); r.selectNodeContents(cod); const s = getSelection(); s.removeAllRanges(); s.addRange(r); aviso.textContent = 'Código selecionado. Copie com Ctrl+C ou segurando o dedo.'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(cod.textContent).then(() => { aviso.textContent = 'Código copiado.'; }, selecionar);
+    else selecionar();
+  });
+  sucesso.querySelector('[data-outra]').addEventListener('click', () => {
+    form.reset(); contador.textContent = 'Escreva pelo menos 10 letras.';
+    sucesso.hidden = true; form.hidden = false; passoAtual = 1; atualizarPassos();
+    form.querySelector('input').focus();
+  });
+  atualizarPassos();
+
+  /* ── Mural ── */
+  const lista = dx.querySelector('[data-lista]');
+  const sel = dx.querySelector('[data-filtro]');
+  sel.append(new Option('Todas', 'todas'));
+  OPCOES.categorias.forEach(([v, r]) => sel.append(new Option(r, v)));
+  sel.addEventListener('change', () => { estado.filtro = sel.value; desenharMural(true); });
+  dx.querySelectorAll('[data-ordem]').forEach((b) => b.addEventListener('click', () => {
+    estado.ordem = b.dataset.ordem;
+    dx.querySelectorAll('[data-ordem]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    desenharMural(true);
+  }));
+
+  function fmtDia(iso) { const [, m, d] = iso.split('-'); return d + '/' + m; }
+  function el(tag, cls, txt) { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  const ROTULO = { apoio: 'Apoio', contesta: 'Contesto' };
+
+  function votos(m) {
+    const caixa = el('div', 'm-votos');
+    ['apoio', 'contesta'].forEach((tipo) => {
+      const b = el('button', 'm-voto ' + tipo);
+      b.type = 'button'; b.dataset.voto = tipo;
+      const meu = estado.votos[m.id] === tipo;
+      const total = (tipo === 'apoio' ? m.apoios : m.contestacoes) + (meu ? 1 : 0);
+      b.setAttribute('aria-pressed', String(meu));
+      b.setAttribute('aria-label', ROTULO[tipo] + ', ' + total);
+      b.append(icone(tipo), el('span', null, ROTULO[tipo]), el('span', 'n', String(total)));
+      caixa.append(b);
+    });
+    return caixa;
+  }
+  function cartao(m) {
+    const art = el('article', 'm-item vidro' + (m.retirada ? ' m-retirada' : ''));
+    art.dataset.id = m.id;
+    if (m.retirada) { art.append(el('p', 'm-meta', 'Retirada · ' + fmtDia(m.dia)), el('p', 'm-texto', m.texto)); return art; }
+    const meta = el('p', 'm-meta');
+    meta.append(el('span', 'm-tag cat', NOME[m.cat]), el('span', 'm-tag', NOME[m.tema]), el('span', 'm-tag', NOME[m.seg] + ' · ' + fmtDia(m.dia)));
+    art.append(meta, el('p', 'm-texto', m.texto));
+    if (m.resposta) {
+      const r = el('div', 'm-resp');
+      const tit = el('p', 'm-resp-tit'); tit.append(icone('resposta'), document.createTextNode('Resposta da escola'));
+      r.append(tit, el('p', null, m.resposta)); art.append(r);
+    }
+    art.append(votos(m), el('p', 'm-exemplo', 'Exemplo para o protótipo'));
+    return art;
+  }
+  lista.addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-voto]'); if (!b) return;
+    const art = b.closest('.m-item'); const id = art.dataset.id; const tipo = b.dataset.voto;
+    estado.votos[id] = estado.votos[id] === tipo ? null : tipo;
+    const novo = votos(MURAL.find((m) => m.id === id));
+    art.querySelector('.m-votos').replaceWith(novo);
+    novo.querySelectorAll('.n').forEach((n) => n.classList.add('rola'));
+    novo.querySelector('[data-voto="' + tipo + '"]').focus();
+  });
+  function ordenar(itens) {
+    const ordem = estado.ordem === 'apoiadas' ? (a, b) => (b.apoios || -1) - (a.apoios || -1) : (a, b) => b.dia.localeCompare(a.dia);
+    return itens.slice().sort(ordem);
+  }
+  function desenharMural(animar) {
+    // FLIP: guarda as posições, reordena e anima até as novas (ideia do vote-tally, cult-ui)
+    const antes = {};
+    if (animar && !reduzMovimento) lista.querySelectorAll('.m-item').forEach((a) => { antes[a.dataset.id] = a.getBoundingClientRect(); });
+    const itens = ordenar(MURAL.filter((m) => estado.filtro === 'todas' || (!m.retirada && m.cat === estado.filtro)));
+    lista.replaceChildren(...itens.map(cartao));
+    if (!animar || reduzMovimento) return;
+    lista.querySelectorAll('.m-item').forEach((a) => {
+      const r0 = antes[a.dataset.id]; if (!r0) return;
+      const r1 = a.getBoundingClientRect(); const ddx = r0.left - r1.left, ddy = r0.top - r1.top;
+      if (ddx || ddy) a.animate([{ transform: 'translate(' + ddx + 'px,' + ddy + 'px)' }, { transform: 'none' }], { duration: 380, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    });
+  }
+
+  /* ── Escultura: com mouse, a peça inclina e a luz do palco segue o ponteiro ──
+     Só em aparelho com mouse e sem "reduzir movimento"; no celular a peça só flutua. */
+  const palco = dx.querySelector('.dx-palco');
+  if (!reduzMovimento && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    palco.addEventListener('pointermove', (ev) => {
+      const r = palco.getBoundingClientRect();
+      const x = (ev.clientX - r.left) / r.width, y = (ev.clientY - r.top) / r.height;
+      palco.style.setProperty('--ry', ((x - 0.5) * 30).toFixed(1) + 'deg');
+      palco.style.setProperty('--rx', ((0.5 - y) * 22).toFixed(1) + 'deg');
+      palco.style.setProperty('--lx', (x * 100).toFixed(0) + '%');
+      palco.style.setProperty('--ly', (y * 100).toFixed(0) + '%');
+    });
+    palco.addEventListener('pointerleave', () => { ['--rx', '--ry', '--lx', '--ly'].forEach((v) => palco.style.removeProperty(v)); });
+  }
+
+  /* ── Começo: acabamento pelo link (#aurora, #estudio, #escultura), senão o último visto ── */
+  const doLink = (location.hash || '').slice(1);
+  const guardado = lerGuardado();
+  const acab = ACABAMENTOS.includes(doLink) ? doLink : (guardado && ACABAMENTOS.includes(guardado.acabamento) ? guardado.acabamento : ACABAMENTOS[0]);
+  // Sempre abre no Início: quem recebe o link para votar vê a página do começo.
+  mostrar(acab, 'inicio');
+})();
+</script>
