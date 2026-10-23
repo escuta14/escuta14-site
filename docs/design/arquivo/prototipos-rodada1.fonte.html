@@ -1,0 +1,973 @@
+<title>Designs do ESCUTA 14</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;display=swap">
+<style>
+__FONTES__
+/* Protótipos para a turma votar. Uma barra neutra no topo troca o design (A, B, C) e a tela
+   (Início, Enviar, Mural). Cada design tem os próprios tokens, prefixados (--a-, --b-, --c-).
+   Página clara de propósito: os três são propostas de marca sobre o branco do colégio. */
+:root {
+  color-scheme: light;
+  --pg-bg: #FFFFFF; --pg-fg: #111111;
+  /* barra dos protótipos (fora dos designs) */
+  --ch-bg: #17191E; --ch-fg: #F4F5F7; --ch-mut: #AEB4BF; --ch-trilho: #2A2E36; --ch-ativo: #FFFFFF; --ch-ativo-fg: #17191E;
+  /* A · Megafone (CQCM): verde do colégio em painel, tinta preta, pílulas pretas */
+  --a-verde: #00A858; --a-azul: #2858C0; --a-coral: #F04008; --a-amarelo: #E8E828;
+  --a-menta: #EAF8F1; --a-tinta: #000000; --a-papel: #FFFFFF; --a-aco: #5C5C5C;
+  --a-display: "Cabinet Grotesk", "Arial Narrow", Arial, sans-serif;
+  --a-texto: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* B · Pátio (Duolingo): verde que afunda, contornos grossos, fonte arredondada */
+  --b-verde: #00A858; --b-verde-botao: #007A3D; --b-verde-borda: #005A2C; --b-verde-suave: #E3F6EC;
+  --b-titulo: #00803F; --b-azul: #2858C0; --b-azul-suave: #E8EEFA; --b-linha: #E3E3E3;
+  --b-tinta: #3A3A3A; --b-mudo: #666666; --b-amarelo: #E8E828; --b-laranja: #F04008; --b-cinza: #707070;
+  --b-fonte: "Pally", "Nunito", "Arial Rounded MT Bold", system-ui, sans-serif;
+  /* C · Cartaz (Firstandforemost + formas do SuperHi): laranja de cartaz, tipo fininho gigante */
+  --c-laranja: #F04008; --c-laranja-forte: #C2380A; --c-damasco: #FFEFE9; --c-pessego: #FFC2A9;
+  --c-tinta: #111111; --c-mudo: #575757; --c-papel: #FFFFFF;
+  --c-azul: #2858C0; --c-amarelo: #E8E828; --c-verde: #00A858; --c-cinza: #707070;
+  --c-fonte: "Switzer", "Helvetica Neue", Arial, sans-serif;
+}
+html.letra-maior { font-size: 118.75%; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--pg-bg); color: var(--pg-fg); font: 1rem/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ───────── Barra dos protótipos ───────── */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--ch-bg); }
+.ch { background: var(--ch-bg); color: var(--ch-fg); z-index: 20; }
+@media (min-width: 900px) { .ch { position: sticky; top: env(safe-area-inset-top, 0px); } }
+.ch-in { max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
+  padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.ch-tit { margin: 0; flex: 1 1 260px; font-size: .875rem; color: var(--ch-mut); }
+.ch-tit strong { color: var(--ch-fg); letter-spacing: .06em; }
+.ch-grupo { display: flex; gap: 3px; padding: 3px; border-radius: 999px; background: var(--ch-trilho); }
+.ch-btn { min-height: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: transparent; color: var(--ch-fg); font-size: .875rem; }
+.ch-btn[aria-pressed="true"] { background: var(--ch-ativo); color: var(--ch-ativo-fg); font-weight: 600; }
+.ch-btn:focus-visible { outline: 3px solid #8FB4FF; outline-offset: 2px; }
+.ch-letra { border: 1px solid #3A3F49; }
+@media (max-width: 560px) { .ch-nome { display: none; } .ch-tit { flex-basis: 100%; } }
+
+.design[hidden], .tela[hidden] { display: none !important; }
+
+/* chips de opção (rádio de verdade, desenhado por cada design) */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip-in { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.contador { margin: 6px 0 0; font-size: .875rem; }
+.erro { margin: 0; font-weight: 600; }
+.antispam { display: flex; align-items: center; gap: 10px; min-height: 64px; padding: 12px 16px; font-size: .875rem; }
+.antispam svg { flex: none; }
+
+/* ═════════ A · MEGAFONE ═════════ */
+.da { background: var(--a-papel); color: var(--a-tinta); font-family: var(--a-texto); }
+.da-wrap { max-width: 1280px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.da :focus-visible { outline: 3px solid var(--a-azul); outline-offset: 3px; }
+.da-top { background: var(--a-papel); box-shadow: 0 1px 14px rgba(0,0,0,.07); }
+.da-top-in { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding-block: 12px; }
+.da-marca { display: flex; align-items: center; gap: 10px; padding: 0; border: 0; background: none; font-family: var(--a-display); font-weight: 800; font-size: 1.125rem; letter-spacing: .08em; }
+.da-marca img { width: 38px; }
+.da-nav { display: flex; gap: 4px; margin-left: auto; }
+.da-nav button { min-height: 44px; padding: 0 14px; border: 0; border-radius: 100px; background: none; font-weight: 600; font-size: .8125rem; letter-spacing: .06em; text-transform: uppercase; box-shadow: inset 0 0 0 1px transparent; }
+.da-nav button[aria-current="page"] { box-shadow: inset 0 0 0 1px var(--a-tinta); }
+.da-pill { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 24px; border: 0; border-radius: 100px;
+  background: var(--a-tinta); color: var(--a-papel); font-family: var(--a-texto); font-weight: 600; font-size: .9375rem; letter-spacing: .06em; text-transform: uppercase; }
+.da-pill:hover { background: #262626; }
+@media (max-width: 560px) {
+  /* no celular a marca leva ao início; o cabeçalho cabe numa linha */
+  .da-nav button[data-ir-tela="inicio"] { display: none; }
+  .da-nav button { padding: 0 10px; }
+  .da-top .da-pill { min-height: 44px; padding: 0 16px; }
+  .da-marca { font-size: 1rem; }
+}
+.da-pill-vazada { background: transparent; color: var(--a-tinta); box-shadow: inset 0 0 0 2px var(--a-tinta); }
+.da-pill-vazada:hover { background: rgba(0,0,0,.06); }
+.da-pill-grande { min-height: 56px; padding: 0 34px; font-size: 1rem; }
+.da-selo { margin: 0; font-weight: 700; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; }
+.da-h1 { margin: 0; font-family: var(--a-display); font-weight: 500; font-size: clamp(2.375rem, 6.2vw, 4.75rem); line-height: .96; letter-spacing: .04em; text-transform: uppercase; text-wrap: balance; }
+.da-h2 { margin: 0; font-family: var(--a-display); font-weight: 500; font-size: clamp(1.75rem, 3.6vw, 2.75rem); letter-spacing: .05em; text-transform: uppercase; }
+.da-lead { margin: 0; font-size: 1.125rem; line-height: 1.55; max-width: 36ch; }
+.da-acoes { display: flex; flex-wrap: wrap; gap: 12px; }
+.da-hero { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr; }
+.da-hero-midia { background: var(--a-menta); display: grid; place-items: center; padding: 28px; }
+.da-hero-midia img { width: min(44%, 340px); }
+.da-hero-painel { background: var(--a-verde); display: flex; flex-direction: column; justify-content: flex-end; gap: 22px;
+  padding-block: 40px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 900px) {
+  .da-hero { grid-template-columns: 1fr 1fr; min-height: 540px; }
+  .da-hero-midia img { width: min(66%, 360px); }
+  .da-hero-painel { padding: 56px; }
+}
+.da-sec { padding-block: 72px; }
+.da-sec + .da-sec { padding-top: 0; }
+.da-passos { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 28px; }
+.da-passos li { display: grid; gap: 8px; padding-top: 16px; border-top: 2px solid var(--a-tinta); }
+.da-passos h3 { margin: 0; font-size: 1.25rem; }
+.da-passos p { margin: 0; color: var(--a-aco); max-width: 40ch; }
+.da-num { font-family: var(--a-display); font-weight: 500; font-size: 1rem; letter-spacing: .1em; }
+@media (min-width: 760px) { .da-passos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.da-ouviu-cab { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
+.da-exemplo { margin: 0; font-size: .8125rem; color: var(--a-aco); }
+.da-escada { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 12px; }
+.da-escada li { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; min-height: 168px; padding: 22px; border-radius: 8px; }
+.da-escada strong { font-family: var(--a-display); font-weight: 500; font-size: clamp(2.75rem, 5.4vw, 4.25rem); line-height: 1; letter-spacing: .02em; }
+.da-escada span { font-weight: 600; max-width: 22ch; }
+.da-escada .d1 { background: var(--a-verde); }
+.da-escada .d2 { background: var(--a-azul); color: var(--a-papel); }
+.da-escada .d3 { background: var(--a-amarelo); }
+.da-escada .d4 { background: var(--a-coral); }
+@media (max-width: 759px) { .da-escada li:nth-child(2) { margin-left: 12px; } .da-escada li:nth-child(3) { margin-left: 24px; } .da-escada li:nth-child(4) { margin-left: 36px; } }
+@media (min-width: 760px) {
+  .da-escada { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: start; padding-bottom: 90px; }
+  .da-escada li { min-height: 220px; }
+  .da-escada li:nth-child(2) { transform: translateY(30px); } .da-escada li:nth-child(3) { transform: translateY(60px); } .da-escada li:nth-child(4) { transform: translateY(90px); }
+}
+.da-emerg { background: var(--a-menta); }
+.da-emerg p { margin: 0; padding-block: 22px; max-width: 80ch; }
+.da-rodape { border-top: 1px solid var(--a-tinta); }
+.da-rodape p { margin: 0; padding-block: 22px; font-size: .875rem; color: var(--a-aco); }
+/* A · Enviar */
+.da-enviar { padding-block: 48px 72px; display: grid; gap: 28px; }
+.da-form-grade { display: grid; gap: 36px; }
+@media (min-width: 900px) { .da-form-grade { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; } }
+.da-col { display: grid; gap: 28px; align-content: start; min-width: 0; }
+.da fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.da legend, .da .rotulo { display: block; margin-bottom: 12px; font-family: var(--a-display); font-weight: 500; font-size: 1.125rem; letter-spacing: .06em; text-transform: uppercase; }
+.da .chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 100px; box-shadow: inset 0 0 0 1px var(--a-tinta); font-weight: 600; font-size: .9375rem; cursor: pointer; user-select: none; }
+.da .chip:hover { background: var(--a-menta); }
+.da .chip-in:checked + .chip { background: var(--a-tinta); color: var(--a-papel); }
+.da .chip-in:focus-visible + .chip { outline: 3px solid var(--a-azul); outline-offset: 3px; }
+.da textarea { display: block; width: 100%; min-height: 220px; padding: 16px; border: 1px solid var(--a-tinta); border-radius: 8px; background: var(--a-papel); font-size: 1.0625rem; line-height: 1.55; resize: vertical; }
+.da .contador { color: var(--a-aco); }
+.da .dica { margin: 8px 0 0; font-size: .875rem; color: var(--a-aco); }
+.da .check { display: flex; gap: 12px; align-items: flex-start; }
+.da .check input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--a-tinta); flex: none; }
+.da .antispam { border-radius: 8px; background: var(--a-menta); }
+.da .erro { color: #B00020; }
+.da-sucesso { display: grid; gap: 18px; padding: 36px max(20px, 4vw); border-radius: 8px; background: var(--a-verde); }
+.da-sucesso .cod { margin: 0; font-family: var(--a-display); font-weight: 500; font-size: clamp(1.75rem, 6vw, 3.5rem); letter-spacing: .08em; overflow-wrap: anywhere; }
+/* A · Mural */
+.da-mural { padding-block: 48px 72px; display: grid; gap: 24px; }
+.da-controles { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between; }
+.da-ordem { display: flex; gap: 6px; }
+.da-ordem button { min-height: 44px; padding: 0 16px; border: 0; border-radius: 100px; background: none; box-shadow: inset 0 0 0 1px var(--a-tinta); font-weight: 600; font-size: .875rem; }
+.da-ordem button[aria-pressed="true"] { background: var(--a-tinta); color: var(--a-papel); }
+.da-filtro { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: .875rem; }
+.da-filtro select { min-height: 44px; padding: 0 14px; border: 1px solid var(--a-tinta); border-radius: 100px; background: var(--a-papel); }
+.da-nota { margin: 0; font-size: .875rem; color: var(--a-aco); }
+.da-lista { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.da .m-item { display: flex; flex-direction: column; gap: 14px; padding: 22px; border-radius: 8px; background: var(--a-azul); color: var(--a-papel); }
+.da .m-meta { margin: 0; font-weight: 700; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; }
+.da .m-texto { margin: 0; font-size: 1.0625rem; line-height: 1.5; }
+.da .m-resp { padding: 14px; border-radius: 4px; background: var(--a-papel); color: var(--a-tinta); }
+.da .m-resp p { margin: 0; }
+.da .m-resp-tit { margin-bottom: 6px !important; font-weight: 700; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; }
+.da .m-votos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.da .m-voto { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 0; border-radius: 100px; background: transparent; color: var(--a-papel); box-shadow: inset 0 0 0 1px var(--a-papel); font-weight: 600; font-size: .8125rem; letter-spacing: .06em; text-transform: uppercase; }
+.da .m-voto[aria-pressed="true"] { background: var(--a-papel); color: var(--a-tinta); }
+.da .m-voto:focus-visible { outline-color: var(--a-amarelo); }
+.da .m-exemplo { margin: 0; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+.da .m-retirada { background: var(--a-menta); color: var(--a-tinta); }
+
+/* ═════════ B · PÁTIO ═════════ */
+.db { background: #FFFFFF; color: var(--b-tinta); font-family: var(--b-fonte); letter-spacing: .015em; }
+.db-wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.db :focus-visible { outline: 3px solid var(--b-azul); outline-offset: 3px; }
+.db-top { border-bottom: 2px solid var(--b-linha); }
+.db-top-in { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-block: 12px; }
+.db-marca { display: flex; align-items: center; gap: 10px; padding: 0; border: 0; background: none; color: var(--b-titulo); font-weight: 700; font-size: 1.375rem; letter-spacing: .01em; }
+.db-marca img { width: 36px; }
+.db-nav { display: flex; gap: 4px; margin-left: auto; }
+.db-nav button { min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px; background: none; color: var(--b-mudo); font-weight: 700; font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; }
+.db-nav button[aria-current="page"] { color: var(--b-azul); background: var(--b-azul-suave); }
+.db-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 24px; border: 0; border-bottom: 4px solid var(--b-verde-borda); border-radius: 12px;
+  background: var(--b-verde-botao); color: #FFFFFF; font-weight: 700; font-size: .9375rem; letter-spacing: .08em; text-transform: uppercase; transition: transform .08s, border-bottom-width .08s; }
+.db-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+.db-btn:disabled { background: var(--b-linha); color: #8A8A8A; border-bottom-color: #CFCFCF; cursor: not-allowed; }
+.db-btn-vazado { background: #FFFFFF; color: var(--b-azul); border: 2px solid var(--b-linha); border-bottom-width: 4px; }
+.db-btn-vazado:active { border-bottom-width: 2px; }
+.db-btn-largo { width: 100%; }
+.db-h1 { margin: 0; color: var(--b-titulo); font-weight: 700; font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.08; letter-spacing: -.01em; text-wrap: balance; }
+.db-h2 { margin: 0; color: var(--b-tinta); font-weight: 700; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.15; text-wrap: balance; }
+.db-lead { margin: 0; font-size: 1.1875rem; line-height: 1.5; color: var(--b-mudo); max-width: 34ch; }
+.db-hero { display: grid; gap: 28px; align-items: center; justify-items: center; text-align: center; padding-block: 48px 64px; }
+.db-hero .db-lead { margin-inline: auto; }
+.db-hero-acoes { display: grid; gap: 12px; width: min(100%, 340px); }
+.db-mascote { width: min(62vw, 320px); animation: balanca 4.5s ease-in-out infinite; }
+@keyframes balanca { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+@media (min-width: 860px) {
+  .db-hero { grid-template-columns: 1fr 1fr; text-align: left; justify-items: start; padding-block: 72px 96px; }
+  .db-hero .db-lead { margin-inline: 0; }
+  .db-hero-arte { justify-self: center; }
+}
+.db-sec { padding-block: 56px; border-top: 2px solid var(--b-linha); }
+.db-segmentos { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 760px) { .db-segmentos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.db-segmentos li { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 12px 16px; border: 2px solid var(--b-linha); border-radius: 12px; font-weight: 700; }
+.db-bola { width: 22px; height: 22px; border-radius: 50%; flex: none; }
+.db-numeros { display: grid; gap: 14px; margin-top: 28px; }
+@media (min-width: 760px) { .db-numeros { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.db-numeros div { padding: 20px; border: 2px solid var(--b-linha); border-radius: 12px; }
+.db-numeros strong { display: block; color: var(--b-titulo); font-size: clamp(2.5rem, 5vw, 3.25rem); line-height: 1; }
+.db-numeros div:nth-child(2) strong { color: var(--b-azul); }
+.db-numeros span { display: block; margin-top: 8px; font-weight: 700; color: var(--b-mudo); }
+.db-exemplo { margin: 10px 0 0; font-size: .875rem; color: var(--b-mudo); }
+.db-emerg { margin: 0; padding: 18px 20px; border: 2px solid var(--b-azul); border-radius: 12px; color: var(--b-tinta); }
+.db-rodape { border-top: 2px solid var(--b-linha); }
+.db-rodape p { margin: 0; padding-block: 22px; font-size: .875rem; color: var(--b-mudo); }
+/* B · Enviar em passos */
+.db-enviar { max-width: 680px; margin: 0 auto; padding-block: 40px 72px; display: grid; gap: 24px; }
+.db-progresso { display: flex; align-items: center; gap: 14px; }
+.db-trilho { flex: 1; height: 16px; border-radius: 999px; background: var(--b-linha); overflow: hidden; }
+.db-trilho span { display: block; height: 100%; border-radius: 999px; background: var(--b-verde); transition: width .3s ease; }
+.db-passo-n { font-weight: 700; color: var(--b-mudo); white-space: nowrap; }
+.db fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.db legend, .db .rotulo { display: block; margin-bottom: 18px; color: var(--b-tinta); font-weight: 700; font-size: clamp(1.5rem, 4vw, 1.875rem); line-height: 1.2; }
+.db .chips { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+.db .chip { display: flex; align-items: center; justify-content: center; min-height: 64px; padding: 10px 14px; border: 2px solid var(--b-linha); border-bottom-width: 4px; border-radius: 12px; font-weight: 700; font-size: 1.0625rem; text-align: center; cursor: pointer; user-select: none; }
+.db .chip:hover { background: #F7F7F7; }
+.db .chip-in:checked + .chip { border-color: var(--b-azul); background: var(--b-azul-suave); color: var(--b-azul); }
+.db .chip-in:focus-visible + .chip { outline: 3px solid var(--b-azul); outline-offset: 3px; }
+.db-barra { display: flex; justify-content: space-between; gap: 12px; padding-top: 8px; }
+.db-barra .db-btn { min-width: 150px; }
+.db textarea { display: block; width: 100%; min-height: 200px; padding: 16px; border: 2px solid var(--b-linha); border-radius: 12px; font-size: 1.125rem; line-height: 1.5; resize: vertical; }
+.db textarea:focus-visible { border-color: var(--b-azul); outline-offset: 0; }
+.db .contador { color: var(--b-mudo); }
+.db .check { display: flex; gap: 12px; align-items: flex-start; margin-top: 18px; padding: 14px 16px; border: 2px solid var(--b-linha); border-radius: 12px; }
+.db .check input { width: 24px; height: 24px; margin: 1px 0 0; accent-color: var(--b-verde-botao); flex: none; }
+.db .antispam { margin-top: 14px; border: 2px dashed var(--b-linha); border-radius: 12px; color: var(--b-mudo); }
+.db .erro { color: #B00020; }
+.db-sucesso { display: grid; justify-items: center; gap: 16px; text-align: center; padding-block: 24px; }
+.db-sucesso .cod { margin: 0; padding: 14px 20px; border: 2px solid var(--b-linha); border-bottom-width: 4px; border-radius: 12px; font-weight: 700; font-size: clamp(1.375rem, 5.4vw, 2.125rem); letter-spacing: .08em; color: var(--b-tinta); overflow-wrap: anywhere; }
+.db-check-grande { width: 88px; height: 88px; border-radius: 50%; display: grid; place-items: center; background: var(--b-verde); }
+/* B · Mural */
+.db-mural { max-width: 760px; margin: 0 auto; padding-block: 40px 72px; display: grid; gap: 22px; }
+.db-controles { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.db-ordem { display: flex; gap: 8px; }
+.db-ordem button { min-height: 44px; padding: 0 14px; border: 2px solid var(--b-linha); border-radius: 12px; background: #FFFFFF; font-weight: 700; font-size: .875rem; }
+.db-ordem button[aria-pressed="true"] { border-color: var(--b-azul); background: var(--b-azul-suave); color: var(--b-azul); }
+.db-filtro { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: .875rem; }
+.db-filtro select { min-height: 44px; padding: 0 12px; border: 2px solid var(--b-linha); border-radius: 12px; background: #FFFFFF; }
+.db-nota { margin: 0; color: var(--b-mudo); font-size: .9375rem; }
+.db-lista { display: grid; gap: 16px; }
+.db .m-item { display: grid; gap: 14px; padding: 20px; border: 2px solid var(--b-linha); border-radius: 12px; }
+.db .m-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; font-weight: 700; font-size: .8125rem; }
+.db .m-tag { padding: 4px 10px; border-radius: 999px; background: #F2F2F2; color: var(--b-tinta); }
+.db .m-tag.cat { background: var(--b-verde-suave); color: var(--b-verde-borda); }
+.db .m-texto { margin: 0; font-size: 1.125rem; line-height: 1.5; color: var(--b-tinta); }
+.db .m-resp { padding: 14px 16px; border-radius: 12px; background: var(--b-azul-suave); }
+.db .m-resp p { margin: 0; }
+.db .m-resp-tit { margin-bottom: 4px !important; font-weight: 700; color: var(--b-azul); }
+.db .m-votos { display: flex; flex-wrap: wrap; gap: 10px; }
+.db .m-voto { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 16px; border: 2px solid var(--b-linha); border-bottom-width: 4px; border-radius: 12px; background: #FFFFFF; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: .875rem; }
+.db .m-voto:active { transform: translateY(2px); border-bottom-width: 2px; }
+.db .m-voto.apoio[aria-pressed="true"] { background: var(--b-verde-botao); border-color: var(--b-verde-borda); color: #FFFFFF; }
+.db .m-voto.contesta[aria-pressed="true"] { background: var(--b-azul); border-color: #1B3F8E; color: #FFFFFF; }
+.db .m-exemplo { margin: 0; font-size: .8125rem; color: var(--b-mudo); }
+.db .m-retirada { border-style: dashed; color: var(--b-mudo); }
+
+/* ═════════ C · CARTAZ ═════════ */
+.dc { background: var(--c-papel); color: var(--c-tinta); font-family: var(--c-fonte); }
+.dc-wrap { max-width: 1280px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.dc :focus-visible { outline: 3px solid var(--c-azul); outline-offset: 3px; }
+.dc-top { border-bottom: 1px solid var(--c-laranja); }
+.dc-top-in { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding-block: 12px; }
+.dc-marca { padding: 0; border: 0; background: none; font-weight: 600; font-size: 1.125rem; letter-spacing: .1em; }
+.dc-frase { margin: 0; flex: 1 1 240px; color: var(--c-mudo); font-size: .875rem; }
+.dc-nav { display: flex; gap: 6px; }
+.dc-nav button { min-height: 44px; padding: 0 16px; border: 1px solid transparent; border-radius: 80px; background: none; color: var(--c-tinta); font-size: .9375rem; }
+.dc-nav button[aria-current="page"] { border-color: var(--c-laranja-forte); color: var(--c-laranja-forte); font-weight: 600; }
+.dc-pill { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 34px; border: 1px solid var(--c-laranja-forte); border-radius: 80px; background: var(--c-laranja-forte); color: #FFFFFF; font-weight: 600; font-size: 1rem; }
+.dc-pill:hover { background: #A62F07; border-color: #A62F07; }
+.dc-pill-vazada { background: transparent; color: var(--c-laranja-forte); }
+.dc-pill-vazada:hover { background: var(--c-damasco); }
+.dc-pill-branca { background: #FFFFFF; border-color: #FFFFFF; color: var(--c-laranja-forte); }
+.dc-pill-branca:hover { background: var(--c-damasco); border-color: var(--c-damasco); }
+.dc-pill-contorno { background: transparent; border-color: #FFFFFF; color: #FFFFFF; }
+.dc-pill-contorno:hover { background: rgba(255,255,255,.12); }
+.dc-hero { position: relative; overflow: hidden; }
+.dc-hero-in { position: relative; z-index: 1; padding-block: 40px 56px; }
+.dc-h1 { margin: 0; color: var(--c-laranja); font-weight: 100; font-size: clamp(4.25rem, 14vw, 11rem); line-height: .82; letter-spacing: -.02em; }
+.dc-h1 span { display: block; }
+.dc-sub { margin: 28px 0 0; font-size: clamp(1.125rem, 2.2vw, 1.5rem); line-height: 1.4; max-width: 30ch; }
+.dc-formas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.dc-formas svg { position: absolute; }
+/* as formas ficam na coluna da direita, sem passar por baixo do título */
+.dc-f1 { width: clamp(90px, 15vw, 200px); right: 4%; top: 6%; }
+.dc-f2 { width: clamp(80px, 12vw, 170px); right: 20%; bottom: 8%; }
+.dc-f3 { width: clamp(70px, 10vw, 140px); right: 3%; bottom: 4%; }
+.dc-f4 { width: clamp(46px, 6vw, 80px); right: 26%; top: 12%; }
+@media (max-width: 700px) {
+  /* no celular o título ocupa a largura toda: as formas descem para baixo do texto */
+  .dc-hero-in { padding-bottom: 112px; }
+  .dc-f2, .dc-f4 { display: none; }
+  .dc-f1 { width: 88px; top: auto; right: -20px; bottom: 14px; }
+  .dc-f3 { width: 80px; right: auto; left: max(16px, env(safe-area-inset-left, 0px)); bottom: 0; }
+}
+.dc-faixa { background: var(--c-laranja-forte); color: #FFFFFF; }
+.dc-faixa-in { display: grid; gap: 28px; padding-block: 56px; }
+@media (min-width: 900px) { .dc-faixa-in { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: end; } }
+.dc-faixa p { margin: 0; font-size: clamp(1.5rem, 3.2vw, 2.5rem); line-height: 1.2; font-weight: 400; text-wrap: balance; }
+.dc-acoes { display: flex; flex-wrap: wrap; gap: 12px; }
+.dc-numeros { padding-block: 64px; }
+.dc-numeros-cab { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; }
+.dc-h2 { margin: 0; font-weight: 600; font-size: .9375rem; letter-spacing: .14em; text-transform: uppercase; }
+.dc-exemplo { margin: 0; color: var(--c-mudo); font-size: .875rem; }
+.dc-numeros-lista { display: grid; gap: 24px; margin-top: 28px; }
+@media (min-width: 760px) { .dc-numeros-lista { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.dc-numeros-lista strong { display: block; color: var(--c-laranja); font-weight: 100; font-size: clamp(4rem, 9vw, 7rem); line-height: .9; }
+.dc-numeros-lista span { display: block; margin-top: 8px; font-size: 1.0625rem; max-width: 24ch; }
+.dc-emerg { background: var(--c-damasco); }
+.dc-emerg p { margin: 0; padding-block: 24px; max-width: 80ch; font-size: 1.0625rem; }
+.dc-rodape p { margin: 0; padding-block: 22px; color: var(--c-mudo); font-size: .875rem; border-top: 1px solid var(--c-laranja); }
+/* C · Enviar */
+.dc-enviar { padding-block: 40px 72px; display: grid; gap: 32px; }
+.dc-h1-menor { margin: 0; color: var(--c-laranja); font-weight: 100; font-size: clamp(3rem, 9.5vw, 7rem); line-height: .9; letter-spacing: -.02em; text-wrap: balance; }
+.dc-form-grade { display: grid; gap: 40px; }
+@media (min-width: 900px) { .dc-form-grade { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 64px; } }
+.dc-col { display: grid; gap: 30px; align-content: start; min-width: 0; }
+.dc fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.dc legend, .dc .rotulo { display: block; margin-bottom: 14px; font-weight: 600; font-size: .875rem; letter-spacing: .14em; text-transform: uppercase; }
+.dc .chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border: 1px solid var(--c-laranja-forte); border-radius: 80px; color: var(--c-laranja-forte); font-weight: 600; cursor: pointer; user-select: none; }
+.dc .chip:hover { background: var(--c-damasco); }
+.dc .chip-in:checked + .chip { background: var(--c-laranja-forte); color: #FFFFFF; }
+.dc .chip-in:focus-visible + .chip { outline: 3px solid var(--c-azul); outline-offset: 3px; }
+.dc textarea { display: block; width: 100%; min-height: 260px; padding: 12px 0; border: 0; border-bottom: 2px solid var(--c-tinta); border-radius: 0; background:
+  repeating-linear-gradient(to bottom, transparent 0, transparent 2.05rem, #F2D6CB 2.05rem, #F2D6CB calc(2.05rem + 1px)); font-size: 1.375rem; line-height: 2.1rem; resize: vertical; }
+.dc textarea:focus-visible { outline-offset: 6px; }
+.dc .contador { color: var(--c-mudo); }
+.dc .check { display: flex; gap: 12px; align-items: flex-start; font-size: 1.0625rem; }
+.dc .check input { width: 22px; height: 22px; margin: 3px 0 0; accent-color: var(--c-laranja-forte); flex: none; }
+.dc .antispam { background: var(--c-damasco); color: var(--c-tinta); }
+.dc .erro { color: #A3000F; }
+.dc-sucesso { display: grid; gap: 18px; padding: 40px max(20px, 4vw); background: var(--c-laranja-forte); color: #FFFFFF; }
+.dc-sucesso .cod { margin: 0; font-weight: 100; font-size: clamp(2.25rem, 8vw, 5rem); line-height: 1; letter-spacing: .04em; overflow-wrap: anywhere; }
+/* C · Mural */
+.dc-mural { padding-block: 40px 72px; display: grid; gap: 26px; }
+.dc-controles { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
+.dc-ordem { display: flex; gap: 8px; }
+.dc-ordem button { min-height: 44px; padding: 0 18px; border: 1px solid var(--c-laranja-forte); border-radius: 80px; background: transparent; color: var(--c-laranja-forte); font-weight: 600; }
+.dc-ordem button[aria-pressed="true"] { background: var(--c-laranja-forte); color: #FFFFFF; }
+.dc-filtro { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; }
+.dc-filtro select { min-height: 44px; padding: 0 14px; border: 1px solid var(--c-tinta); border-radius: 80px; background: #FFFFFF; text-transform: none; letter-spacing: 0; }
+.dc-nota { margin: 0; color: var(--c-mudo); }
+.dc-lista { display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+.dc .m-item { display: flex; flex-direction: column; gap: 16px; padding: 28px; background: var(--c-damasco); }
+.dc .m-meta { margin: 0; color: var(--c-laranja-forte); font-weight: 600; font-size: .8125rem; letter-spacing: .12em; text-transform: uppercase; }
+.dc .m-texto { margin: 0; font-size: 1.3125rem; line-height: 1.4; }
+.dc .m-resp { padding: 16px; background: #FFFFFF; }
+.dc .m-resp p { margin: 0; }
+.dc .m-resp-tit { margin-bottom: 6px !important; font-weight: 600; font-size: .8125rem; letter-spacing: .12em; text-transform: uppercase; color: var(--c-laranja-forte); }
+.dc .m-votos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.dc .m-voto { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--c-laranja-forte); border-radius: 80px; background: transparent; color: var(--c-laranja-forte); font-weight: 600; }
+.dc .m-voto[aria-pressed="true"] { background: var(--c-laranja-forte); color: #FFFFFF; }
+.dc .m-exemplo { margin: 0; color: var(--c-mudo); font-size: .8125rem; }
+.dc .m-retirada { background: var(--c-pessego); }
+
+/* números que rolam ao votar (ideia do rolling-number, cult-ui) */
+.n { display: inline-block; min-width: 2ch; text-align: right; font-variant-numeric: tabular-nums; }
+.n.rola { animation: rola .35s cubic-bezier(.2, .8, .2, 1); }
+@keyframes rola { from { transform: translateY(55%); opacity: 0; } to { transform: none; opacity: 1; } }
+.m-item { will-change: transform; }
+</style>
+
+<header class="ch">
+  <div class="ch-in">
+    <p class="ch-tit"><strong>ESCUTA 14</strong> · três designs para a turma escolher. Tudo aqui é clicável, e os dados são exemplos.</p>
+    <div class="ch-grupo" role="group" aria-label="Design">
+      <button class="ch-btn" type="button" data-ir-design="megafone" aria-pressed="true" aria-label="Design A, Megafone">A<span class="ch-nome"> · Megafone</span></button>
+      <button class="ch-btn" type="button" data-ir-design="patio" aria-pressed="false" aria-label="Design B, Pátio">B<span class="ch-nome"> · Pátio</span></button>
+      <button class="ch-btn" type="button" data-ir-design="cartaz" aria-pressed="false" aria-label="Design C, Cartaz">C<span class="ch-nome"> · Cartaz</span></button>
+    </div>
+    <div class="ch-grupo" role="group" aria-label="Tela">
+      <button class="ch-btn" type="button" data-ir-tela="inicio" aria-pressed="true">Início</button>
+      <button class="ch-btn" type="button" data-ir-tela="enviar" aria-pressed="false">Enviar</button>
+      <button class="ch-btn" type="button" data-ir-tela="mural" aria-pressed="false">Mural</button>
+    </div>
+    <button class="ch-btn ch-letra" type="button" id="letra" aria-pressed="false">Letra maior</button>
+  </div>
+</header>
+
+<main>
+<!-- ═════════════════ A · MEGAFONE ═════════════════ -->
+<section class="design da" data-design="megafone" aria-label="Design A, Megafone">
+  <header class="da-top">
+    <div class="da-wrap da-top-in">
+      <button class="da-marca" type="button" data-ir-tela="inicio"><img src="__LOGO_FIGURAS__" alt="" width="38" height="41"><span>ESCUTA 14</span></button>
+      <nav class="da-nav" aria-label="Menu">
+        <button type="button" data-ir-tela="inicio">Início</button>
+        <button type="button" data-ir-tela="mural">Mural</button>
+      </nav>
+      <button class="da-pill" type="button" data-ir-tela="enviar">Enviar</button>
+    </div>
+  </header>
+
+  <div class="tela" data-tela="inicio">
+    <section class="da-hero">
+      <div class="da-hero-midia"><img src="__LOGO_FIGURAS__" alt="As quatro figuras do logo do colégio, unidas em forma de estrela" width="212" height="227"></div>
+      <div class="da-hero-painel">
+        <p class="da-selo">Ouvidoria anônima do Colégio Estadual 14 de Dezembro</p>
+        <h1 class="da-h1">Sua voz chega na direção</h1>
+        <p class="da-lead">Reclamação, sugestão, elogio ou relato. Sem nome e sem login. A escola responde em até 30 dias.</p>
+        <div class="da-acoes">
+          <button class="da-pill da-pill-grande" type="button" data-ir-tela="enviar">Enviar manifestação</button>
+          <button class="da-pill da-pill-vazada da-pill-grande" type="button" data-ir-tela="mural">Ver o mural</button>
+        </div>
+      </div>
+    </section>
+    <section class="da-sec"><div class="da-wrap">
+      <h2 class="da-h2">Como funciona</h2>
+      <ol class="da-passos">
+        <li><span class="da-num">1</span><h3>Você escreve</h3><p>Escolha o assunto e conte o que acontece. Ninguém pede seu nome.</p></li>
+        <li><span class="da-num">2</span><h3>A escola responde</h3><p>A direção e a equipe de atendimento leem tudo e respondem em até 30 dias.</p></li>
+        <li><span class="da-num">3</span><h3>Você acompanha</h3><p>Com o código de protocolo, você vê a resposta sem se identificar.</p></li>
+      </ol>
+    </div></section>
+    <section class="da-sec"><div class="da-wrap">
+      <div class="da-ouviu-cab"><h2 class="da-h2">A escola ouviu</h2><p class="da-exemplo">Números de exemplo</p></div>
+      <ul class="da-escada">
+        <li class="d1"><strong>128</strong><span>manifestações neste ano</span></li>
+        <li class="d2"><strong>92%</strong><span>respondidas em até 30 dias</span></li>
+        <li class="d3"><strong>41</strong><span>sobre infraestrutura, o tema mais citado</span></li>
+        <li class="d4"><strong>14</strong><span>providências publicadas pela escola</span></li>
+      </ul>
+    </div></section>
+    <aside class="da-emerg"><div class="da-wrap"><p><strong>Emergência ou alguém em perigo?</strong> O ESCUTA 14 é anônimo e não consegue socorrer ninguém. Ligue 190 (Polícia Militar), 100 (Disque Direitos Humanos) ou 188 (CVV), ou procure o Conselho Tutelar.</p></div></aside>
+  </div>
+
+  <div class="tela" data-tela="enviar" hidden>
+    <div class="da-wrap da-enviar">
+      <div style="display: grid; gap: 14px;">
+        <h1 class="da-h1">Nova manifestação</h1>
+        <p class="da-lead">Leva menos de um minuto. Não pedimos nome, e-mail nem telefone.</p>
+      </div>
+      <form class="form-manif" id="a-form" novalidate>
+        <div class="da-form-grade">
+          <div class="da-col">
+            <fieldset><legend>O que você quer mandar?</legend><div class="chips" data-opcoes="categorias" data-nome="categoria"></div></fieldset>
+            <fieldset><legend>Sobre o quê?</legend><div class="chips" data-opcoes="temas" data-nome="tema"></div></fieldset>
+            <fieldset><legend>Você é…</legend><div class="chips" data-opcoes="segmentos" data-nome="segmento"></div></fieldset>
+          </div>
+          <div class="da-col">
+            <div>
+              <label class="rotulo" for="a-texto">Conte o que acontece</label>
+              <textarea id="a-texto" name="texto" maxlength="3000" aria-describedby="a-contador a-dica"></textarea>
+              <p class="contador" id="a-contador" aria-live="polite">Escreva pelo menos 10 letras.</p>
+              <p class="dica" id="a-dica">Para ir ao mural, não cite o nome de colegas ou professores.</p>
+            </div>
+            <div class="check"><input type="checkbox" id="a-publica" name="publica"><label for="a-publica">Quero que seja pública. A direção aprova antes de aparecer no mural, e eu posso desistir depois.</label></div>
+            <div class="antispam" aria-label="Lugar da verificação antispam"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><span>Aqui entra a verificação antispam (sem quebra-cabeça).</span></div>
+            <p class="erro" id="a-erro" role="alert" hidden></p>
+            <div><button class="da-pill da-pill-grande" type="submit">Enviar</button></div>
+          </div>
+        </div>
+      </form>
+      <div class="sucesso da-sucesso" id="a-sucesso" tabindex="-1" hidden>
+        <p class="da-selo">Manifestação enviada</p>
+        <h2 class="da-h2">Guarde seu protocolo</h2>
+        <p class="cod" data-protocolo>E14-00000-00000</p>
+        <div class="da-acoes"><button class="da-pill" type="button" data-copiar>Copiar código</button><button class="da-pill da-pill-vazada" type="button" data-outra>Enviar outra</button></div>
+        <p style="margin: 0; max-width: 52ch;">A escola tem até <strong data-prazo>—</strong> para responder. Sem o código você não consegue acompanhar, e ninguém consegue recuperá-lo para você.</p>
+        <p class="aviso-copia" aria-live="polite" style="margin: 0; font-weight: 700;"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tela" data-tela="mural" hidden>
+    <div class="da-wrap da-mural">
+      <h1 class="da-h1">Mural</h1>
+      <div class="da-controles">
+        <div class="da-ordem" role="group" aria-label="Ordenar">
+          <button type="button" data-ordem="apoiadas" aria-pressed="true">Mais apoiadas</button>
+          <button type="button" data-ordem="recentes" aria-pressed="false">Mais recentes</button>
+        </div>
+        <label class="da-filtro" for="a-filtro">Categoria <select id="a-filtro" data-filtro></select></label>
+      </div>
+      <p class="da-nota">Só aparece aqui o que a direção aprovou. Os números são um termômetro da comunidade, não uma votação oficial.</p>
+      <div class="da-lista mural-lista" data-lista></div>
+    </div>
+  </div>
+
+  <footer class="da-rodape"><div class="da-wrap"><p>Colégio Estadual 14 de Dezembro · Peabiru (PR) · Canal criado pela lei ESCUTA 14, da turma do 3º ano B de 2026.</p></div></footer>
+</section>
+
+<!-- ═════════════════ B · PÁTIO ═════════════════ -->
+<section class="design db" data-design="patio" aria-label="Design B, Pátio" hidden>
+  <header class="db-top">
+    <div class="db-wrap db-top-in">
+      <button class="db-marca" type="button" data-ir-tela="inicio"><img src="__LOGO_FIGURAS__" alt="" width="36" height="39"><span>escuta 14</span></button>
+      <nav class="db-nav" aria-label="Menu">
+        <button type="button" data-ir-tela="inicio">Início</button>
+        <button type="button" data-ir-tela="enviar">Enviar</button>
+        <button type="button" data-ir-tela="mural">Mural</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="tela" data-tela="inicio">
+    <section class="db-wrap db-hero">
+      <div class="db-hero-arte"><img class="db-mascote" src="__LOGO_FIGURAS__" alt="As quatro figuras do logo do colégio, unidas em forma de estrela" width="212" height="227"></div>
+      <div style="display: grid; gap: 20px;">
+        <h1 class="db-h1">Fala com a escola. Sem medo.</h1>
+        <p class="db-lead">Mande sua reclamação, ideia ou elogio sem dizer seu nome. A direção responde em até 30 dias.</p>
+        <div class="db-hero-acoes">
+          <button class="db-btn" type="button" data-ir-tela="enviar">Enviar manifestação</button>
+          <button class="db-btn db-btn-vazado" type="button" data-ir-tela="mural">Ver o mural</button>
+        </div>
+      </div>
+    </section>
+    <section class="db-sec"><div class="db-wrap">
+      <h2 class="db-h2">Todo mundo da escola pode falar</h2>
+      <ul class="db-segmentos">
+        <li><span class="db-bola" style="background: #2858C0;"></span>Estudantes</li>
+        <li><span class="db-bola" style="background: #707070;"></span>Professores</li>
+        <li><span class="db-bola" style="background: #F04008;"></span>Funcionários</li>
+        <li><span class="db-bola" style="background: #E8E828;"></span>Responsáveis</li>
+      </ul>
+    </div></section>
+    <section class="db-sec"><div class="db-wrap">
+      <h2 class="db-h2">A escola ouviu</h2>
+      <div class="db-numeros">
+        <div><strong>128</strong><span>manifestações neste ano</span></div>
+        <div><strong>92%</strong><span>respondidas em até 30 dias</span></div>
+        <div><strong>14</strong><span>providências publicadas</span></div>
+      </div>
+      <p class="db-exemplo">Números de exemplo.</p>
+    </div></section>
+    <section class="db-sec"><div class="db-wrap">
+      <p class="db-emerg"><strong>É uma emergência?</strong> O ESCUTA 14 não consegue socorrer ninguém. Ligue 190 (Polícia Militar), 100 (Disque Direitos Humanos) ou 188 (CVV), ou procure o Conselho Tutelar.</p>
+    </div></section>
+  </div>
+
+  <div class="tela" data-tela="enviar" hidden>
+    <div class="db-wrap">
+      <div class="db-enviar">
+        <form class="form-manif" id="b-form" novalidate data-passos>
+          <div class="db-progresso">
+            <div class="db-trilho" role="progressbar" aria-label="Progresso" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"><span style="width: 25%;"></span></div>
+            <span class="db-passo-n" aria-live="polite">1 de 4</span>
+          </div>
+          <div class="passo" data-passo="1">
+            <fieldset><legend>O que você quer mandar?</legend><div class="chips" data-opcoes="categorias" data-nome="categoria"></div></fieldset>
+          </div>
+          <div class="passo" data-passo="2" hidden>
+            <fieldset><legend>É sobre o quê?</legend><div class="chips" data-opcoes="temas" data-nome="tema"></div></fieldset>
+          </div>
+          <div class="passo" data-passo="3" hidden>
+            <fieldset><legend>Você é…</legend><div class="chips" data-opcoes="segmentos" data-nome="segmento"></div></fieldset>
+          </div>
+          <div class="passo" data-passo="4" hidden>
+            <label class="rotulo" for="b-texto">Agora conta pra gente</label>
+            <textarea id="b-texto" name="texto" maxlength="3000" aria-describedby="b-contador"></textarea>
+            <p class="contador" id="b-contador" aria-live="polite">Escreva pelo menos 10 letras.</p>
+            <div class="check"><input type="checkbox" id="b-publica" name="publica"><label for="b-publica">Quero que apareça no mural. A direção aprova antes, e eu posso desistir depois.</label></div>
+            <div class="antispam" aria-label="Lugar da verificação antispam"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><span>Aqui entra a verificação antispam (sem quebra-cabeça).</span></div>
+            <p class="erro" id="b-erro" role="alert" hidden style="margin-top: 14px;"></p>
+          </div>
+          <div class="db-barra">
+            <button class="db-btn db-btn-vazado" type="button" data-voltar>Voltar</button>
+            <button class="db-btn" type="button" data-continuar>Continuar</button>
+            <button class="db-btn" type="submit" data-enviar hidden>Enviar</button>
+          </div>
+        </form>
+        <div class="sucesso db-sucesso" id="b-sucesso" tabindex="-1" hidden>
+          <div class="db-check-grande" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <h2 class="db-h2">Pronto! A escola recebeu.</h2>
+          <p class="cod" data-protocolo>E14-00000-00000</p>
+          <p style="margin: 0; max-width: 46ch; color: var(--b-mudo);">Esse é o seu protocolo. A escola tem até <strong data-prazo>—</strong> para responder. Guarde o código: ninguém consegue recuperá-lo para você.</p>
+          <div style="display: grid; gap: 12px; width: min(100%, 340px);"><button class="db-btn" type="button" data-copiar>Copiar código</button><button class="db-btn db-btn-vazado" type="button" data-outra>Enviar outra</button></div>
+          <p class="aviso-copia" aria-live="polite" style="margin: 0; font-weight: 700; color: var(--b-titulo);"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tela" data-tela="mural" hidden>
+    <div class="db-wrap">
+      <div class="db-mural">
+        <h1 class="db-h1">Mural da escola</h1>
+        <div class="db-controles">
+          <div class="db-ordem" role="group" aria-label="Ordenar">
+            <button type="button" data-ordem="apoiadas" aria-pressed="true">Mais apoiadas</button>
+            <button type="button" data-ordem="recentes" aria-pressed="false">Mais recentes</button>
+          </div>
+          <label class="db-filtro" for="b-filtro">Categoria <select id="b-filtro" data-filtro></select></label>
+        </div>
+        <p class="db-nota">Só aparece aqui o que a direção aprovou. Os números são um termômetro, não uma votação oficial.</p>
+        <div class="db-lista mural-lista" data-lista></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="db-rodape"><div class="db-wrap"><p>Colégio Estadual 14 de Dezembro · Peabiru (PR) · Canal criado pela lei ESCUTA 14, da turma do 3º ano B de 2026.</p></div></footer>
+</section>
+
+<!-- ═════════════════ C · CARTAZ ═════════════════ -->
+<section class="design dc" data-design="cartaz" aria-label="Design C, Cartaz" hidden>
+  <header class="dc-top">
+    <div class="dc-wrap dc-top-in">
+      <button class="dc-marca" type="button" data-ir-tela="inicio">ESCUTA 14</button>
+      <p class="dc-frase">Ouvidoria anônima do Colégio Estadual 14 de Dezembro</p>
+      <nav class="dc-nav" aria-label="Menu">
+        <button type="button" data-ir-tela="inicio">Início</button>
+        <button type="button" data-ir-tela="enviar">Enviar</button>
+        <button type="button" data-ir-tela="mural">Mural</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="tela" data-tela="inicio">
+    <section class="dc-hero">
+      <div class="dc-formas" aria-hidden="true">
+        <svg class="dc-f1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#2858C0"/></svg>
+        <svg class="dc-f2" viewBox="0 0 100 87"><polygon points="50,0 100,87 0,87" fill="#E8E828"/></svg>
+        <svg class="dc-f3" viewBox="0 0 100 50"><path d="M0 50 A50 50 0 0 1 100 50 Z" fill="#00A858"/></svg>
+        <svg class="dc-f4" viewBox="0 0 100 100"><rect width="100" height="100" fill="#707070"/></svg>
+      </div>
+      <div class="dc-wrap dc-hero-in">
+        <h1 class="dc-h1"><span>Sua voz</span><span>faz escola.</span></h1>
+        <p class="dc-sub">Mande para a direção o que precisa mudar e o que já está bom. Sem nome, sem login.</p>
+      </div>
+    </section>
+    <section class="dc-faixa"><div class="dc-wrap dc-faixa-in">
+      <p>Toda manifestação recebe resposta em até 30 dias. As que você quiser tornar públicas vão para o mural depois que a direção aprova.</p>
+      <div class="dc-acoes">
+        <button class="dc-pill dc-pill-branca" type="button" data-ir-tela="enviar">Enviar manifestação</button>
+        <button class="dc-pill dc-pill-contorno" type="button" data-ir-tela="mural">Ver o mural</button>
+      </div>
+    </div></section>
+    <section class="dc-numeros"><div class="dc-wrap">
+      <div class="dc-numeros-cab"><h2 class="dc-h2">A escola ouviu</h2><p class="dc-exemplo">Números de exemplo</p></div>
+      <div class="dc-numeros-lista">
+        <div><strong>128</strong><span>manifestações neste ano</span></div>
+        <div><strong>92%</strong><span>respondidas em até 30 dias</span></div>
+        <div><strong>14</strong><span>providências publicadas pela escola</span></div>
+      </div>
+    </div></section>
+    <aside class="dc-emerg"><div class="dc-wrap"><p><strong>Emergência ou alguém em perigo?</strong> O ESCUTA 14 é anônimo e não consegue socorrer ninguém. Ligue 190 (Polícia Militar), 100 (Disque Direitos Humanos) ou 188 (CVV), ou procure o Conselho Tutelar.</p></div></aside>
+  </div>
+
+  <div class="tela" data-tela="enviar" hidden>
+    <div class="dc-wrap dc-enviar">
+      <h1 class="dc-h1-menor">O que você quer dizer?</h1>
+      <form class="form-manif" id="c-form" novalidate>
+        <div class="dc-form-grade">
+          <div class="dc-col">
+            <fieldset><legend>Tipo</legend><div class="chips" data-opcoes="categorias" data-nome="categoria"></div></fieldset>
+            <fieldset><legend>Assunto da escola</legend><div class="chips" data-opcoes="temas" data-nome="tema"></div></fieldset>
+            <fieldset><legend>Você é</legend><div class="chips" data-opcoes="segmentos" data-nome="segmento"></div></fieldset>
+          </div>
+          <div class="dc-col">
+            <div>
+              <label class="rotulo" for="c-texto">Escreva aqui</label>
+              <textarea id="c-texto" name="texto" maxlength="3000" aria-describedby="c-contador"></textarea>
+              <p class="contador" id="c-contador" aria-live="polite">Escreva pelo menos 10 letras.</p>
+            </div>
+            <div class="check"><input type="checkbox" id="c-publica" name="publica"><label for="c-publica">Quero que vá para o mural. A direção aprova antes, e eu posso desistir depois.</label></div>
+            <div class="antispam" aria-label="Lugar da verificação antispam"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><span>Aqui entra a verificação antispam (sem quebra-cabeça).</span></div>
+            <p class="erro" id="c-erro" role="alert" hidden></p>
+            <div><button class="dc-pill" type="submit">Enviar para a direção</button></div>
+          </div>
+        </div>
+      </form>
+      <div class="sucesso dc-sucesso" id="c-sucesso" tabindex="-1" hidden>
+        <p class="dc-h2" style="color: #FFFFFF;">Enviada. Seu protocolo:</p>
+        <p class="cod" data-protocolo>E14-00000-00000</p>
+        <p style="margin: 0; max-width: 52ch; font-size: 1.125rem;">A escola tem até <strong data-prazo>—</strong> para responder. Guarde o código: ninguém consegue recuperá-lo para você.</p>
+        <div class="dc-acoes"><button class="dc-pill dc-pill-branca" type="button" data-copiar>Copiar código</button><button class="dc-pill dc-pill-contorno" type="button" data-outra>Enviar outra</button></div>
+        <p class="aviso-copia" aria-live="polite" style="margin: 0; font-weight: 600;"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tela" data-tela="mural" hidden>
+    <div class="dc-wrap dc-mural">
+      <h1 class="dc-h1-menor">Mural</h1>
+      <div class="dc-controles">
+        <div class="dc-ordem" role="group" aria-label="Ordenar">
+          <button type="button" data-ordem="apoiadas" aria-pressed="true">Mais apoiadas</button>
+          <button type="button" data-ordem="recentes" aria-pressed="false">Mais recentes</button>
+        </div>
+        <label class="dc-filtro" for="c-filtro">Categoria <select id="c-filtro" data-filtro></select></label>
+      </div>
+      <p class="dc-nota">Só aparece aqui o que a direção aprovou. Os números são um termômetro, não uma votação oficial.</p>
+      <div class="dc-lista mural-lista" data-lista></div>
+    </div>
+  </div>
+
+  <footer class="dc-rodape"><div class="dc-wrap"><p>Colégio Estadual 14 de Dezembro · Peabiru (PR) · Canal criado pela lei ESCUTA 14, da turma do 3º ano B de 2026.</p></div></footer>
+</section>
+</main>
+
+<script>
+/* Protótipo: nada é enviado a lugar nenhum. Tudo acontece só nesta página. */
+(function () {
+  const OPCOES = {
+    categorias: [['sugestao', 'Sugestão'], ['reclamacao', 'Reclamação'], ['critica', 'Crítica'], ['elogio', 'Elogio'], ['relato', 'Relato'], ['proposta', 'Proposta'], ['outra', 'Outra']],
+    temas: [['infraestrutura', 'Infraestrutura'], ['convivencia', 'Convivência'], ['ensino', 'Ensino'], ['atendimento', 'Atendimento'], ['organizacao', 'Organização'], ['seguranca', 'Segurança'], ['outro', 'Outro']],
+    segmentos: [['estudante', 'Estudante'], ['professor', 'Professor'], ['funcionario', 'Funcionário'], ['responsavel', 'Responsável']],
+  };
+  const NOME = Object.fromEntries([].concat(OPCOES.categorias, OPCOES.temas, OPCOES.segmentos));
+
+  // Manifestações de exemplo (inventadas para o protótipo; nenhuma é real).
+  const MURAL = [
+    { id: 'm1', cat: 'reclamacao', tema: 'infraestrutura', seg: 'estudante', dia: '2026-10-03', apoios: 47, contestacoes: 2,
+      texto: 'O bebedouro do bloco B está quebrado desde setembro. No intervalo forma fila no único que funciona.',
+      resposta: 'A peça foi pedida ao Núcleo Regional de Educação. A troca está prevista para a primeira semana de novembro.' },
+    { id: 'm2', cat: 'proposta', tema: 'organizacao', seg: 'professor', dia: '2026-10-07', apoios: 38, contestacoes: 1,
+      texto: 'Abrir a biblioteca no contraturno para quem precisa estudar e não tem internet em casa.' },
+    { id: 'm3', cat: 'sugestao', tema: 'convivencia', seg: 'estudante', dia: '2026-10-10', apoios: 31, contestacoes: 4,
+      texto: 'Campeonato de vôlei misto entre as turmas no intervalo das sextas-feiras.' },
+    { id: 'm4', cat: 'elogio', tema: 'ensino', seg: 'responsavel', dia: '2026-10-14', apoios: 22, contestacoes: 0,
+      texto: 'A feira de ciências deste ano foi muito bem organizada. Meu filho voltou animado para casa.' },
+    { id: 'm5', cat: 'critica', tema: 'atendimento', seg: 'funcionario', dia: '2026-10-16', apoios: 12, contestacoes: 6,
+      texto: 'Os avisos para os funcionários chegam muito em cima da hora pelo grupo.',
+      resposta: 'A partir de novembro, os avisos da semana saem toda sexta-feira até as 17h.' },
+    { id: 'm6', retirada: true, dia: '2026-10-18',
+      texto: 'Manifestação retirada pela direção com base no art. 12, § 1º, inciso II, da lei ESCUTA 14 (expõe ou constrange alguém).' },
+  ];
+
+  const ROTULO_VOTO = {
+    megafone: { apoio: 'Apoiar', contesta: 'Contestar' },
+    patio: { apoio: 'Apoio', contesta: 'Contesto' },
+    cartaz: { apoio: 'Apoiar', contesta: 'Contestar' },
+  };
+
+  const estado = { design: 'megafone', tela: 'inicio', mural: {} };
+  const designs = Array.from(document.querySelectorAll('.design'));
+  const porNome = (d) => designs.find((s) => s.dataset.design === d);
+  const reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function guardar() { try { localStorage.setItem('escuta14-prototipo', JSON.stringify({ design: estado.design, tela: estado.tela })); } catch (e) { /* sem armazenamento: tudo bem */ } }
+  function lerGuardado() { try { return JSON.parse(localStorage.getItem('escuta14-prototipo') || 'null'); } catch (e) { return null; } }
+
+  function mostrar(design, tela) {
+    estado.design = design; estado.tela = tela;
+    designs.forEach((s) => { s.hidden = s.dataset.design !== design; });
+    const atual = porNome(design);
+    atual.querySelectorAll('.tela').forEach((t) => { t.hidden = t.dataset.tela !== tela; });
+    atual.querySelectorAll('nav [data-ir-tela]').forEach((b) => { if (b.dataset.irTela === tela) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+    document.querySelectorAll('.ch [data-ir-design]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.irDesign === design)));
+    document.querySelectorAll('.ch [data-ir-tela]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.irTela === tela)));
+    if (tela === 'mural') desenharMural(design);
+    guardar();
+  }
+
+  document.addEventListener('click', (ev) => {
+    const d = ev.target.closest('[data-ir-design]');
+    if (d) { mostrar(d.dataset.irDesign, estado.tela); return; }
+    const t = ev.target.closest('[data-ir-tela]');
+    if (t) {
+      mostrar(estado.design, t.dataset.irTela);
+      if (!t.closest('.ch')) window.scrollTo({ top: 0, behavior: reduzMovimento ? 'auto' : 'smooth' });
+    }
+  });
+
+  document.getElementById('letra').addEventListener('click', (ev) => {
+    const liga = document.documentElement.classList.toggle('letra-maior');
+    ev.currentTarget.setAttribute('aria-pressed', String(liga));
+  });
+
+  /* ── Formulários ── */
+  const ALFABETO = '23456789ABCDEFGHJKMNPQRSTUVWXYZ'; // sem 0/O, 1/I/L
+  function protocolo() {
+    const n = new Uint32Array(10); crypto.getRandomValues(n);
+    const c = Array.from(n, (x) => ALFABETO[x % ALFABETO.length]).join('');
+    return 'E14-' + c.slice(0, 5) + '-' + c.slice(5);
+  }
+  function prazo() {
+    const d = new Date(); d.setDate(d.getDate() + 30);
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
+  document.querySelectorAll('.form-manif').forEach((form) => {
+    const pref = form.id.charAt(0);
+    form.querySelectorAll('[data-opcoes]').forEach((caixa) => {
+      OPCOES[caixa.dataset.opcoes].forEach(([valor, rotulo]) => {
+        const id = pref + '-' + caixa.dataset.nome + '-' + valor;
+        const inp = document.createElement('input');
+        inp.type = 'radio'; inp.className = 'chip-in'; inp.name = caixa.dataset.nome; inp.value = valor; inp.id = id;
+        const lab = document.createElement('label');
+        lab.className = 'chip'; lab.htmlFor = id; lab.textContent = rotulo;
+        caixa.append(inp, lab);
+      });
+    });
+
+    const texto = form.querySelector('textarea');
+    const contador = form.querySelector('.contador');
+    const erro = form.querySelector('.erro');
+    const sucesso = document.getElementById(pref + '-sucesso');
+    texto.addEventListener('input', () => {
+      const n = texto.value.trim().length;
+      contador.textContent = n < 10 ? 'Faltam ' + (10 - n) + ' letras.' : n + ' de 3.000 caracteres.';
+      if (form.dataset.passos !== undefined) atualizarPassos();
+    });
+
+    function faltando() {
+      const f = new FormData(form);
+      const falta = [];
+      if (!f.get('categoria')) falta.push('o tipo');
+      if (!f.get('tema')) falta.push('o assunto');
+      if (!f.get('segmento')) falta.push('quem você é');
+      if (texto.value.trim().length < 10) falta.push('o texto (pelo menos 10 letras)');
+      return falta;
+    }
+
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const falta = faltando();
+      if (falta.length) {
+        erro.textContent = 'Falta escolher ou escrever: ' + falta.join(', ') + '.';
+        erro.hidden = false;
+        return;
+      }
+      erro.hidden = true;
+      sucesso.querySelector('[data-protocolo]').textContent = protocolo();
+      sucesso.querySelector('[data-prazo]').textContent = prazo();
+      sucesso.querySelector('.aviso-copia').textContent = '';
+      form.hidden = true; sucesso.hidden = false; sucesso.focus();
+    });
+
+    sucesso.querySelector('[data-copiar]').addEventListener('click', () => {
+      const cod = sucesso.querySelector('[data-protocolo]');
+      const aviso = sucesso.querySelector('.aviso-copia');
+      const selecionar = () => { const r = document.createRange(); r.selectNodeContents(cod); const s = getSelection(); s.removeAllRanges(); s.addRange(r); aviso.textContent = 'Código selecionado. Copie com Ctrl+C ou segurando o dedo.'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(cod.textContent).then(() => { aviso.textContent = 'Código copiado.'; }, selecionar);
+      else selecionar();
+    });
+    sucesso.querySelector('[data-outra]').addEventListener('click', () => {
+      form.reset(); contador.textContent = 'Escreva pelo menos 10 letras.';
+      sucesso.hidden = true; form.hidden = false;
+      if (form.dataset.passos !== undefined) { passoAtual = 1; atualizarPassos(); }
+      form.querySelector('input, textarea').focus();
+    });
+
+    /* B · um passo por vez */
+    let passoAtual = 1;
+    const passos = Array.from(form.querySelectorAll('.passo'));
+    function atualizarPassos() {
+      if (!passos.length) return;
+      passos.forEach((p) => { p.hidden = Number(p.dataset.passo) !== passoAtual; });
+      const trilho = form.querySelector('.db-trilho');
+      trilho.setAttribute('aria-valuenow', String(passoAtual));
+      trilho.firstElementChild.style.width = (passoAtual * 25) + '%';
+      form.querySelector('.db-passo-n').textContent = passoAtual + ' de 4';
+      const passo = passos[passoAtual - 1];
+      const escolheu = passoAtual === 4 || !!passo.querySelector('input:checked');
+      const continuar = form.querySelector('[data-continuar]');
+      continuar.hidden = passoAtual === 4; continuar.disabled = !escolheu;
+      form.querySelector('[data-enviar]').hidden = passoAtual !== 4;
+      form.querySelector('[data-voltar]').style.visibility = passoAtual === 1 ? 'hidden' : 'visible';
+    }
+    if (passos.length) {
+      form.addEventListener('change', atualizarPassos);
+      form.querySelector('[data-continuar]').addEventListener('click', () => {
+        if (passoAtual < 4) { passoAtual += 1; atualizarPassos(); const alvo = passos[passoAtual - 1].querySelector('input, textarea'); if (alvo) alvo.focus(); }
+      });
+      form.querySelector('[data-voltar]').addEventListener('click', () => { if (passoAtual > 1) { passoAtual -= 1; atualizarPassos(); } });
+      atualizarPassos();
+    }
+  });
+
+  /* ── Mural ── */
+  function estadoMural(d) {
+    if (!estado.mural[d]) estado.mural[d] = { ordem: 'apoiadas', filtro: 'todas', votos: {}, montado: false };
+    return estado.mural[d];
+  }
+  function fmtDia(iso) { const [a, m, d] = iso.split('-'); return d + '/' + m; }
+  function el(tag, cls, txt) { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+
+  function cartao(d, m, st) {
+    const art = el('article', 'm-item' + (m.retirada ? ' m-retirada' : ''));
+    art.dataset.id = m.id;
+    if (m.retirada) {
+      art.append(el('p', 'm-meta', 'Retirada · ' + fmtDia(m.dia)), el('p', 'm-texto', m.texto));
+      return art;
+    }
+    if (d === 'patio') {
+      const meta = el('p', 'm-meta');
+      meta.append(el('span', 'm-tag cat', NOME[m.cat]), el('span', 'm-tag', NOME[m.tema]), el('span', 'm-tag', NOME[m.seg] + ' · ' + fmtDia(m.dia)));
+      art.append(meta);
+    } else {
+      art.append(el('p', 'm-meta', NOME[m.cat] + ' · ' + NOME[m.tema] + ' · ' + NOME[m.seg] + ' · ' + fmtDia(m.dia)));
+    }
+    art.append(el('p', 'm-texto', m.texto));
+    if (m.resposta) {
+      const r = el('div', 'm-resp');
+      r.append(el('p', 'm-resp-tit', 'Resposta da escola'), el('p', null, m.resposta));
+      art.append(r);
+    }
+    const votos = el('div', 'm-votos');
+    ['apoio', 'contesta'].forEach((tipo) => {
+      const b = el('button', 'm-voto ' + tipo);
+      b.type = 'button'; b.dataset.voto = tipo;
+      const meu = st.votos[m.id] === tipo;
+      b.setAttribute('aria-pressed', String(meu));
+      const total = (tipo === 'apoio' ? m.apoios : m.contestacoes) + (meu ? 1 : 0);
+      b.append(el('span', null, ROTULO_VOTO[d][tipo]), el('span', 'n', String(total)));
+      b.setAttribute('aria-label', ROTULO_VOTO[d][tipo] + ', ' + total);
+      votos.append(b);
+    });
+    art.append(votos, el('p', 'm-exemplo', 'Exemplo para o protótipo'));
+    return art;
+  }
+
+  function ordenar(lista, ordem) {
+    const vivas = lista.filter((m) => !m.retirada), retiradas = lista.filter((m) => m.retirada);
+    vivas.sort(ordem === 'apoiadas' ? (a, b) => b.apoios - a.apoios : (a, b) => b.dia.localeCompare(a.dia));
+    return ordem === 'apoiadas' ? vivas.concat(retiradas) : vivas.concat(retiradas).sort((a, b) => b.dia.localeCompare(a.dia));
+  }
+
+  function desenharMural(d, animar) {
+    const sec = porNome(d);
+    const st = estadoMural(d);
+    const lista = sec.querySelector('[data-lista]');
+    if (!st.montado) {
+      const sel = sec.querySelector('[data-filtro]');
+      sel.append(new Option('Todas', 'todas'));
+      OPCOES.categorias.forEach(([v, r]) => sel.append(new Option(r, v)));
+      sel.addEventListener('change', () => { st.filtro = sel.value; desenharMural(d, true); });
+      sec.querySelectorAll('[data-ordem]').forEach((b) => b.addEventListener('click', () => {
+        st.ordem = b.dataset.ordem;
+        sec.querySelectorAll('[data-ordem]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        desenharMural(d, true);
+      }));
+      lista.addEventListener('click', (ev) => {
+        const b = ev.target.closest('[data-voto]'); if (!b) return;
+        const id = b.closest('.m-item').dataset.id;
+        st.votos[id] = st.votos[id] === b.dataset.voto ? null : b.dataset.voto;
+        const art = b.closest('.m-item');
+        const novo = cartao(d, MURAL.find((m) => m.id === id), st);
+        art.querySelector('.m-votos').replaceWith(novo.querySelector('.m-votos'));
+        art.querySelectorAll('[data-voto]').forEach((x) => { if (x.dataset.voto === b.dataset.voto || x.getAttribute('aria-pressed') === 'true') { const n = x.querySelector('.n'); n.classList.add('rola'); } });
+        art.querySelector('[data-voto="' + b.dataset.voto + '"]').focus();
+      });
+      st.montado = true;
+    }
+    // FLIP: guarda as posições antes de reordenar e anima até as novas (ideia do vote-tally, cult-ui)
+    const antes = {};
+    if (animar && !reduzMovimento) lista.querySelectorAll('.m-item').forEach((a) => { antes[a.dataset.id] = a.getBoundingClientRect(); });
+    const itens = ordenar(MURAL.filter((m) => st.filtro === 'todas' || (!m.retirada && m.cat === st.filtro)), st.ordem);
+    lista.replaceChildren(...itens.map((m) => cartao(d, m, st)));
+    if (animar && !reduzMovimento) {
+      lista.querySelectorAll('.m-item').forEach((a) => {
+        const r0 = antes[a.dataset.id]; if (!r0) return;
+        const r1 = a.getBoundingClientRect();
+        const dx = r0.left - r1.left, dy = r0.top - r1.top;
+        if (!dx && !dy) return;
+        a.animate([{ transform: 'translate(' + dx + 'px,' + dy + 'px)' }, { transform: 'none' }], { duration: 380, easing: 'cubic-bezier(.2,.8,.2,1)' });
+      });
+    }
+  }
+
+  /* ── Começo: design pelo link (#megafone, #patio, #cartaz), senão o último visto ── */
+  const doLink = (location.hash || '').slice(1);
+  const guardado = lerGuardado();
+  const validos = ['megafone', 'patio', 'cartaz'];
+  const inicio = validos.includes(doLink) ? doLink : (guardado && validos.includes(guardado.design) ? guardado.design : 'megafone');
+  const telaInicial = guardado && ['inicio', 'enviar', 'mural'].includes(guardado.tela) && !validos.includes(doLink) ? guardado.tela : 'inicio';
+  mostrar(inicio, telaInicial);
+})();
+</script>

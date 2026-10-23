@@ -1,0 +1,14 @@
+# Arquivos da turma com nomes de estudantes (menores de idade): nunca vão para o git.
+turma/
+
+# Dependências e saídas
+node_modules/
+bruto.docx
+*.md.gerado
+
+# Segredos: só em .env.local (ver .env.example)
+.env*
+!.env.example
+
+# Configuração local do Claude Code (caminhos desta máquina)
+.claude/launch.json
