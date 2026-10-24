@@ -36,6 +36,9 @@ export default function Inicio() {
               Ver o mural
             </Link>
           </div>
+          <Link className="link-forte" href="/a-escola-ouviu">
+            A escola ouviu: o que chegou e o que a escola já fez
+          </Link>
           <div className="passos-caixa vidro">
             <ol className="passos" aria-label="Como funciona">
               {PASSOS.map(([titulo, detalhe], i) => (

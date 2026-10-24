@@ -1,5 +1,8 @@
-// Regras puras do painel (testadas em testes/painel.test.ts): prazo e urgência, fundamentos da
-// lei por ação, e a tradução dos erros do banco para as frases da spec ("Casos de erro").
+// Regras puras do painel (testadas em testes/painel.test.ts e testes/numeros.test.ts): prazo e
+// urgência, fundamentos da lei por ação, providência válida e a tradução dos erros do banco para
+// as frases da spec ("Casos de erro").
+import { dataDoBanco } from './datas';
+import { estaNaLista, TEMAS } from './opcoes';
 
 export const PAPEIS = { direcao: 'Direção', atendimento: 'Atendimento' } as const;
 export type Papel = keyof typeof PAPEIS;
@@ -50,6 +53,8 @@ const ERROS: Record<string, string> = {
   andamento_invalido: 'Esse andamento não pode ser escolhido aqui.',
   arquivar_so_respondida: 'Responda antes de arquivar.',
   nao_a_si_mesmo: 'Você não pode tirar o seu próprio acesso de direção. Peça para outra pessoa da direção.',
+  providencia_invalida: 'Escreva um título (3 a 120 letras), o que foi feito (10 a 2.000 letras) e escolha o tema.',
+  data_invalida: 'A data não pode ser depois de hoje.',
 };
 
 /** Código curto e conhecido do erro do banco (vai na URL), ou "falhou". Nunca a mensagem inteira. */
@@ -61,4 +66,14 @@ export function codigoDoErro(mensagem: string | undefined): string {
 export function erroDoPainel(mensagem: string | undefined): string {
   const chave = Object.keys(ERROS).find((k) => mensagem?.includes(k));
   return chave ? ERROS[chave] : 'Não deu certo agora. Tente de novo.';
+}
+
+/** Confere a providência antes de mandar ao banco (que confere de novo). null = pode publicar. */
+export function validarProvidencia(titulo: string, texto: string, tema: string, data: string, hoje = new Date()): string | null {
+  if (titulo.length < 3 || titulo.length > 120 || texto.length < 10 || texto.length > 2000 || !estaNaLista(TEMAS, tema)) {
+    return 'providencia_invalida';
+  }
+  // "2026-10-24" se compara como texto; a data de hoje é a de Brasília.
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(data) || data > dataDoBanco(hoje)) return 'data_invalida';
+  return null;
 }

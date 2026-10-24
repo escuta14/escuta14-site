@@ -234,7 +234,9 @@ Direitos Humanos) ou 188 (CVV), ou procure o Conselho Tutelar." Aparece no Iníc
 ### Números ("A escola ouviu")
 
 Cartões de vidro com o número grande em degradê e a legenda em `tinta-2` 600. Enquanto forem de
-exemplo, escrever "Números de exemplo." embaixo.
+exemplo, escrever "Números de exemplo." embaixo. Contagem por tema, categoria, segmento ou mês:
+lista "rótulo · barra · número", barra de 12 px como a de progresso (trilho + degradê verde →
+azul), sempre com o número escrito ao lado (a barra é enfeite: `aria-hidden`).
 
 ### Segmentos
 

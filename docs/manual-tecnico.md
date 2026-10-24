@@ -34,9 +34,9 @@ entra com a conta pessoal, como colaboradora.
 
 **Supabase:** projeto criado em 23/10/2026 com o e-mail do site. As chaves (URL, chave pública e
 chave secreta) ficam só no `.env.local` da mantenedora e nos segredos da Vercel; nunca aqui, no
-código ou em mensagem. O plano Free pausa o projeto depois de 7 dias sem uso. Até a rotina
-diária existir (fatia 3.2), entrar no painel do Supabase pelo menos uma vez por semana ou
-reativar o projeto se ele pausar (os dados não se perdem).
+código ou em mensagem. O plano Free pausa o projeto depois de 7 dias sem uso; a rotina diária
+(seção "Rotina diária") existe para isso. Se mesmo assim ele pausar, reativar no painel do
+Supabase (os dados não se perdem).
 
 **A senha não fica aqui nem em nenhum lugar do repositório.** O repositório é público: quem lesse
 a senha entraria no e-mail e, por ele, em todas as outras contas. Até a passagem, a senha fica só
@@ -119,6 +119,7 @@ chave pública (ADR 0001).
 | `0001_envio.sql` | Tipos, `manifestacoes`, `limites` e a função `registrar_tentativa` | 24/10/2026 |
 | `0003_painel.sql` | `equipe`, `historico` (não se edita), leitura do painel com RLS por papel e uma função por ação | 24/10/2026 |
 | `0002_mural_acompanhar.sql` | `codigo_publico`, `justificativas` (não se editam), `votos`, funções `mural_listar` e `votar` | 24/10/2026 |
+| `0004_escola_ouviu.sql` | `providencias` (só a direção publica; não se apagam), `numeros_do_ano` (somas, sem nenhuma manifestação sozinha) e `rotina_diaria` | 24/10/2026 |
 
 ## Painel da equipe
 
@@ -158,8 +159,28 @@ possível, de graça: SMTP do Gmail do site (escuta14.ouvidoria@gmail.com, com s
 libera modelos em português.
 
 **Permissões:** depois de mexer no banco do painel, rodar `supabase/testes/painel_permissoes.sql`
-no SQL Editor. Ele termina com um erro de propósito que mostra "RESULTADO: 18 de 18 ok" e desfaz
+no SQL Editor. Ele termina com um erro de propósito que mostra "RESULTADO: 23 de 23 ok" e desfaz
 tudo.
+
+**Providências:** a direção publica em Painel → Providências o que a escola fez (título, texto,
+tema e data). Aparece em "A escola ouviu". Não se apaga: "Tirar da página" esconde e dá para pôr
+de volta. Os números da página pública não contam demonstrações nem excluídas.
+
+## Rotina diária
+
+`vercel.json` pede à Vercel que chame `/api/rotina` todo dia às 9h UTC (6h em Brasília; no plano
+Hobby pode atrasar até uma hora). A rotina faz o banco ter uso (o Supabase gratuito pausa com 7
+dias parado, nas férias) e apaga as contagens do antispam com mais de 2 dias. A Vercel manda o
+`CRON_SECRET` sozinha; sem ele, ou com outro valor, a rota responde 401. **Não remover.**
+
+Para conferir: Vercel → projeto `escuta14-site` → Logs, procurar "rotina: ok" (uma vez por dia).
+Para rodar na mão, sem mostrar o segredo:
+
+```bash
+node --env-file=.env.local -e "fetch('https://escuta14.vercel.app/api/rotina',{headers:{authorization:'Bearer '+process.env.CRON_SECRET}}).then(r=>console.log(r.status))"
+```
+
+Tem de mostrar `200`. Sem o cabeçalho, `401`.
 
 ## Publicação
 
