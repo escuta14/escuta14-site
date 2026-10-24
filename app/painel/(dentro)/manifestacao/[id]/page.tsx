@@ -30,10 +30,11 @@ export default async function Detalhe({ params, searchParams }: { params: Promis
   const direcao = papel === 'direcao';
   const excluida = !!m.excluida_em;
   const oculto = <input type="hidden" name="id" value={id} />;
+  const lista = m.demonstracao ? '/painel?demonstracao=sim' : '/painel';
 
   return (
     <div className="painel-corpo">
-      <Link className="voltar" href="/painel">
+      <Link className="voltar" href={lista}>
         ← Voltar para a lista
       </Link>
       <Resultado feito={aviso.feito} erro={aviso.erro} />
@@ -58,6 +59,7 @@ export default async function Detalhe({ params, searchParams }: { params: Promis
         <>
           <form className="vidro bloco-painel" action={responder}>
             {oculto}
+            <input type="hidden" name="demonstracao" value={m.demonstracao ? 'sim' : 'nao'} />
             <label className="pergunta-painel" htmlFor="resposta">
               {m.resposta ? 'Resposta da escola (dá para corrigir)' : 'Escreva a resposta da escola'}
             </label>

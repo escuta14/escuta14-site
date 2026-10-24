@@ -4,6 +4,8 @@
 // O resultado volta pela URL como um código curto (?feito=... ou ?erro=...), sem dado nenhum.
 // Salvar a resposta volta para a lista "Para responder" (pedido da Mariane, 24/10); as outras
 // ações ficam na manifestação. Se der erro, fica na manifestação para a pessoa tentar de novo.
+// Se a manifestação é de demonstração (a mostra), volta para a lista de demonstração: senão, no
+// dia da mostra, a lista apareceria vazia com tudo ainda por responder.
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { exigirEquipe } from '@/lib/equipe';
@@ -11,7 +13,7 @@ import { codigoDoErro } from '@/lib/painel';
 
 const ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
-async function chamar(dados: FormData, funcao: string, parametros: (d: FormData) => Record<string, unknown>, feito: string, voltarParaLista = false) {
+async function chamar(dados: FormData, funcao: string, parametros: (d: FormData) => Record<string, unknown>, feito: string, lista?: string) {
   const id = String(dados.get('id') ?? '');
   if (!ID.test(id)) redirect('/painel');
   const { banco } = await exigirEquipe();
@@ -19,14 +21,15 @@ async function chamar(dados: FormData, funcao: string, parametros: (d: FormData)
   revalidatePath(`/painel/manifestacao/${id}`);
   revalidatePath('/painel');
   if (error) redirect(`/painel/manifestacao/${id}?erro=${codigoDoErro(error.message)}`);
-  redirect(voltarParaLista ? `/painel?feito=${feito}` : `/painel/manifestacao/${id}?feito=${feito}`);
+  redirect(lista ? `${lista}${lista.includes('?') ? '&' : '?'}feito=${feito}` : `/painel/manifestacao/${id}?feito=${feito}`);
 }
 
 const texto = (d: FormData, campo: string) => String(d.get(campo) ?? '').trim();
 const ouNulo = (d: FormData, campo: string) => texto(d, campo) || null;
 
 export async function responder(d: FormData) {
-  await chamar(d, 'painel_responder', (x) => ({ p_resposta: texto(x, 'resposta') }), 'resposta', true);
+  const lista = texto(d, 'demonstracao') === 'sim' ? '/painel?demonstracao=sim' : '/painel';
+  await chamar(d, 'painel_responder', (x) => ({ p_resposta: texto(x, 'resposta') }), 'resposta', lista);
 }
 export async function mudarAndamento(d: FormData) {
   await chamar(d, 'painel_andamento', (x) => ({ p_andamento: texto(x, 'andamento') }), 'andamento');
