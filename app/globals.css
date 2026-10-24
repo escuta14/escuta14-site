@@ -277,3 +277,5 @@ svg.ic { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor
 .links-rodape { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 .links-rodape a { display: inline-flex; align-items: center; min-height: 44px; }
 .link-forte { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-azul); font-weight: 700; }
+/* O .lead tem 34ch para caber na coluna do Início; nas páginas de uma coluna só, ele acompanha a largura dos cartões. */
+.sobre .lead, .numeros .lead { max-width: none; }
