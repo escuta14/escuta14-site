@@ -23,3 +23,12 @@ a passagem: como a Mariane criou o e-mail e sabe a senha, nesse dia ela entrega 
 senha, troca o telefone e o e-mail de recuperação para os da escola e passa os códigos de
 reserva da verificação em duas etapas. Isso vem além de remover o convite e trocar o token. O
 passo a passo está no [manual técnico](../manual-tecnico.md).
+
+## Atualização (24/10/2026): a Vercel publica direto do GitHub
+
+Ao entrar na Vercel, o repositório foi importado e a ligação Git ficou ligada. No PR #4, com o
+commit feito pela conta pessoal da mantenedora, a Vercel publicou a prévia normalmente: o bloqueio
+do Hobby vale para repositório **privado**, e o nosso é público por regra (MIT). Por isso a rotina
+`publicar.yml` foi tirada e a ligação Git ficou. É um segredo a menos para guardar e trocar na
+passagem (o `VERCEL_TOKEN`). **Se o repositório um dia virar privado, esta ADR volta a valer como
+estava escrita:** desligar a ligação Git e recriar a rotina do GitHub.

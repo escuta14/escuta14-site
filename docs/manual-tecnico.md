@@ -29,6 +29,9 @@ endereço, ouvidoria.escuta14@gmail.com, foi trocado por este no mesmo dia e nã
 [escuta14/escuta14-site](https://github.com/escuta14/escuta14-site) (público). A mantenedora
 entra com a conta pessoal, como colaboradora.
 
+**Vercel:** conta criada em 23/10/2026 com o e-mail do site (plano Hobby, gratuito). O projeto
+`escuta14-site` está ligado ao repositório do GitHub: cada merge na `main` publica (ADR 0004).
+
 **Supabase:** projeto criado em 23/10/2026 com o e-mail do site. As chaves (URL, chave pública e
 chave secreta) ficam só no `.env.local` da mantenedora e nos segredos da Vercel; nunca aqui, no
 código ou em mensagem. O plano Free pausa o projeto depois de 7 dias sem uso. Até a rotina
@@ -39,6 +42,89 @@ reativar o projeto se ele pausar (os dados não se perdem).
 a senha entraria no e-mail e, por ele, em todas as outras contas. Até a passagem, a senha fica só
 com a mantenedora, num gerenciador de senhas ou no papel junto com os códigos de reserva. Na
 passagem ela vai para a direção do mesmo jeito, no papel ou pessoalmente, nunca por mensagem.
+
+### Cloudflare Turnstile (antispam)
+
+O Turnstile é a verificação que impede robôs de mandarem manifestações em massa. Ele aparece no
+último passo do envio e, na maioria das vezes, nem pede nada à pessoa: no máximo uma caixinha
+para marcar, nunca um quebra-cabeça. O plano gratuito tem verificações ilimitadas e não precisa
+pôr o site na Cloudflare.
+
+**Criar a conta e o widget (uma vez):**
+
+1. Entrar em [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up) e criar a conta
+   com o **e-mail do site**, com uma senha só dela. O plano gratuito não pede cartão. Ligar a
+   verificação em duas etapas em "My Profile" → "Authentication".
+2. No menu da esquerda, abrir **"Turnstile"** e clicar em **"Add widget"**. Não precisa pôr o
+   site no ar antes nem colocar domínio na Cloudflare: se aparecer um convite para "adicionar um
+   domínio" ou "conectar um site", pular (isso é para quem usa a Cloudflare como DNS). O hostname
+   é só um texto; a Cloudflare não confere se o site já existe.
+3. Preencher:
+   - **Widget name:** `ESCUTA 14`.
+   - **Hostname management:** `escuta14.vercel.app` (o endereço previsto do site na Vercel). Não
+     pôr `localhost` aqui; no computador de quem programa valem as chaves de teste, abaixo.
+   - **Widget mode:** **Managed** (o recomendado: só mostra a caixinha quando desconfia).
+   - **Pre-clearance:** deixar **No**.
+4. Clicar em **"Create"**. Aparecem duas chaves:
+   - **Site Key:** é pública (vai na página). No código, vira `NEXT_PUBLIC_TURNSTILE_SITE_KEY`.
+   - **Secret Key:** é **segredo**. No código, vira `TURNSTILE_SECRET_KEY`. Fica só no
+     `.env.local` da mantenedora e nas variáveis de ambiente da Vercel. Nunca no repositório, no
+     chat, em print ou em mensagem.
+5. Até a fatia 1.1 criar o `.env.local`, guardar a Secret Key no gerenciador de senhas.
+
+**Se o endereço do site mudar** (outro nome na Vercel, domínio próprio), abrir o widget em
+"Turnstile" → "Settings", trocar o hostname e clicar em "Save". Sem isso, a verificação falha e,
+pela regra de falha fechada, ninguém consegue enviar.
+
+**Chaves de teste (para o computador de quem programa).** A Cloudflare publica chaves que
+funcionam em qualquer endereço, inclusive `localhost`, e não protegem nada. Só valem fora da
+produção:
+
+| Para quê | Site Key | Secret Key |
+|---|---|---|
+| Sempre passa | `1x00000000000000000000AA` | `1x0000000000000000000000000000000AA` |
+| Sempre falha (testar o erro) | `2x00000000000000000000AB` | `2x0000000000000000000000000000000AA` |
+
+Fonte: [documentação do Turnstile](https://developers.cloudflare.com/turnstile/troubleshooting/testing/),
+conferida em 23/10/2026.
+
+## Variáveis
+
+Ficam no `.env.local` (computador de quem programa, fora do git) e nas variáveis de ambiente do
+projeto `escuta14-site` na Vercel (Settings → Environment Variables, ambiente Production). Os nomes
+estão no `.env.example`, sem valor.
+
+| Variável | É segredo? | De onde vem |
+|---|---|---|
+| `SUPABASE_URL` | não | `https://evgtythzrrrrvppimxae.supabase.co` (projeto `escuta14`) |
+| `SUPABASE_SECRET_KEY` | **sim** | Supabase → Project Settings → API Keys → Secret keys |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | não | Cloudflare → Turnstile → widget ESCUTA 14 → Site Key |
+| `TURNSTILE_SECRET_KEY` | **sim** | Mesmo lugar → Secret Key |
+| `SEGREDO_ANONIMATO` | **sim** | Gerado uma vez (32+ caracteres aleatórios). **Nunca trocar**: embaralha os protocolos; trocar faz os protocolos antigos deixarem de ser achados |
+| `CRON_SECRET` | **sim** | Gerado uma vez (rotina diária, fatia 3.2) |
+| `MOSTRA_INICIO`, `MOSTRA_FIM` | não | Período da mostra; o que chega nele nasce como demonstração |
+
+Sem `SUPABASE_*`, `TURNSTILE_SECRET_KEY` ou `SEGREDO_ANONIMATO`, o envio mostra "fora do ar"
+(falha fechada). Sem a Site Key, o formulário nem aparece.
+
+## Banco
+
+O SQL fica em `supabase/migrations/`, numerado. Cada arquivo roda **uma vez**, em ordem, no
+Supabase → SQL Editor (colar e "Run"). Todas as tabelas têm RLS ligada e nenhuma policy para a
+chave pública (ADR 0001).
+
+| Arquivo | O que faz | Rodado em |
+|---|---|---|
+| `0001_envio.sql` | Tipos, `manifestacoes`, `limites` e a função `registrar_tentativa` | 24/10/2026 |
+
+## Publicação
+
+O projeto `escuta14-site` da Vercel (time `escuta-14`) está ligado ao repositório: cada merge na
+`main` publica em produção, e cada PR ganha um endereço de prévia (sem as chaves de produção, a
+prévia mostra "fora do ar", de propósito). A rotina `.github/workflows/verificar.yml` roda lint,
+testes e build em cada PR. Para passar variáveis do `.env.local` para a Vercel sem mostrar os
+valores: `node ferramentas/variaveis-vercel.mjs NOME1 NOME2` (depois de `npx vercel@65.2.0 login`
+e `link`).
 
 ### Assinatura dos commits
 
@@ -73,4 +159,4 @@ Com alguém da direção ao lado:
 3. Gerar códigos de reserva novos e entregar impressos à direção. Os antigos deixam de valer.
 4. Tirar o celular da mantenedora da verificação em duas etapas.
 5. Remover a mantenedora como convidada no GitHub e no Supabase, se ela não continuar.
-6. Trocar o token da Vercel guardado nos secrets do GitHub (`VERCEL_TOKEN`).
+6. Conferir que a conta `escuta14` continua dona do projeto `escuta14-site` na Vercel.

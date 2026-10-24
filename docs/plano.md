@@ -13,7 +13,7 @@
 | Back | Server Actions e rotas do Next | O servidor guarda a chave secreta e confere antispam e limites; o navegador nunca fala direto com o banco |
 | Banco / auth | Supabase Free (Postgres + Auth) | Gratuito, com RLS e login da equipe prontos |
 | Antispam | Cloudflare Turnstile | Gratuito, sem quebra-cabeça para humano e sem rastrear como o reCAPTCHA |
-| Deploy | Vercel Hobby, publicado por GitHub Actions + Vercel Cron | Gratuito; a rotina do GitHub contorna a vaga única do Hobby (ADR 0004); a rotina diária mantém o Supabase acordado |
+| Deploy | Vercel Hobby ligada ao GitHub + Vercel Cron | Gratuito; repositório público não esbarra na vaga única do Hobby (ADR 0004); a rotina diária mantém o Supabase acordado |
 | Testes | Vitest (regras) + Playwright (fluxo) | Decisão da Mariane: regras + caminho feliz |
 
 ## Fases
@@ -78,7 +78,7 @@ Não depende de conta nenhuma, por isso vem primeiro.
 - Banco: migration com `manifestacoes` e `limites`, RLS ligada e nenhuma policy para `anon`.
 - Teste que acompanha: Vitest no protocolo (formato, hash), na validação do texto, no
   limite por IP e na falha fechada sem `TURNSTILE_SECRET_KEY`.
-- Deploy: Vercel da escola, publicado pela rotina do GitHub Actions (ADR 0004); repositório público (MIT).
+- Deploy: Vercel da escola, ligada ao GitHub (ADR 0004); repositório público (MIT).
 - Pronto quando: uma manifestação enviada pelo celular no endereço público aparece no banco,
   e a chave pública sozinha recebe recusa ao tentar ler a tabela.
 
@@ -101,7 +101,7 @@ Não depende de conta nenhuma, por isso vem primeiro.
 | Limite por IP barrando a escola inteira | Alunos no Wi-Fi recebem "muitas mensagens" | Limites altos por causa do IP compartilhado; ajuste por variável |
 | Termos do plano Hobby da Vercel (uso não comercial) | Aviso da Vercel | Projeto escolar sem fins lucrativos; se precisar, Cloudflare Pages |
 | Contas do site atrasarem | 1.1 parada | Fase 0 não depende delas; começar as contas já |
-| Vercel Hobby barrar commits da mantenedora | Site para de atualizar | Publicação pela rotina do GitHub com token da conta do site (ADR 0004) |
+| Vercel Hobby barrar commits da mantenedora | Site para de atualizar | Repositório público (a ligação Git publica); se virar privado, rotina do GitHub (ADR 0004) |
 | Passagem esquecida no fim do ano | Ex-aluno com acesso à produção | Última semana de aula: remover convites, trocar token, mantenedor nomeado (tarefa marcada) |
 | Atualização do Next quebrar o site anos depois | Build falha na Vercel | Versões fixas no `package.json`; o manual técnico explica como atualizar |
 

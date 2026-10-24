@@ -31,12 +31,21 @@ Ficha no segundo cérebro: `~/.claude/second-brain/projects/escuta-14.md`
 | Back | Server Actions e rotas do Next |
 | Banco / auth | Supabase Free (Postgres + Auth) |
 | Antispam | Cloudflare Turnstile |
-| Deploy | Vercel Hobby, publicado por GitHub Actions (ADR 0004) + Vercel Cron |
+| Deploy | Vercel Hobby ligada ao GitHub: cada merge na `main` publica (ADR 0004) + Vercel Cron |
 | Testes | Vitest (regras) + Playwright (fluxo principal) |
 
 ## Como rodar
 
-Preenchido na fatia 1.1, quando o projeto Next existir.
+```bash
+npm install              # uma vez (versões fixas no package.json)
+cp .env.example .env.local   # e preencher (docs/manual-tecnico.md, "Variáveis")
+npm run dev              # site em http://localhost:3000
+npm test                 # regras (Vitest)
+npm run lint && npm run build
+```
+
+Banco: SQL em `supabase/migrations/`, rodado à mão no SQL Editor do Supabase, em ordem.
+Publicação: cada merge na `main` publica na Vercel (projeto `escuta14-site`); cada PR ganha uma prévia.
 
 ## Estilo e convenções
 
@@ -104,7 +113,7 @@ Preenchido na fatia 1.1, quando o projeto Next existir.
 21. **`turma/` nunca vai para o git:** tem os nomes das autoras e as listas de assinatura
     (menores de idade). No repositório (público), só o texto da lei sem nomes.
 22. **A mantenedora não tem conta no painel.** Até o fim do ano letivo de 2026, só a Mariane
-    mexe na produção (convidada no GitHub e no Supabase; deploy pela rotina do GitHub). Ler o
+    mexe na produção (convidada no GitHub e no Supabase; publica pelo merge na `main`). Ler o
     texto de uma manifestação real só para corrigir um erro; termo de sigilo em
     [docs/termo-de-sigilo.md](docs/termo-de-sigilo.md). Dado de teste nunca em produção fora do
     período de demonstração.
@@ -132,7 +141,8 @@ Preenchido na fatia 1.1, quando o projeto Next existir.
 
 - Supabase Free pausa o projeto depois de 7 dias sem uso (férias escolares). A rotina diária
   da Vercel existe por isso; não remover.
-- Vercel Hobby: uma vaga de desenvolvedor; commits de quem não é dono da conta são barrados.
-  Por isso a publicação é pela rotina do GitHub (ADR 0004); não ligar a integração Git da Vercel.
+- Vercel Hobby barra commits de quem não é dono da conta em repositório **privado**. O nosso é
+  público, e a ligação Git publica normalmente (testado em 24/10/2026, ADR 0004). Se o repositório
+  um dia virar privado, voltar à rotina do GitHub descrita na ADR.
 - Não há Docker na máquina da Mariane: o Supabase local não roda. Testar contra o projeto
   real da escola, com cuidado para não gravar dado de teste em produção.

@@ -63,12 +63,12 @@ Pronto quando: `docs/design.md` tem cores, fontes, espaçamento e componentes.
 Pronto quando: uma manifestação enviada pelo celular no endereço público aparece no banco,
 e a chave pública sozinha é recusada ao ler a tabela.
 
-- [ ] `git init`, Next.js + TS + Tailwind com versões fixas, ESLint e Prettier
-- [ ] Cabeçalhos de segurança (CSP, X-Frame-Options, Referrer-Policy)
-- [ ] Migration: `manifestacoes`, `limites`, enums, RLS ligada, nada para `anon`
-- [ ] Gerar protocolo e hash; validar texto; limite por IP; Turnstile com falha fechada
-- [ ] Páginas Início e Enviar no design escolhido, com aviso de emergência
-- [ ] Teste (Vitest): protocolo, validação, limite, falha fechada
+- [x] `git init`, Next.js + TS + Tailwind com versões fixas, ESLint e Prettier
+- [x] Cabeçalhos de segurança (CSP, X-Frame-Options, Referrer-Policy)
+- [x] Migration: `manifestacoes`, `limites`, enums, RLS ligada, nada para `anon` (rodada em 24/10)
+- [x] Gerar protocolo e hash; validar texto; limite por IP; Turnstile com falha fechada
+- [x] Páginas Início e Enviar no design escolhido, com aviso de emergência
+- [x] Teste (Vitest): protocolo, validação, limite, falha fechada
 - [ ] Deploy na Vercel e conferência de fora
 - [ ] Commit: `feat(envio): manifestação anônima com protocolo`
 
