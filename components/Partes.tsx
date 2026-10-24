@@ -1,12 +1,15 @@
 // Partes fixas que aparecem em várias telas: rodapé e aviso de emergência (design.md).
 import Image from 'next/image';
+import Link from 'next/link';
 import { Icone } from './Icone';
 
 export function Rodape() {
   return (
     <footer className="rodape">
       <div className="wrap rodape-in">
-        <Image className="logo-escola" src="/logo-colegio.webp" alt="Colégio Estadual 14 de Dezembro" width={480} height={186} />
+        <Link className="link-logo" href="/sobre#colegio">
+          <Image className="logo-escola" src="/logo-colegio.webp" alt="Colégio Estadual 14 de Dezembro: contato e informações" width={480} height={186} />
+        </Link>
         <p>Colégio Estadual 14 de Dezembro · Peabiru (PR) · Canal criado pela lei ESCUTA 14, da turma do 3º ano B de 2026.</p>
         <nav className="links-rodape" aria-label="Mais páginas">
           <a className="link-rodape" href="/a-escola-ouviu">

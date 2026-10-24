@@ -2,6 +2,7 @@
 // os créditos. Só promete o que o código cumpre (ADR 0002; regra 10 do CLAUDE.md): mudou o
 // código, revise esta página. A lei vem de docs/projeto-de-lei.md, lido quando o site é montado.
 // Créditos só com a turma, sem nomes: as autoras são menores de idade (regra 21).
+// A seção "O colégio" (#colegio) é para onde leva o logo do colégio no Início e no rodapé.
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import type { Metadata } from 'next';
@@ -12,6 +13,15 @@ export const metadata: Metadata = { title: 'Sobre' };
 export const dynamic = 'force-static';
 
 const CODIGO_ABERTO = 'https://github.com/escuta14/escuta14-site';
+
+// Contatos públicos do colégio (os mesmos que a escola divulga). Mudou algum? Trocar aqui.
+const COLEGIO = {
+  endereco: 'Rua Cassemiro Radominski, 1332 — Peabiru (PR) — CEP 87250-000',
+  mapa: 'https://www.openstreetmap.org/search?query=Rua%20Cassemiro%20Radominski%2C%201332%2C%20Peabiru',
+  email: 'pbuquatorzededezembro@seed.pr.gov.br',
+  instagram: 'https://www.instagram.com/colegioest.14de/',
+  arroba: '@colegioest.14de',
+};
 
 const PROMESSAS = [
   'Para enviar, o site não pede nome, e-mail, telefone nem login.',
@@ -93,6 +103,26 @@ export default function Sobre() {
               )}
             </div>
           </details>
+        </section>
+
+        <section className="vidro bloco-sobre" id="colegio">
+          <h2 className="h2">O colégio</h2>
+          <p>Colégio Estadual 14 de Dezembro — Ensino Fundamental e Médio, da rede estadual do Paraná.</p>
+          <ul>
+            <li>
+              Endereço: {COLEGIO.endereco} (<a href={COLEGIO.mapa}>ver no mapa</a>)
+            </li>
+            <li>
+              E-mail: <a href={`mailto:${COLEGIO.email}`}>{COLEGIO.email}</a>
+            </li>
+            <li>
+              Instagram: <a href={COLEGIO.instagram}>{COLEGIO.arroba}</a>
+            </li>
+          </ul>
+          <p>
+            <strong>Esses canais não são anônimos:</strong> quem recebe vê o seu e-mail ou o seu perfil. Para falar sem se identificar, use o{' '}
+            <Link href="/enviar">ESCUTA 14</Link>.
+          </p>
         </section>
 
         <section className="vidro bloco-sobre">

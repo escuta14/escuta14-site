@@ -25,7 +25,10 @@ export default function Inicio() {
     <>
       <section className="wrap hero">
         <div className="hero-texto">
-          <Image className="logo-escola" src="/logo-colegio.webp" alt="Colégio Estadual 14 de Dezembro" width={480} height={186} priority />
+          {/* O logo leva aos contatos do colégio (página Sobre). */}
+          <Link className="link-logo" href="/sobre#colegio">
+            <Image className="logo-escola" src="/logo-colegio.webp" alt="Colégio Estadual 14 de Dezembro: contato e informações" width={480} height={186} priority />
+          </Link>
           <h1 className="h1">Sua voz chega na direção</h1>
           <p className="lead">Reclamação, ideia, elogio ou relato: a direção e a equipe de atendimento leem tudo.</p>
           <div className="acoes">
