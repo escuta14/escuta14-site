@@ -279,3 +279,10 @@ svg.ic { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor
 .link-forte { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-azul); font-weight: 700; }
 /* O .lead tem 34ch para caber na coluna do Início; nas páginas de uma coluna só, ele acompanha a largura dos cartões. */
 .sobre .lead, .numeros .lead { max-width: none; }
+.link-logo { display: inline-block; justify-self: start; border-radius: 12px; }
+
+/* Painel da escola (entrar): título à esquerda e o disco do logo à direita, a partir de 640 px. */
+.entrar-topo { display: grid; gap: 24px; align-items: center; }
+.entrar-texto { display: grid; gap: 24px; }
+.disco.disco-pequeno { display: none; width: 210px; }
+@media (min-width: 640px) { .entrar-topo { grid-template-columns: minmax(0, 1fr) auto; } .disco.disco-pequeno { display: grid; } }

@@ -163,6 +163,8 @@ de vidro (Início, Enviar, Mural...), com a tela atual em `tinta` e texto branco
 - **Arte**, à direita no computador e embaixo no celular: as figuras do logo num disco de vidro
   com o anel verde e azul, e dois cartões flutuando (protocolo e "Nova resposta da escola"),
   retos. Tudo é decorativo (`aria-hidden`), e os cartões nunca cobrem mais de 15% das figuras.
+- **Disco pequeno** (Painel da escola, `/painel/entrar`): o mesmo disco, com 210 px, à direita do
+  título a partir de 640 px; abaixo disso some, para o formulário ficar no alto. Decorativo.
 
 ### Botões
 
