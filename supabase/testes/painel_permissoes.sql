@@ -1,8 +1,8 @@
 -- Teste das permissões do painel (fatia 1.2). Rodar no SQL Editor do Supabase depois de cada
 -- mudança nas migrations do painel. Tudo acontece dentro de uma transação desfeita no fim
 -- (rollback): as contas e a manifestação de mentira somem, não sobra dado nenhum.
--- Resultado: o teste termina com um ERRO de propósito, que mostra o resumo ("RESULTADO: 18 de
--- 18 ok") e desfaz tudo. Se aparecer "FALHOU:", a lista diz qual permissão está errada.
+-- Resultado: o teste termina com um ERRO de propósito, que mostra o resumo ("RESULTADO: 23 de
+-- 23 ok") e desfaz tudo. Se aparecer "FALHOU:", a lista diz qual permissão está errada.
 begin;
 
 create temp table resultado (teste text, ok boolean) on commit drop;
@@ -102,6 +102,20 @@ begin
   e := pg_temp.tenta($q$select public.painel_prorrogar('00000000-0000-4000-8000-00000000f001', 'Segunda tentativa de prorrogar.')$q$);
   perform pg_temp.volta(); insert into resultado values ('segunda prorrogação barrada', e like '%ja_prorrogada%');
 
+  -- Providências e números de "A escola ouviu" (migration 0004).
+  perform pg_temp.como('00000000-0000-4000-8000-0000000000a1');
+  e := pg_temp.tenta($q$select public.painel_providencia('Bebedouro novo', 'Trocamos o bebedouro do pátio.', 'infraestrutura', current_date)$q$);
+  perform pg_temp.volta(); insert into resultado values ('atendimento não publica providência', e like '%so_direcao%');
+  perform pg_temp.como('00000000-0000-4000-8000-0000000000a1');
+  e := pg_temp.tenta($q$select count(*) from public.numeros_do_ano()$q$);
+  perform pg_temp.volta(); insert into resultado values ('atendimento vê os números', e = '');
+  perform pg_temp.como('00000000-0000-4000-8000-0000000000d1');
+  e := pg_temp.tenta($q$select public.painel_providencia('Bebedouro novo', 'Trocamos o bebedouro do pátio.', 'infraestrutura', current_date)$q$);
+  perform pg_temp.volta(); insert into resultado values ('direção publica providência', e = '');
+  perform pg_temp.como('00000000-0000-4000-8000-0000000000d1');
+  e := pg_temp.tenta($q$select public.painel_providencia('Quadra coberta', 'Cobertura da quadra pronta.', 'infraestrutura', current_date + 5)$q$);
+  perform pg_temp.volta(); insert into resultado values ('providência com data no futuro barrada', e like '%data_invalida%');
+
   perform pg_temp.como('00000000-0000-4000-8000-0000000000d1');
   e := pg_temp.tenta($q$select public.painel_equipe('00000000-0000-4000-8000-0000000000d1', 'direcao', false)$q$);
   perform pg_temp.volta(); insert into resultado values ('direção não se desativa', e like '%nao_a_si_mesmo%');
@@ -121,6 +135,9 @@ begin
   perform set_config('role', 'anon', true);
   e := pg_temp.tenta($q$select count(*) from public.manifestacoes$q$);
   perform pg_temp.volta(); insert into resultado values ('chave pública não lê', e like '%permission denied%');
+  perform set_config('role', 'anon', true);
+  e := pg_temp.tenta($q$select count(*) from public.providencias$q$) || pg_temp.tenta($q$select count(*) from public.numeros_do_ano()$q$);
+  perform pg_temp.volta(); insert into resultado values ('chave pública não lê providências nem números', e like '%permission denied%permission denied%');
 end;
 $$;
 
