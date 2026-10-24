@@ -103,18 +103,15 @@ export function FormularioEnvio({ chaveAntispam }: { chaveAntispam: string }) {
 
   return (
     <form className="formulario vidro" onSubmit={enviar} noValidate>
+      {/* Uma barrinha por etapa, com o nome logo embaixo dela: barra e nome sempre alinhados. */}
       <div className="progresso">
-        <div className="progresso-linha">
-          <div className="trilho" role="progressbar" aria-label="Progresso" aria-valuemin={1} aria-valuemax={4} aria-valuenow={passo}>
-            <span style={{ width: `${passo * 25}%` }} />
-          </div>
-          <span className="passo-n" aria-live="polite">
-            {passo} de 4
-          </span>
-        </div>
-        <ol className="etapas">
+        <p className="passo-n" aria-live="polite">
+          Passo {passo} de 4
+        </p>
+        <ol className="etapas" aria-label="Etapas do envio">
           {['Tipo', 'Assunto', 'Você', 'Texto'].map((n, i) => (
             <li key={n} aria-current={i + 1 === passo ? 'step' : undefined} className={i + 1 < passo ? 'feita' : undefined}>
+              <span className="etapa-barra" aria-hidden="true" />
               {n}
             </li>
           ))}

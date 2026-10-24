@@ -1,9 +1,17 @@
 // Página Início (spec, "Telas"): logo do colégio, a promessa em uma frase, o caminho para
-// enviar e o passo a passo logo no começo (sugestão da turma). A arte da direita é decorativa.
+// enviar, o passo a passo logo no começo (sugestão da turma), com as dúvidas que abrem, e a
+// consulta pelo protocolo de verdade no lugar do exemplo (pedido da Mariane, 24/10).
 import Image from 'next/image';
 import Link from 'next/link';
-import { Icone } from '@/components/Icone';
+import { ConsultaProtocolo } from '@/components/ConsultaProtocolo';
+import { Duvidas } from '@/components/Duvidas';
 import { AvisoEmergencia } from '@/components/Partes';
+
+const PASSOS = [
+  ['Você escreve', 'Sem nome e sem login.'],
+  ['A escola responde', 'Em até 30 dias.'],
+  ['Você acompanha', 'Pelo código de protocolo.'],
+] as const;
 
 const SEGMENTOS = [
   ['Estudantes', '#2858C0'],
@@ -24,51 +32,37 @@ export default function Inicio() {
             <Link className="btn btn-pri" href="/enviar">
               Enviar manifestação
             </Link>
+            <Link className="btn btn-sec" href="/mural">
+              Ver o mural
+            </Link>
           </div>
-          <ol className="passos vidro" aria-label="Como funciona">
-            <li>
-              <span className="passo-num" aria-hidden="true">1</span>
-              <div>
-                <strong>Você escreve</strong>
-                <span>Sem nome e sem login.</span>
-              </div>
-            </li>
-            <li>
-              <span className="passo-num" aria-hidden="true">2</span>
-              <div>
-                <strong>A escola responde</strong>
-                <span>Em até 30 dias.</span>
-              </div>
-            </li>
-            <li>
-              <span className="passo-num" aria-hidden="true">3</span>
-              <div>
-                <strong>Você acompanha</strong>
-                <span>Pelo código de protocolo.</span>
-              </div>
-            </li>
-          </ol>
+          <div className="passos-caixa vidro">
+            <ol className="passos" aria-label="Como funciona">
+              {PASSOS.map(([titulo, detalhe], i) => (
+                <li key={titulo}>
+                  <span className="passo-num" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                  <div>
+                    <strong>{titulo}</strong>
+                    <span>{detalhe}</span>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <Duvidas />
+          </div>
         </div>
-        <div className="arte" aria-hidden="true">
-          <div className="disco">
+        <div className="arte">
+          <div className="disco" aria-hidden="true">
             <Image className="figuras" src="/logo-figuras.webp" alt="" width={420} height={449} priority />
           </div>
-          <div className="cartao-solto vidro c1">
-            <p className="rotulo-pequeno">Seu protocolo</p>
-            <p className="codigo-solto">E14-7K3QM</p>
-            <p>Resposta em até 30 dias</p>
-          </div>
-          <div className="cartao-solto vidro c2">
-            <div className="linha">
-              <span className="ok-redondo">
-                <Icone nome="ok" />
-              </span>
-              <div>
-                <p className="rotulo-pequeno">Nova resposta da escola</p>
-                <p>A peça foi pedida. A troca sai na primeira semana de novembro.</p>
-              </div>
-            </div>
-          </div>
+          <section className="cartao-consulta vidro" aria-labelledby="titulo-consulta">
+            <h2 id="titulo-consulta" className="consulta-titulo">
+              Já mandou? Veja a resposta
+            </h2>
+            <ConsultaProtocolo chaveAntispam={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''} />
+          </section>
         </div>
       </section>
 

@@ -1,6 +1,6 @@
 'use client';
 // Cabeçalho: logo + "ESCUTA 14" e o menu. A tela atual fica marcada (aria-current). Abaixo de
-// 480 px, "Início" sai do menu (o logo já leva para o início).
+// 480 px, "Início" e "Acompanhar" saem do menu (o logo leva ao início, onde também se consulta).
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -8,6 +8,8 @@ import { usePathname } from 'next/navigation';
 const LINKS = [
   { href: '/', rotulo: 'Início', soLargo: true },
   { href: '/enviar', rotulo: 'Enviar', soLargo: false },
+  { href: '/acompanhar', rotulo: 'Acompanhar', soLargo: true },
+  { href: '/mural', rotulo: 'Mural', soLargo: false },
 ];
 
 export function Cabecalho() {
