@@ -1,0 +1,42 @@
+# Publica o site na Vercel a cada mudança na main (ADR 0004: a ligação Git da Vercel fica
+# desligada, porque o plano Hobby barra commits de quem não é dono da conta).
+# Segredos do repositório (Settings → Secrets and variables → Actions):
+#   VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID  (ver docs/manual-tecnico.md)
+# As variáveis do site (Supabase, Turnstile...) ficam na Vercel, não aqui.
+name: Publicar
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Conferir os segredos (falha fechada)
+        run: |
+          for nome in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
+            if [ -z "${!nome}" ]; then echo "Falta o segredo $nome (ver docs/manual-tecnico.md)"; exit 1; fi
+          done
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npx --yes vercel@65.2.0 pull --yes --environment=production --token="$VERCEL_TOKEN"
+      - run: npx --yes vercel@65.2.0 build --prod --token="$VERCEL_TOKEN"
+      - run: npx --yes vercel@65.2.0 deploy --prebuilt --prod --token="$VERCEL_TOKEN"

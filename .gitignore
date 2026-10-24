@@ -12,3 +12,11 @@ bruto.docx
 
 # Configuração local do Claude Code (caminhos desta máquina)
 .claude/launch.json
+
+# Next.js e Vercel (gerados ao rodar e publicar)
+.next/
+out/
+.vercel/
+next-env.d.ts
+*.tsbuildinfo
+coverage/
