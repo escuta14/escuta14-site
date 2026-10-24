@@ -145,7 +145,7 @@ Entra:
 
 - O que é o ESCUTA 14, como funciona o anonimato (só o que o código cumpre), o texto aceito da
   lei ESCUTA 14 e os créditos do 3º ano B de 2026.
-- "O colégio" (`/sobre#colegio`): endereço, e-mail e Instagram da escola, com o aviso de que esses
+- "O colégio" (`/sobre#colegio`): endereço, telefone da secretaria, WhatsApp, e-mail e Instagram da escola, com o aviso de que esses
   canais não são anônimos. O logo do colégio, no Início e no rodapé, leva para cá.
 
 ### Painel da equipe (`/painel/...`)

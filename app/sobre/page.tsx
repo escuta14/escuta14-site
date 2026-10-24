@@ -19,6 +19,9 @@ const COLEGIO = {
   endereco: 'Rua Cassemiro Radominski, 1332 — Peabiru (PR) — CEP 87250-000',
   mapa: 'https://www.openstreetmap.org/search?query=Rua%20Cassemiro%20Radominski%2C%201332%2C%20Peabiru',
   email: 'pbuquatorzededezembro@seed.pr.gov.br',
+  // Telefones passados pela Mariane em 24/10/2026.
+  secretaria: { texto: '(44) 3531-2026', link: 'tel:+554435312026' },
+  whatsapp: { texto: '(44) 99831-4884', link: 'https://wa.me/5544998314884' },
   instagram: 'https://www.instagram.com/colegioest.14de/',
   arroba: '@colegioest.14de',
 };
@@ -113,6 +116,12 @@ export default function Sobre() {
               Endereço: {COLEGIO.endereco} (<a href={COLEGIO.mapa}>ver no mapa</a>)
             </li>
             <li>
+              Telefone da secretaria: <a href={COLEGIO.secretaria.link}>{COLEGIO.secretaria.texto}</a>
+            </li>
+            <li>
+              WhatsApp: <a href={COLEGIO.whatsapp.link}>{COLEGIO.whatsapp.texto}</a>
+            </li>
+            <li>
               E-mail: <a href={`mailto:${COLEGIO.email}`}>{COLEGIO.email}</a>
             </li>
             <li>
@@ -120,7 +129,7 @@ export default function Sobre() {
             </li>
           </ul>
           <p>
-            <strong>Esses canais não são anônimos:</strong> quem recebe vê o seu e-mail ou o seu perfil. Para falar sem se identificar, use o{' '}
+            <strong>Esses canais não são anônimos:</strong> quem recebe vê o seu número, o seu e-mail ou o seu perfil. Para falar sem se identificar, use o{' '}
             <Link href="/enviar">ESCUTA 14</Link>.
           </p>
         </section>
