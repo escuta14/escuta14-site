@@ -36,7 +36,16 @@ Ficha no segundo cérebro: `~/.claude/second-brain/projects/escuta-14.md`
 
 ## Como rodar
 
-Preenchido na fatia 1.1, quando o projeto Next existir.
+```bash
+npm install              # uma vez (versões fixas no package.json)
+cp .env.example .env.local   # e preencher (docs/manual-tecnico.md, "Variáveis")
+npm run dev              # site em http://localhost:3000
+npm test                 # regras (Vitest)
+npm run lint && npm run build
+```
+
+Banco: SQL em `supabase/migrations/`, rodado à mão no SQL Editor do Supabase, em ordem.
+Publicação: a rotina `.github/workflows/publicar.yml` publica a cada merge na `main`.
 
 ## Estilo e convenções
 
