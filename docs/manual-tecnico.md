@@ -29,8 +29,8 @@ endereço, ouvidoria.escuta14@gmail.com, foi trocado por este no mesmo dia e nã
 [escuta14/escuta14-site](https://github.com/escuta14/escuta14-site) (público). A mantenedora
 entra com a conta pessoal, como colaboradora.
 
-**Vercel:** conta criada em 23/10/2026 com o e-mail do site (plano Hobby, gratuito). A ligação
-Git da Vercel fica **desligada**; quem publica é a rotina do GitHub (ADR 0004).
+**Vercel:** conta criada em 23/10/2026 com o e-mail do site (plano Hobby, gratuito). O projeto
+`escuta14-site` está ligado ao repositório do GitHub: cada merge na `main` publica (ADR 0004).
 
 **Supabase:** projeto criado em 23/10/2026 com o e-mail do site. As chaves (URL, chave pública e
 chave secreta) ficam só no `.env.local` da mantenedora e nos segredos da Vercel; nunca aqui, no
@@ -91,7 +91,7 @@ conferida em 23/10/2026.
 ## Variáveis
 
 Ficam no `.env.local` (computador de quem programa, fora do git) e nas variáveis de ambiente do
-projeto `escuta14` na Vercel (Settings → Environment Variables, ambiente Production). Os nomes
+projeto `escuta14-site` na Vercel (Settings → Environment Variables, ambiente Production). Os nomes
 estão no `.env.example`, sem valor.
 
 | Variável | É segredo? | De onde vem |
@@ -119,11 +119,12 @@ chave pública (ADR 0001).
 
 ## Publicação
 
-A rotina `.github/workflows/publicar.yml` publica na Vercel a cada merge na `main` (ADR 0004).
-Precisa de três segredos no GitHub (repositório → Settings → Secrets and variables → Actions):
-`VERCEL_TOKEN` (Vercel → Account Settings → Tokens), `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` (do
-arquivo `.vercel/project.json`, criado por `npx vercel@65.2.0 link`). A rotina `verificar.yml`
-roda lint, testes e build em cada PR.
+O projeto `escuta14-site` da Vercel (time `escuta-14`) está ligado ao repositório: cada merge na
+`main` publica em produção, e cada PR ganha um endereço de prévia (sem as chaves de produção, a
+prévia mostra "fora do ar", de propósito). A rotina `.github/workflows/verificar.yml` roda lint,
+testes e build em cada PR. Para passar variáveis do `.env.local` para a Vercel sem mostrar os
+valores: `node ferramentas/variaveis-vercel.mjs NOME1 NOME2` (depois de `npx vercel@65.2.0 login`
+e `link`).
 
 ### Assinatura dos commits
 
@@ -158,4 +159,4 @@ Com alguém da direção ao lado:
 3. Gerar códigos de reserva novos e entregar impressos à direção. Os antigos deixam de valer.
 4. Tirar o celular da mantenedora da verificação em duas etapas.
 5. Remover a mantenedora como convidada no GitHub e no Supabase, se ela não continuar.
-6. Trocar o token da Vercel guardado nos secrets do GitHub (`VERCEL_TOKEN`).
+6. Conferir que a conta `escuta14` continua dona do projeto `escuta14-site` na Vercel.
