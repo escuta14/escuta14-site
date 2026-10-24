@@ -8,6 +8,9 @@ export function Rodape() {
       <div className="wrap rodape-in">
         <Image className="logo-escola" src="/logo-colegio.webp" alt="Colégio Estadual 14 de Dezembro" width={480} height={186} />
         <p>Colégio Estadual 14 de Dezembro · Peabiru (PR) · Canal criado pela lei ESCUTA 14, da turma do 3º ano B de 2026.</p>
+        <a className="link-rodape" href="/painel/entrar">
+          Área da equipe
+        </a>
       </div>
     </footer>
   );

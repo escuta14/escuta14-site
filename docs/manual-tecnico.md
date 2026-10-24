@@ -97,6 +97,7 @@ estão no `.env.example`, sem valor.
 | Variável | É segredo? | De onde vem |
 |---|---|---|
 | `SUPABASE_URL` | não | `https://evgtythzrrrrvppimxae.supabase.co` (projeto `escuta14`) |
+| `SUPABASE_PUBLISHABLE_KEY` | não | Supabase → Project Settings → API Keys → Publishable key (o painel usa com a sessão de quem entrou) |
 | `SUPABASE_SECRET_KEY` | **sim** | Supabase → Project Settings → API Keys → Secret keys |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | não | Cloudflare → Turnstile → widget ESCUTA 14 → Site Key |
 | `TURNSTILE_SECRET_KEY` | **sim** | Mesmo lugar → Secret Key |
@@ -116,7 +117,49 @@ chave pública (ADR 0001).
 | Arquivo | O que faz | Rodado em |
 |---|---|---|
 | `0001_envio.sql` | Tipos, `manifestacoes`, `limites` e a função `registrar_tentativa` | 24/10/2026 |
+| `0003_painel.sql` | `equipe`, `historico` (não se edita), leitura do painel com RLS por papel e uma função por ação | 24/10/2026 |
 | `0002_mural_acompanhar.sql` | `codigo_publico`, `justificativas` (não se editam), `votos`, funções `mural_listar` e `votar` | 24/10/2026 |
+
+## Painel da equipe
+
+Endereço: https://escuta14.vercel.app/painel (link "Área da equipe" no rodapé). Só entra quem
+foi convidado: o cadastro aberto está **desligado** no Supabase (Authentication → Sign In /
+Providers → "Allow new users to sign up" = desligado). Não ligar.
+
+**Quem tem acesso muda todo ano** (pedagogos entram e saem; a direção troca de tempos em tempos).
+Tudo isso se faz no próprio painel, na tela **Equipe**, que só a direção vê:
+
+- **Convidar:** nome, e-mail (de preferência o institucional da pessoa) e papel. A pessoa recebe um
+  e-mail do Supabase (em inglês, "You have been invited"), abre o link e cria a própria senha.
+- **Desativar** quem saiu: perde o acesso na hora; o que fez continua no histórico. **Reativar**
+  quem voltou. **Passar** de atendimento para direção, ou o contrário.
+- **No começo de cada ano letivo**, conferir a lista (a tela lembra).
+- **Troca de diretor:** o diretor que sai convida o novo como direção; o novo entra e desativa o
+  antigo. Ninguém tira o próprio acesso de direção, para a escola nunca ficar sem direção.
+
+**Se a escola ficar sem ninguém da direção ativo no painel** (todos saíram sem passar a vez), a
+mantenedora convida pela linha de comando, com a chave secreta do `.env.local`:
+
+```bash
+node --env-file=.env.local ferramentas/convidar-equipe.mjs "Nome Completo" email@escola.pr.gov.br direcao
+```
+
+Se o e-mail já tiver conta, o comando reativa e põe o papel. É assim também a **primeira conta
+da direção**.
+
+**Configuração no Supabase (Authentication → URL Configuration):** Site URL
+`https://escuta14.vercel.app`; Redirect URLs: `https://escuta14.vercel.app/painel/confirmar`. Se o
+endereço do site mudar, trocar os dois.
+
+**E-mails do Supabase:** no plano gratuito, sem servidor de e-mail próprio (SMTP), os modelos não
+se editam (ficam em inglês) e o Supabase manda **no máximo 2 e-mails por hora** (convites e
+"esqueci a senha"). Para uma equipe pequena basta; se precisar, convidar com intervalo. Melhoria
+possível, de graça: SMTP do Gmail do site (escuta14.ouvidoria@gmail.com, com senha de app), que
+libera modelos em português.
+
+**Permissões:** depois de mexer no banco do painel, rodar `supabase/testes/painel_permissoes.sql`
+no SQL Editor. Ele termina com um erro de propósito que mostra "RESULTADO: 18 de 18 ok" e desfaz
+tudo.
 
 ## Publicação
 

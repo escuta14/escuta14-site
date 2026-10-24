@@ -1,8 +1,8 @@
 -- Teste das permissões do painel (fatia 1.2). Rodar no SQL Editor do Supabase depois de cada
 -- mudança nas migrations do painel. Tudo acontece dentro de uma transação desfeita no fim
 -- (rollback): as contas e a manifestação de mentira somem, não sobra dado nenhum.
--- Resultado: o teste termina com um ERRO de propósito, que mostra o resumo ("RESULTADO: 19 de
--- 19 ok") e desfaz tudo. Se aparecer "FALHOU:", a lista diz qual permissão está errada.
+-- Resultado: o teste termina com um ERRO de propósito, que mostra o resumo ("RESULTADO: 18 de
+-- 18 ok") e desfaz tudo. Se aparecer "FALHOU:", a lista diz qual permissão está errada.
 begin;
 
 create temp table resultado (teste text, ok boolean) on commit drop;
