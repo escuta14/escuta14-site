@@ -69,8 +69,8 @@ e a chave pública sozinha é recusada ao ler a tabela.
 - [x] Gerar protocolo e hash; validar texto; limite por IP; Turnstile com falha fechada
 - [x] Páginas Início e Enviar no design escolhido, com aviso de emergência
 - [x] Teste (Vitest): protocolo, validação, limite, falha fechada
-- [ ] Deploy na Vercel e conferência de fora
-- [ ] Commit: `feat(envio): manifestação anônima com protocolo`
+- [x] Deploy na Vercel e conferência de fora (24/10: https://escuta14.vercel.app)
+- [x] Commit: `feat(envio): manifestação anônima com protocolo` (PR #4)
 
 ## Fatia 1.2 — Painel da equipe
 
@@ -81,8 +81,8 @@ e a chave pública sozinha é recusada ao ler a tabela.
 
 ## Fatia 1.3 — Acompanhar pelo protocolo
 
-- [ ] Consulta pelo corpo do formulário, com Turnstile e limite
-- [ ] Teste: protocolo errado não revela nada
+- [x] Consulta pelo corpo do formulário, com Turnstile e limite, no Início e em /acompanhar; desistência (24/10)
+- [x] Teste: situação de cada estado; protocolo errado só diz "não achamos" (24/10)
 - [ ] Commit
 
 ## Refactor — depois da fatia 1.3
@@ -94,6 +94,16 @@ e a chave pública sozinha é recusada ao ler a tabela.
 - [ ] Spec ainda descreve o que o sistema faz? Se não, atualizar `docs/spec.md`
 - [ ] Testes continuam passando
 - [ ] Commit do refactor separado do commit de feature
+
+## Adiantado da fase 2 (24/10, pedido da Mariane)
+
+- [x] Mural: publicadas do ano atual, ordem (mais apoiadas/recentes), filtro por tipo e assunto,
+      aviso de retirada com o fundamento
+- [x] Voto: apoiar, contestar, trocar, desfazer; 1 por aparelho (cookie protegido, só o código
+      embaralhado no banco); limite de 1.000 por hora
+- [x] Início: passo a passo com dúvidas que abrem; consulta de verdade no lugar do exemplo
+- [x] Envio: etapas alinhadas (uma barrinha por etapa)
+- [ ] Mural: filtro "anos anteriores" (só leitura), quando houver ano anterior
 
 ## Fatias 2.1 a 3.4
 

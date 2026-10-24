@@ -116,6 +116,7 @@ chave pública (ADR 0001).
 | Arquivo | O que faz | Rodado em |
 |---|---|---|
 | `0001_envio.sql` | Tipos, `manifestacoes`, `limites` e a função `registrar_tentativa` | 24/10/2026 |
+| `0002_mural_acompanhar.sql` | `codigo_publico`, `justificativas` (não se editam), `votos`, funções `mural_listar` e `votar` | 24/10/2026 |
 
 ## Publicação
 

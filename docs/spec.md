@@ -107,6 +107,9 @@ Entra:
 
 ### Acompanhar (`/acompanhar`)
 
+- A mesma consulta aparece no Início, no cartão "Já mandou? Veja a resposta" (24/10/2026). O
+  antispam só carrega quando a pessoa usa o campo.
+
 - Mostra, depois de digitar o protocolo (no corpo do formulário, nunca na URL):
   - andamento e prazo ("a escola tem até 21/11 para responder"; se houve prorrogação, a nova
     data e a explicação da direção);
@@ -160,6 +163,7 @@ Entra:
 | Campo | Tipo | Obrigatório | Regra |
 |---|---|---|---|
 | id | uuid | sim | gerado pelo banco; nunca aparece fora do painel |
+| codigo_publico | uuid | sim | aleatório; é o que o mural usa no lugar do id (regra 26) |
 | protocolo_hash | texto | sim | hash do protocolo; único; o protocolo em si não é guardado |
 | categoria | enum | sim | sugestao, reclamacao, critica, elogio, relato, proposta, outra |
 | tema | enum | sim | infraestrutura, convivencia, ensino, atendimento, organizacao, seguranca, outro; a equipe pode corrigir |
@@ -282,7 +286,8 @@ nenhuma com manifestações ou votos.** Apagado em 2 dias.
     desfazer. "Aparelho" é um código aleatório num cookie protegido (1 ano); o banco guarda só
     a versão embaralhada.
 24. Apoios não disparam nenhuma obrigação automática; são um termômetro.
-25. O mural mostra o ano letivo atual; anos anteriores ficam só para leitura.
+25. O mural mostra o ano letivo atual (o ano corrente, no horário de Brasília); anos anteriores
+    ficam só para leitura.
 26. O mural e "A escola ouviu" nunca mostram id, andamento interno, histórico, hora exata nem
     quem da equipe decidiu.
 
