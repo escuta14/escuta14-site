@@ -74,10 +74,13 @@ e a chave pública sozinha é recusada ao ler a tabela.
 
 ## Fatia 1.2 — Painel da equipe
 
-- [ ] Login (Supabase Auth), tabela `equipe`, policies por papel
-- [ ] Lista com filtros, detalhe, andamento e resposta, histórico
-- [ ] Teste: secretaria não modera; conta desativada não lê nada
-- [ ] Commit
+- [x] Login (Supabase Auth), tabela `equipe`, policies por papel; cadastro aberto desligado (24/10)
+- [x] Lista com filtros, detalhe, andamento e resposta, histórico, moderação com fundamento,
+      prorrogação, exclusão (soft delete) (24/10)
+- [x] Equipe: convidar, trocar papel, desativar/reativar; troca de diretor; lembrete anual (24/10)
+- [x] Teste: atendimento não modera; conta desativada não lê nada (`supabase/testes/painel_permissoes.sql`, 18 de 18)
+- [ ] Primeira conta da direção (falta o e-mail do diretor) e primeiro login de verdade
+- [x] Commit
 
 ## Fatia 1.3 — Acompanhar pelo protocolo
 
