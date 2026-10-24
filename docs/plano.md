@@ -42,7 +42,7 @@ testes → deploy → divulgação → feedback → melhorias.
 |---|---|---|---|
 | 2.1 | Moderação com justificativa formal | Fila da direção; recusa, retirada e exclusão com fundamento do art. 12; pedido de avaliação; desistência pelo protocolo | 1.2 |
 | 2.2 | Mural com apoiar e contestar | Manifestações aprovadas no ar por ano letivo, voto único por aparelho, aviso de retirada | 2.1 |
-| 2.3 | Números e "A escola ouviu" | Totais por tema, categoria e segmento no painel; página pública com números e providências (art. 11 da lei) | 1.2 |
+| 2.3 | Números e "A escola ouviu" | Totais por tema, categoria e segmento no painel; página pública com números e providências (art. 14 da lei) | 1.2 |
 
 ### Fase 3 — Pronto para a mostra e para durar (até 08/11)
 

@@ -33,6 +33,8 @@ const FEITO: Record<string, string> = {
   excluir: 'Manifestação excluída (continua guardada no banco).',
   equipe: 'Equipe atualizada.',
   convite: 'Convite enviado. A pessoa recebe um e-mail para criar a senha.',
+  providencia: 'Providência publicada em “A escola ouviu”.',
+  providencia_mudou: 'Pronto. A página “A escola ouviu” já mostra a mudança.',
 };
 
 export function Resultado({ feito, erro }: { feito?: string; erro?: string }) {

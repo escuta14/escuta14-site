@@ -28,7 +28,9 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` pronto e commitado
 - [x] v2 em ABNT com alterações marcadas, versão limpa e Apêndice A de assinaturas (22/10)
 - [x] v3 direto no Google Docs da turma, em modo Sugestão (22/10, depois do grilling)
 - [ ] Depois do sim do grupo: próximas mudanças entram como sugestões novas (v4)
-- [ ] Anexar o texto aceito na página Sobre (fatia 3.2), com o número de assinaturas
+- [x] Página Sobre mostra o texto de `docs/projeto-de-lei.md`, com a versão e a situação (24/10)
+- [ ] Depois do sim do grupo: atualizar o cabeçalho do arquivo ("o grupo ainda precisa aprovar") e
+      pôr o número de assinaturas
 
 ## Fatia 0.1 — Três direções de design
 
@@ -107,6 +109,10 @@ e a chave pública sozinha é recusada ao ler a tabela.
 - [x] Início: passo a passo com dúvidas que abrem; consulta de verdade no lugar do exemplo
 - [x] Envio: etapas alinhadas (uma barrinha por etapa)
 - [ ] Mural: filtro "anos anteriores" (só leitura), quando houver ano anterior
+- [x] 2.3: "A escola ouviu" (números do ano e do mês por tema e categoria, % no prazo,
+      providências); /painel/numeros (mais segmento e mês); /painel/providencias (direção)
+- [x] 3.2: rotina diária (Vercel Cron em `/api/rotina`, trava com `CRON_SECRET`) e página Sobre
+- [ ] Conferir em 25/10 que a rotina rodou sozinha (Vercel → projeto → Logs, "rotina: ok")
 
 ## Fatias 2.1 a 3.4
 

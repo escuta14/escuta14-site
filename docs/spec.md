@@ -138,6 +138,8 @@ Entra:
   cada uma ligada a um tema e com data.
 - Nunca mostra texto de manifestação privada nem nada que identifique alguém. Demonstrações e
   exclusões não entram nos números.
+- O percentual no prazo só conta as manifestações com desfecho: já respondidas, ou com o prazo
+  (ou a prorrogação) vencido sem resposta. As que ainda estão no prazo ficam de fora.
 
 ### Sobre (`/sobre`)
 
@@ -340,9 +342,9 @@ Nenhuma mensagem de erro mostra detalhe interno (nome de tabela, SQL, pilha de e
 
 | Serviço | Para quê | Segredo necessário (nome da variável) |
 |---|---|---|
-| Supabase (Free) | Banco, login da equipe | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` (só no servidor) |
+| Supabase (Free) | Banco, login da equipe | `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` (todas só no servidor; ADR 0001) |
 | Cloudflare Turnstile (grátis) | Antispam do envio e da consulta | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` |
-| Vercel (Hobby) | Hospedagem e rotina diária | `CRON_SECRET` |
+| Vercel (Hobby) | Hospedagem e rotina diária (`/api/rotina`, todo dia) | `CRON_SECRET` |
 | GitHub | Código; cada merge na `main` publica na Vercel (ADR 0004); `verificar.yml` confere os PRs | — |
 | — | Embaralhar IP, aparelho e protocolo | `SEGREDO_ANONIMATO` |
 | — | Período da mostra | `MOSTRA_INICIO`, `MOSTRA_FIM` (não são segredo) |

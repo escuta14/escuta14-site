@@ -243,3 +243,35 @@ svg.ic { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor
 .historico { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--color-tinta-2); }
 .lista-equipe .desativada { opacity: 0.7; }
 .link-rodape { color: var(--color-tinta-2); font-weight: 600; }
+
+/* Números ("A escola ouviu" e /painel/numeros; design.md, "Números") */
+.numeros { max-width: 900px; margin: 0 auto; padding-block: 28px 80px; display: grid; gap: 20px; }
+.numeros-grade { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.numero-cartao { display: grid; gap: 6px; padding: 22px; }
+.numero-cartao p { margin: 0; }
+.numero-grande { font: 800 clamp(2.75rem, 5.6vw, 4rem)/1 var(--font-titulo); font-variant-numeric: tabular-nums; background: var(--titulo); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.numero-legenda { color: var(--color-tinta-2); font-weight: 600; }
+.bloco-numeros { display: grid; gap: 12px; padding: 22px; }
+.barras { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.barras li { display: grid; grid-template-columns: minmax(7.5rem, 10rem) 1fr 2.5rem; gap: 12px; align-items: center; }
+.barras strong { text-align: right; font-variant-numeric: tabular-nums; }
+.barra-trilho { display: block; height: 12px; border-radius: 999px; background: var(--trilho); overflow: hidden; }
+.barra-cheia { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--color-verde), var(--color-azul)); }
+.lista-providencias { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.lista-providencias li { display: grid; gap: 8px; padding: 22px; }
+.lista-providencias p, .lista-providencias h3 { margin: 0; }
+.lista-providencias h3 { font: 800 1.25rem/1.25 var(--font-titulo); }
+
+/* Sobre */
+.sobre { max-width: 800px; margin: 0 auto; padding-block: 28px 80px; display: grid; gap: 20px; }
+.bloco-sobre { display: grid; gap: 12px; padding: 24px; }
+.bloco-sobre p, .bloco-sobre ul { margin: 0; }
+.bloco-sobre ul { padding-left: 1.25rem; display: grid; gap: 8px; }
+.bloco-sobre a { color: var(--color-azul); font-weight: 700; overflow-wrap: anywhere; }
+.texto-lei { display: grid; gap: 12px; padding: 8px 0; }
+.texto-lei p, .texto-lei h3 { margin: 0; max-width: 68ch; overflow-wrap: anywhere; }
+.texto-lei h3 { margin-top: 12px; font: 800 1.25rem var(--font-titulo); }
+.texto-lei blockquote { margin: 0; padding-left: 14px; border-left: 3px solid var(--color-verde); color: var(--color-tinta-2); }
+.links-rodape { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.links-rodape a { display: inline-flex; align-items: center; min-height: 44px; }
+.link-forte { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-azul); font-weight: 700; }

@@ -24,3 +24,8 @@ export function ehDemonstracao(agora: Date, inicio = MOSTRA_PADRAO.inicio, fim =
   const ate = Date.parse(fim || MOSTRA_PADRAO.fim);
   return agora.getTime() >= de && agora.getTime() < ate;
 }
+
+/** Mês de hoje (1 a 12) no horário de Brasília: "A escola ouviu" mostra o mês e o ano. */
+export function mesDe(data: Date): number {
+  return Number(dataDoBanco(data).slice(5, 7));
+}

@@ -33,3 +33,13 @@ export function compararSeguro(a: string, b: string): boolean {
   const y = Buffer.from(b);
   return x.length === y.length && timingSafeEqual(x, y);
 }
+
+/**
+ * A rotina diária só roda chamada pela Vercel, que manda "Authorization: Bearer <CRON_SECRET>".
+ * Sem CRON_SECRET configurado, ninguém passa (falha fechada).
+ */
+export function rotinaAutorizada(cabecalho: string | null, ambiente: Record<string, string | undefined> = process.env): boolean {
+  const segredo = ambiente.CRON_SECRET?.trim();
+  if (!segredo || !cabecalho) return false;
+  return compararSeguro(cabecalho, `Bearer ${segredo}`);
+}
