@@ -77,3 +77,13 @@ export function validarProvidencia(titulo: string, texto: string, tema: string, 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(data) || data > dataDoBanco(hoje)) return 'data_invalida';
   return null;
 }
+
+/**
+ * Abas da lista do painel. "Para responder" é a fila de trabalho: o que ainda não tem resposta,
+ * do mais antigo ao mais novo (o prazo mais perto primeiro). Valor estranho na URL vira a fila.
+ */
+export const ABAS = { responder: 'Para responder', respondidas: 'Respondidas', todas: 'Todas' } as const;
+export type Aba = keyof typeof ABAS;
+export function abaDaLista(valor: string | undefined): Aba {
+  return valor && Object.hasOwn(ABAS, valor) ? (valor as Aba) : 'responder';
+}

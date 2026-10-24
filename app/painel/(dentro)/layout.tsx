@@ -1,5 +1,5 @@
 // Molde das telas do painel: confere que a pessoa é da equipe (ativa) e mostra o menu do papel
-// dela. Moderação, Providências e Equipe só aparecem para a direção. Não aparece em buscadores.
+// dela. Aprovações, Providências e Equipe só aparecem para a direção. Não aparece em buscadores.
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { sair } from '../entrar/acoes';
@@ -18,7 +18,7 @@ export default async function MoldePainel({ children }: { children: React.ReactN
           {membro.nome} · {PAPEIS[membro.papel]}
         </span>
         <Link href="/painel">Manifestações</Link>
-        {membro.papel === 'direcao' ? <Link href="/painel/moderacao">Moderação</Link> : null}
+        {membro.papel === 'direcao' ? <Link href="/painel/moderacao">Aprovações</Link> : null}
         <Link href="/painel/numeros">Números</Link>
         {membro.papel === 'direcao' ? <Link href="/painel/providencias">Providências</Link> : null}
         {membro.papel === 'direcao' ? <Link href="/painel/equipe">Equipe</Link> : null}

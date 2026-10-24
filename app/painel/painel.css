@@ -1,0 +1,46 @@
+/* Estilos só do painel da equipe (/painel/...), separados do globals.css para cada arquivo
+   ficar pequeno. Seguem o design.md (Aurora). Carregados por app/painel/layout.tsx. */
+.painel { padding-block: 20px 80px; display: grid; gap: 18px; }
+.painel-menu { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; padding: 8px 18px; }
+.painel-menu a { display: grid; place-items: center; min-height: 44px; color: var(--color-azul); font-weight: 700; }
+.painel-quem { margin-right: auto; font-weight: 700; }
+.painel-corpo { display: grid; gap: 16px; }
+.painel-entrar { gap: 12px; }
+.painel-entrar label { font-weight: 800; }
+.campo-painel { width: 100%; min-height: 48px; padding: 0 14px; border: 0; border-radius: var(--radius-opcao); background: var(--vidro-forte); box-shadow: inset 0 0 0 1px var(--linha); font: 400 1rem var(--font-texto); color: var(--color-tinta); }
+.filtros { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; padding: 16px; }
+.filtros .filtro { flex-direction: column; align-items: stretch; gap: 4px; }
+.filtro input[type='date'], .filtro select, .filtro .campo-painel { min-height: 44px; }
+.lista-painel, .lista-equipe { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.cartao-painel { display: grid; gap: 8px; padding: 16px 18px; color: inherit; text-decoration: none; }
+.cartao-painel:hover { box-shadow: inset 0 0 0 2px var(--color-azul), var(--sombra); }
+.previa { color: var(--color-tinta); }
+.data-painel { margin: 0; color: var(--color-tinta-2); }
+.tom-azul { background: rgba(40, 88, 192, 0.1); color: var(--color-azul-escuro); }
+.tom-verde { background: rgba(0, 127, 64, 0.12); color: var(--color-verde-tag); }
+.tom-laranja { background: rgba(240, 64, 8, 0.12); color: var(--color-laranja-escuro); }
+.tom-neutra { background: rgba(42, 58, 107, 0.07); color: var(--color-tinta); }
+.detalhe, .bloco-painel { display: grid; gap: 10px; padding: 20px; }
+.detalhe p, .bloco-painel p { margin: 0; }
+.acoes-painel { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.linha-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.form-justificativa { display: grid; gap: 10px; }
+.campo-texto.curto { min-height: 96px; }
+.aviso-mural { margin: 0; padding: 12px 14px; border-radius: 14px; background: rgba(40, 88, 192, 0.08); color: var(--color-azul-escuro); font-weight: 600; }
+.aviso-painel { margin: 0; padding: 14px 18px; }
+.ok-painel { color: var(--color-verde-tag); font-weight: 700; }
+.historico { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--color-tinta-2); }
+.lista-equipe .desativada { opacity: 0.7; }
+
+/* Lista: abas, passo a passo e filtros recolhidos */
+.abas { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 999px; background: var(--vidro); box-shadow: var(--sombra); justify-self: start; }
+.abas a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; color: var(--color-tinta-2); font-weight: 700; text-decoration: none; }
+.abas a[aria-current='page'] { background: var(--color-tinta); color: #fff; }
+.guia { padding: 6px 20px; }
+.guia ol { margin: 0; padding: 4px 0 12px 1.25rem; display: grid; gap: 8px; max-width: 62ch; }
+.recolhido { padding: 6px 20px; }
+.recolhido .filtros { padding: 4px 0 12px; box-shadow: none; background: none; }
+/* Manifestação: voltar, ação principal e o resto recolhido */
+.voltar { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-azul); font-weight: 700; justify-self: start; }
+.recolhido-corpo { display: grid; gap: 16px; padding: 4px 0 14px; }
+.recolhido-corpo > * + * { border-top: 1px solid var(--linha); padding-top: 14px; }
