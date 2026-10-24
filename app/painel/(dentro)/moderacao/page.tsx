@@ -1,4 +1,4 @@
-// Moderação (spec, /painel/moderacao): só a direção. Fila de pedidos de mural e de pedidos de
+// Aprovações (spec, /painel/moderacao; antes "Moderação"): só a direção. Fila de pedidos de mural e de pedidos de
 // avaliação. A decisão é tomada no detalhe de cada manifestação, sempre com fundamento da lei.
 import { CartaoLista, type Linha } from '@/components/PainelPartes';
 import { exigirEquipe } from '@/lib/equipe';
@@ -12,8 +12,9 @@ export default async function Moderacao() {
   ]);
   return (
     <div className="painel-corpo">
-      <h1 className="h2">Moderação</h1>
-      <h2 className="pergunta-painel">Pedidos de mural ({mural?.length ?? 0})</h2>
+      <h1 className="h2">Aprovações</h1>
+      <p className="nota">O que espera uma decisão da direção. Abra cada um, decida e volte aqui.</p>
+      <h2 className="pergunta-painel">Pediram para aparecer no mural ({mural?.length ?? 0})</h2>
       {mural?.length ? (
         <ul className="lista-painel">
           {(mural as Linha[]).map((m) => (
@@ -23,7 +24,7 @@ export default async function Moderacao() {
       ) : (
         <p className="vazio vidro">Nenhum pedido de mural esperando.</p>
       )}
-      <h2 className="pergunta-painel">Pedidos de avaliação do atendimento ({avaliacao?.length ?? 0})</h2>
+      <h2 className="pergunta-painel">O atendimento pediu a avaliação da direção ({avaliacao?.length ?? 0})</h2>
       {avaliacao?.length ? (
         <ul className="lista-painel">
           {(avaliacao as Linha[]).map((m) => (

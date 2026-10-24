@@ -24,7 +24,7 @@ export function Situacao({ andamento, publicacao }: { andamento: string; publica
 }
 
 const FEITO: Record<string, string> = {
-  resposta: 'Resposta salva.',
+  resposta: 'Resposta salva. Quem enviou já pode ler pelo protocolo.',
   andamento: 'Andamento mudado.',
   tema: 'Tema corrigido.',
   avaliacao: 'Pronto.',

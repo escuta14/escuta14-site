@@ -1,7 +1,7 @@
 // Testes das regras puras do painel. As permissões de verdade são testadas no banco:
 // supabase/testes/painel_permissoes.sql.
 import { describe, expect, it } from 'vitest';
-import { erroDoPainel, FUNDAMENTOS_EXCLUSAO, FUNDAMENTOS_MURAL, prazoNaLista } from '@/lib/painel';
+import { abaDaLista, erroDoPainel, FUNDAMENTOS_EXCLUSAO, FUNDAMENTOS_MURAL, prazoNaLista } from '@/lib/painel';
 
 describe('prazo na lista do painel', () => {
   const hoje = new Date('2026-11-20T12:00:00-03:00');
@@ -33,5 +33,15 @@ describe('erros do banco viram frases da spec', () => {
   it('nunca mostra detalhe interno', () => {
     expect(erroDoPainel('relation "public.manifestacoes" does not exist')).toBe('Não deu certo agora. Tente de novo.');
     expect(erroDoPainel(undefined)).toBe('Não deu certo agora. Tente de novo.');
+  });
+});
+
+describe('abas da lista', () => {
+  it('sem aba ou com valor estranho, abre a fila "Para responder"', () => {
+    expect(abaDaLista(undefined)).toBe('responder');
+    expect(abaDaLista('qualquer')).toBe('responder');
+    expect(abaDaLista('toString')).toBe('responder');
+    expect(abaDaLista('respondidas')).toBe('respondidas');
+    expect(abaDaLista('todas')).toBe('todas');
   });
 });

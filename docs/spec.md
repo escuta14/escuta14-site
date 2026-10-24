@@ -153,9 +153,9 @@ Entra:
 | Tela | O que faz |
 |---|---|
 | `/painel/entrar` | Login com e-mail e senha |
-| `/painel` | Lista com filtros (categoria, tema, segmento, andamento, publicação, período, demonstração), contador de novas e destaque para prazo vencendo ("aguardando há 26 dias") |
-| `/painel/manifestacao/[id]` | Texto completo, andamento, resposta (com o aviso "vai aparecer no mural" quando publicada), corrigir tema, pedir avaliação da direção, prorrogar prazo (direção), excluir com justificativa (direção), histórico |
-| `/painel/moderacao` | Só direção: fila de pedidos de publicação e de pedidos de avaliação; aprovar, recusar ou retirar escolhendo o fundamento e escrevendo a explicação |
+| `/painel` | Abas "Para responder" (sem resposta, das mais antigas para as mais novas; abre nela), "Respondidas" e "Todas"; passo a passo "Como usar o painel" e filtros recolhidos (categoria, tema, segmento, publicação, período, demonstração); destaque para prazo vencendo ("aguardando há 26 dias") |
+| `/painel/manifestacao/[id]` | Texto completo e a resposta em destaque (com o aviso "vai aparecer no mural" quando publicada); **salvar a resposta volta para a lista**. Se pediu o mural, a direção aprova ou recusa logo abaixo. Recolhidos: "Outras ações" (andamento, corrigir tema, pedir avaliação, prorrogar e excluir, estes da direção) e o histórico |
+| `/painel/moderacao` ("Aprovações" no menu) | Só direção: fila de pedidos de publicação e de pedidos de avaliação; aprovar, recusar ou retirar escolhendo o fundamento e escrevendo a explicação |
 | `/painel/providencias` | Só direção: publicar providências em "A escola ouviu" |
 | `/painel/numeros` | Totais por tema, categoria, segmento e mês; percentual respondido no prazo |
 | `/painel/equipe` | Só direção: convidar, mudar papel (direção ou atendimento), desativar e reativar contas. Ninguém tira o próprio acesso de direção (a troca de diretor é: o antigo convida o novo, o novo desativa o antigo). Lembrete de conferir a lista no começo de cada ano letivo |
