@@ -286,3 +286,7 @@ svg.ic { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor
 .entrar-texto { display: grid; gap: 24px; }
 .disco.disco-pequeno { display: none; width: 210px; }
 @media (min-width: 640px) { .entrar-topo { grid-template-columns: minmax(0, 1fr) auto; } .disco.disco-pequeno { display: grid; } }
+/* Acompanhar: título e cartão da consulta no centro; o aviso de emergência na largura toda. */
+.acompanhar { justify-items: center; }
+.acompanhar > .h1 { text-align: center; }
+.acompanhar > .emergencia { justify-self: stretch; }
