@@ -120,7 +120,7 @@ chave pública (ADR 0001).
 | `0003_painel.sql` | `equipe`, `historico` (não se edita), leitura do painel com RLS por papel e uma função por ação | 24/10/2026 |
 | `0002_mural_acompanhar.sql` | `codigo_publico`, `justificativas` (não se editam), `votos`, funções `mural_listar` e `votar` | 24/10/2026 |
 | `0004_escola_ouviu.sql` | `providencias` (só a direção publica; não se apagam), `numeros_do_ano` (somas, sem nenhuma manifestação sozinha) e `rotina_diaria` | 24/10/2026 |
-| `0005_rotina_execucao.sql` | `rotina` (uma linha: hora da última execução da rotina diária; só a equipe lê) | a rodar |
+| `0005_rotina_execucao.sql` | `rotina` (uma linha: hora da última execução da rotina diária; só a equipe lê) | 26/10/2026 |
 
 ## Painel da equipe
 
