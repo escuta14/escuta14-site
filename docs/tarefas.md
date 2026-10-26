@@ -112,7 +112,9 @@ e a chave pública sozinha é recusada ao ler a tabela.
 - [x] 2.3: "A escola ouviu" (números do ano e do mês por tema e categoria, % no prazo,
       providências); /painel/numeros (mais segmento e mês); /painel/providencias (direção)
 - [x] 3.2: rotina diária (Vercel Cron em `/api/rotina`, trava com `CRON_SECRET`) e página Sobre
-- [ ] Conferir em 25/10 que a rotina rodou sozinha (Vercel → projeto → Logs, "rotina: ok")
+- [x] Rotina cadastrada na Vercel e disparada por ela em 26/10 ("rotina: ok"). O log do Hobby dura
+      só 1 hora, então a rotina passou a anotar a última execução no banco, e o painel mostra
+- [ ] Conferir em 27/10 que a hora da última execução mudou sozinha (`select * from rotina;`)
 
 ## Fatias 2.1 a 3.4
 

@@ -120,6 +120,7 @@ chave pública (ADR 0001).
 | `0003_painel.sql` | `equipe`, `historico` (não se edita), leitura do painel com RLS por papel e uma função por ação | 24/10/2026 |
 | `0002_mural_acompanhar.sql` | `codigo_publico`, `justificativas` (não se editam), `votos`, funções `mural_listar` e `votar` | 24/10/2026 |
 | `0004_escola_ouviu.sql` | `providencias` (só a direção publica; não se apagam), `numeros_do_ano` (somas, sem nenhuma manifestação sozinha) e `rotina_diaria` | 24/10/2026 |
+| `0005_rotina_execucao.sql` | `rotina` (uma linha: hora da última execução da rotina diária; só a equipe lê) | a rodar |
 
 ## Painel da equipe
 
@@ -159,7 +160,7 @@ possível, de graça: SMTP do Gmail do site (escuta14.ouvidoria@gmail.com, com s
 libera modelos em português.
 
 **Permissões:** depois de mexer no banco do painel, rodar `supabase/testes/painel_permissoes.sql`
-no SQL Editor. Ele termina com um erro de propósito que mostra "RESULTADO: 23 de 23 ok" e desfaz
+no SQL Editor. Ele termina com um erro de propósito que mostra "RESULTADO: 25 de 25 ok" e desfaz
 tudo.
 
 **Providências:** a direção publica em Painel → Providências o que a escola fez (título, texto,
@@ -173,14 +174,30 @@ Hobby pode atrasar até uma hora). A rotina faz o banco ter uso (o Supabase grat
 dias parado, nas férias) e apaga as contagens do antispam com mais de 2 dias. A Vercel manda o
 `CRON_SECRET` sozinha; sem ele, ou com outro valor, a rota responde 401. **Não remover.**
 
-Para conferir: Vercel → projeto `escuta14-site` → Logs, procurar "rotina: ok" (uma vez por dia).
-Para rodar na mão, sem mostrar o segredo:
+A cada execução, a rotina anota a hora na tabela `rotina` (uma linha só; migration 0005).
+
+**Para conferir se ela está rodando** (o log da Vercel **não serve**: no plano Hobby ele guarda só
+a última hora):
+
+1. **Pelo painel:** a direção entra em Painel → Equipe e olha "Rotina diária". Aparece "Rodou pela
+   última vez em … às 06:00". Se faz mais de 26 horas, a frase fica vermelha.
+2. **Pelo Supabase:** SQL Editor → `select * from rotina;` mostra `ultima_execucao`.
+3. **A rotina está cadastrada na Vercel?** `npx vercel@65.2.0 crons ls --project escuta14-site
+   --scope escuta-14` tem de listar `/api/rotina` com `0 9 * * *`.
+
+**Para rodar na mão** (sem mostrar o segredo), de um destes jeitos:
+
+```bash
+MSYS_NO_PATHCONV=1 npx vercel@65.2.0 crons run /api/rotina --project escuta14-site --scope escuta-14
+```
 
 ```bash
 node --env-file=.env.local -e "fetch('https://escuta14.vercel.app/api/rotina',{headers:{authorization:'Bearer '+process.env.CRON_SECRET}}).then(r=>console.log(r.status))"
 ```
 
-Tem de mostrar `200`. Sem o cabeçalho, `401`.
+O primeiro dispara pela Vercel, como no horário marcado (o `MSYS_NO_PATHCONV=1` só é preciso no
+Git Bash do Windows). O segundo tem de mostrar `200`; sem o cabeçalho, a rota responde `401`. Logo
+depois de rodar, o log da Vercel mostra "rotina: ok" por uma hora, e a hora no painel muda.
 
 ## Publicação
 

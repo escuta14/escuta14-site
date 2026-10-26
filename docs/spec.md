@@ -158,7 +158,7 @@ Entra:
 | `/painel/moderacao` ("Aprovações" no menu) | Só direção: fila de pedidos de publicação e de pedidos de avaliação; aprovar, recusar ou retirar escolhendo o fundamento e escrevendo a explicação |
 | `/painel/providencias` | Só direção: publicar providências em "A escola ouviu" |
 | `/painel/numeros` | Totais por tema, categoria, segmento e mês; percentual respondido no prazo |
-| `/painel/equipe` | Só direção: convidar, mudar papel (direção ou atendimento), desativar e reativar contas. Ninguém tira o próprio acesso de direção (a troca de diretor é: o antigo convida o novo, o novo desativa o antigo). Lembrete de conferir a lista no começo de cada ano letivo |
+| `/painel/equipe` | Só direção: convidar, mudar papel (direção ou atendimento), desativar e reativar contas. No fim, "Rotina diária": a hora da última execução da rotina (em vermelho se passou de 26 horas). Ninguém tira o próprio acesso de direção (a troca de diretor é: o antigo convida o novo, o novo desativa o antigo). Lembrete de conferir a lista no começo de cada ano letivo |
 
 ## Entidades e campos
 
