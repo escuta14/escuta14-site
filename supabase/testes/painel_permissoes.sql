@@ -1,8 +1,8 @@
 -- Teste das permissões do painel (fatia 1.2). Rodar no SQL Editor do Supabase depois de cada
 -- mudança nas migrations do painel. Tudo acontece dentro de uma transação desfeita no fim
 -- (rollback): as contas e a manifestação de mentira somem, não sobra dado nenhum.
--- Resultado: o teste termina com um ERRO de propósito, que mostra o resumo ("RESULTADO: 23 de
--- 23 ok") e desfaz tudo. Se aparecer "FALHOU:", a lista diz qual permissão está errada.
+-- Resultado: o teste termina com um ERRO de propósito, que mostra o resumo ("RESULTADO: 25 de
+-- 25 ok") e desfaz tudo. Se aparecer "FALHOU:", a lista diz qual permissão está errada.
 begin;
 
 create temp table resultado (teste text, ok boolean) on commit drop;
@@ -138,6 +138,13 @@ begin
   perform set_config('role', 'anon', true);
   e := pg_temp.tenta($q$select count(*) from public.providencias$q$) || pg_temp.tenta($q$select count(*) from public.numeros_do_ano()$q$);
   perform pg_temp.volta(); insert into resultado values ('chave pública não lê providências nem números', e like '%permission denied%permission denied%');
+  -- Última execução da rotina (migration 0005): a equipe lê, a chave pública não.
+  perform pg_temp.como('00000000-0000-4000-8000-0000000000d1');
+  e := pg_temp.tenta($q$select count(*) from public.rotina$q$);
+  perform pg_temp.volta(); insert into resultado values ('direção lê a última execução da rotina', e = '');
+  perform set_config('role', 'anon', true);
+  e := pg_temp.tenta($q$select count(*) from public.rotina$q$);
+  perform pg_temp.volta(); insert into resultado values ('chave pública não lê a rotina', e like '%permission denied%');
 end;
 $$;
 
