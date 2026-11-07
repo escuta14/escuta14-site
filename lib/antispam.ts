@@ -4,7 +4,10 @@
 // 2. Limite por hora: conta tentativas por "IP embaralhado + ação + hora". A tabela `limites`
 //    não tem ligação nenhuma com manifestações ou votos e é apagada em 2 dias.
 
-export const LIMITES = { envio: 60, voto: 1000, consulta: 120 } as const;
+// login e senha (pedir link de troca): auditoria de 07/11/2026. O Supabase limita tentativas pelo
+// IP de quem chama, e quem chama é o servidor da Vercel, não a pessoa: sem este limite, alguém
+// insistindo travaria o login da equipe inteira ou gastaria a cota de e-mail do plano grátis.
+export const LIMITES = { envio: 60, voto: 1000, consulta: 120, login: 30, senha: 5 } as const;
 export type Acao = keyof typeof LIMITES;
 
 const ENDERECO_TURNSTILE = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
