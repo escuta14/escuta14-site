@@ -1,9 +1,11 @@
 // Equipe do painel: só a direção. Pedagogos entram e saem todo ano e a direção muda de tempos
 // em tempos (pedido da Mariane, 24/10): aqui se convida, troca o papel, desativa e reativa.
 // Ninguém tira o próprio acesso de direção; na troca, a direção nova desativa a antiga.
+// No fim, a "Rotina diária": quando o site fez a manutenção sozinho pela última vez.
 import { Resultado } from '@/components/PainelPartes';
 import { exigirEquipe } from '@/lib/equipe';
 import { PAPEIS } from '@/lib/painel';
+import { situacaoDaRotina } from '@/lib/rotina';
 import { bancoDoServidor } from '@/lib/supabase-servidor';
 import { convidar, mudar } from './acoes';
 
@@ -20,6 +22,8 @@ export default async function Equipe({ searchParams }: { searchParams: Promise<{
   // O e-mail fica no Supabase Auth, que só o servidor lê.
   const { data: contas } = await bancoDoServidor().auth.admin.listUsers({ perPage: 200 });
   const emails = Object.fromEntries((contas?.users ?? []).map((u) => [u.id, u.email]));
+  const { data: rotina, error: erroRotina } = await banco.from('rotina').select('ultima_execucao').maybeSingle();
+  const situacao = situacaoDaRotina(rotina?.ultima_execucao);
 
   return (
     <div className="painel-corpo">
@@ -92,6 +96,20 @@ export default async function Equipe({ searchParams }: { searchParams: Promise<{
           Mandar convite
         </button>
       </form>
+
+      <section className="vidro bloco-painel">
+        <h2 className="pergunta-painel">Rotina diária</h2>
+        <p className="nota">
+          Todo dia de manhã o site faz uma manutenção sozinho: mantém o banco de dados ligado (o plano grátis desliga depois de 7 dias parado) e apaga os registros do antispam com mais de 2 dias.
+        </p>
+        {erroRotina ? (
+          <p className="erro">Não deu para ler a rotina agora.</p>
+        ) : (
+          <p className={situacao.alerta ? 'erro' : 'ok-painel'} role={situacao.alerta ? 'alert' : undefined}>
+            {situacao.texto}
+          </p>
+        )}
+      </section>
     </div>
   );
 }
