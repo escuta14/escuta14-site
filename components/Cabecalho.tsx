@@ -1,6 +1,7 @@
 'use client';
 // Cabeçalho: logo + "ESCUTA 14" e o menu. A tela atual fica marcada (aria-current). Abaixo de
-// 480 px, "Início" e "Acompanhar" saem do menu (o logo leva ao início, onde também se consulta).
+// 480 px, só "Início" sai do menu (o logo leva ao início) e o menu desce para uma linha própria.
+// "Acompanhar" fica no celular: é por ele que quem enviou lê a resposta (design.md, Cabeçalho).
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -8,7 +9,7 @@ import { usePathname } from 'next/navigation';
 const LINKS = [
   { href: '/', rotulo: 'Início', soLargo: true },
   { href: '/enviar', rotulo: 'Enviar', soLargo: false },
-  { href: '/acompanhar', rotulo: 'Acompanhar', soLargo: true },
+  { href: '/acompanhar', rotulo: 'Acompanhar', soLargo: false },
   { href: '/mural', rotulo: 'Mural', soLargo: false },
 ];
 

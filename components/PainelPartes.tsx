@@ -26,8 +26,8 @@ export function Situacao({ andamento, publicacao }: { andamento: string; publica
 const FEITO: Record<string, string> = {
   resposta: 'Resposta salva. Quem enviou já pode ler pelo protocolo.',
   andamento: 'Andamento mudado.',
-  tema: 'Tema corrigido.',
-  avaliacao: 'Pronto.',
+  tema: 'Assunto corrigido.',
+  avaliacao: 'Pedido de avaliação atualizado. A direção vê os pedidos em “Aprovações”.',
   mural: 'Mural atualizado.',
   prorrogar: 'Prazo prorrogado.',
   excluir: 'Manifestação excluída (continua guardada no banco).',

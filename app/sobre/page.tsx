@@ -111,7 +111,7 @@ export default function Sobre() {
         <section className="vidro bloco-sobre" id="colegio">
           <h2 className="h2">O colégio</h2>
           <p>Colégio Estadual 14 de Dezembro — Ensino Fundamental e Médio, da rede estadual do Paraná.</p>
-          <ul>
+          <ul className="contatos">
             <li>
               Endereço: {COLEGIO.endereco} (<a href={COLEGIO.mapa}>ver no mapa</a>)
             </li>

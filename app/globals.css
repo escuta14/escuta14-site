@@ -62,7 +62,9 @@ svg.ic { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor
 .menu { display: flex; gap: 4px; margin-left: auto; padding: 4px; border-radius: 999px; background: var(--vidro); box-shadow: var(--sombra); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); }
 .menu a { display: grid; place-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; color: var(--color-tinta-2); font-weight: 700; text-decoration: none; }
 .menu a[aria-current='page'] { background: var(--color-tinta); color: #fff; }
-@media (max-width: 480px) { .menu .so-largo { display: none; } .menu a { padding: 0 12px; } }
+/* Celular: "Início" sai (o logo leva ao início) e o menu desce para uma linha própria, com
+   Enviar, Acompanhar e Mural dividindo a largura. Acompanhar fica: é por ele que se lê a resposta. */
+@media (max-width: 480px) { .menu .so-largo { display: none; } .menu { width: 100%; margin-left: 0; } .menu a { flex: 1; padding: 0 8px; } }
 
 /* botões */
 .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 0 26px; border: 0; border-radius: var(--radius-pilula); font: 700 1rem/1.2 var(--font-texto); letter-spacing: 0.01em; text-decoration: none; cursor: pointer; transition: transform 0.12s, filter 0.2s; }
@@ -238,6 +240,9 @@ svg.ic { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor
 .bloco-sobre p, .bloco-sobre ul { margin: 0; }
 .bloco-sobre ul { padding-left: 1.25rem; display: grid; gap: 8px; }
 .bloco-sobre a { color: var(--color-azul); font-weight: 700; overflow-wrap: anywhere; }
+/* Contatos do colégio: telefone e WhatsApp são tocados no celular, então o link ganha 44 px. */
+.contatos a { display: inline-block; padding-block: 11px; }
+.bloco-sobre .contatos { gap: 0; }
 .texto-lei { display: grid; gap: 12px; padding: 8px 0; }
 .texto-lei p, .texto-lei h3 { margin: 0; max-width: 68ch; overflow-wrap: anywhere; }
 .texto-lei h3 { margin-top: 12px; font: 800 1.25rem var(--font-titulo); }
