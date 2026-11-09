@@ -208,6 +208,18 @@ testes e build em cada PR. Para passar variáveis do `.env.local` para a Vercel 
 valores: `node ferramentas/variaveis-vercel.mjs NOME1 NOME2` (depois de `npx vercel@65.2.0 login`
 e `link`).
 
+### QR code do site
+
+Fica em `public/qr/`, e qualquer um baixa pelo próprio site:
+[escuta14-qr.png](https://escuta14.vercel.app/qr/escuta14-qr.png) (1968 px, com o logo no centro,
+para cartaz, slide e folha) e [escuta14-qr.svg](https://escuta14.vercel.app/qr/escuta14-qr.svg)
+(vetor sem logo, para gráfica, em qualquer tamanho). Ele leva direto para
+`https://escuta14.vercel.app`, sem serviço no meio, então não vence nem depende de conta. Correção
+de erro alta (H): aguenta o logo e um pouco de sujeira ou dobra no papel. Impresso, deixe pelo menos
+3 cm de lado e a margem branca em volta. **Se o endereço do site mudar, o QR antigo para de
+funcionar:** gere outro com o endereço novo (qualquer gerador gratuito serve) e troque os dois
+arquivos.
+
 ### Assinatura dos commits
 
 O repositório é público, e cada commit mostra o nome e o e-mail de quem fez. Por isso, nesta
