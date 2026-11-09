@@ -216,9 +216,15 @@ para cartaz, slide e folha) e [escuta14-qr.svg](https://escuta14.vercel.app/qr/e
 (vetor sem logo, para gráfica, em qualquer tamanho). Ele leva direto para
 `https://escuta14.vercel.app`, sem serviço no meio, então não vence nem depende de conta. Correção
 de erro alta (H): aguenta o logo e um pouco de sujeira ou dobra no papel. Impresso, deixe pelo menos
-3 cm de lado e a margem branca em volta. **Se o endereço do site mudar, o QR antigo para de
-funcionar:** gere outro com o endereço novo (qualquer gerador gratuito serve) e troque os dois
+2,5 cm de lado e a margem branca em volta. **Se o endereço do site mudar, o QR antigo para de
+funcionar:** gere outro com o endereço novo (qualquer gerador gratuito serve) e troque os
 arquivos.
+
+**Para recortar e entregar:**
+[qr-recortar-a4.pdf](https://escuta14.vercel.app/qr/qr-recortar-a4.pdf) é uma folha A4 com 42
+cartões (6 × 7), cada um com "ESCUTA 14", o QR de 2,6 cm e o endereço embaixo. O fundo é branco,
+para gastar pouca tinta, e linhas tracejadas marcam o corte. Para imprimir, use **tamanho real /
+100%**, sem "ajustar à página".
 
 ### Assinatura dos commits
 
