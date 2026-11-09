@@ -1,6 +1,6 @@
 // Testes das regras do envio (fatia 1.1): validação, protocolo, segredos, datas e antispam.
 import { describe, expect, it } from 'vitest';
-import { chaveDaJanela, conferirTurnstile } from '@/lib/antispam';
+import { chaveDaJanela, conferirTurnstile, LIMITES } from '@/lib/antispam';
 import { calcularPrazo, dataDoBanco, ehDemonstracao, formatarData } from '@/lib/datas';
 import { ALFABETO, gerarProtocolo, normalizarProtocolo } from '@/lib/protocolo';
 import { contarCaracteres, validarEnvio } from '@/lib/regras';
@@ -122,5 +122,13 @@ describe('antispam', () => {
     expect(k1).toBe(k2);
     expect(k1).not.toBe(k3);
     expect(k1).not.toContain('200.1.2.3');
+  });
+  it('login e pedido de senha têm limite próprio, separado do envio (auditoria de 07/11)', () => {
+    expect(LIMITES.login).toBe(30);
+    expect(LIMITES.senha).toBe(5);
+    const ip = embaralhar('200.1.2.3', 'a'.repeat(32));
+    const agora = new Date('2026-11-10T14:05:00Z');
+    expect(chaveDaJanela(ip, 'login', agora)).not.toBe(chaveDaJanela(ip, 'envio', agora));
+    expect(chaveDaJanela(ip, 'senha', agora)).not.toBe(chaveDaJanela(ip, 'login', agora));
   });
 });
