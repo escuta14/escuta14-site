@@ -145,7 +145,8 @@ Com "reduzir movimento" ligado no aparelho, **tudo para**. A página tem que faz
 
 Ícone do logo (44 px, cartão branco) + "ESCUTA 14" em Schibsted 800; à direita, o menu em pílula
 de vidro (Início, Enviar, Mural...), com a tela atual em `tinta` e texto branco
-(`aria-current="page"`). Abaixo de 480 px, "Início" sai do menu (o logo leva para o início).
+(`aria-current="page"`). Abaixo de 480 px, "Início" sai do menu (o logo leva para o início) e o
+menu desce para uma linha própria, com Enviar, Acompanhar e Mural dividindo a largura.
 
 ### Topo da página Início
 
@@ -245,9 +246,16 @@ azul), sempre com o número escrito ao lado (a barra é enfeite: `aria-hidden`).
 Quatro cartões (Estudantes, Professores, Funcionários, Responsáveis) com uma bolinha brilhante
 de 22 px na cor do logo. Duas colunas no celular, quatro a partir de 760 px.
 
+### Menu do painel
+
+Cartão de vidro com o nome de quem entrou e o papel, depois os links em `azul` 700. Abaixo de
+560 px vira uma grade de duas colunas, com o nome numa linha só em cima. As grades do painel usam
+`minmax(0, 1fr)`, para um e-mail comprido ou uma opção longa nunca alargar a tela.
+
 ### Formulários do painel
 
-Os mesmos campos, opções e botões do envio. Recusa, retirada e exclusão abrem um formulário com
+Os mesmos campos, opções e botões do envio. O campo do fundamento tem 48 px de altura, como os
+outros campos. Recusa, retirada e exclusão abrem um formulário com
 o **fundamento da lei** (opções do art. 12) e a **explicação** (campo de texto obrigatório); o
 botão diz exatamente o que faz ("Recusar a publicação"). Erro em `erro`, com a frase da spec
 ("Escolha o fundamento da lei e explique o caso.").

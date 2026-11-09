@@ -17,6 +17,8 @@ export function Barras({ titulo, contagem }: { titulo: string; contagem: Contage
   return (
     <section className="vidro bloco-numeros">
       <h2 className="pergunta-painel">{titulo}</h2>
+      {/* "Por mês" vem vazio antes da primeira manifestação: sem esta frase, só sobrava o título. */}
+      {contagem.length === 0 ? <p className="nota">Nenhuma manifestação ainda.</p> : null}
       <ul className="barras">
         {contagem.map(([rotulo, n]) => (
           <li key={rotulo}>
